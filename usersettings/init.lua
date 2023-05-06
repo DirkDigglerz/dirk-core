@@ -1,3 +1,15 @@
+  --## AUTOMATICALLY SET VARIABLES
+  --## TIME AND WEATHER SYNC
+  Config.TimeSystem = "qb-weathersync", --## vSync or cd_easytime or qb-weathersync
+  --## INVENTORY SYSTEM
+  Config.Inventory         = "ox_inventory", --## "qb-inventory", "mf-inventory", "qs-inventory", "ox_inventory"
+  Config.ItemIconsDir      = "ox_inventory/web/images/", --## Directory for the icons you use for your inventory.
+  --## TARGET
+  Config.TargetSystem = "ox_target", --## qb-target, qtarget, ox_target, dirk-prompts,
+  --## FRAMEWORK OPTION
+  Config.UsingQBCore = true,
+  Config.UsingESX    = false,
+
 local inventories = {
   ['qb-inventory'] = "qb-inventory/html/images/",
   ['qs-inventory'] = "qs-inventory/html/images/",
