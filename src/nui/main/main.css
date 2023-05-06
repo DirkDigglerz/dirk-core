@@ -1,0 +1,159 @@
+/* width */
+::-webkit-scrollbar {
+width: 0.5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #555;
+}
+
+html,body {
+      /*background-image: url("https://cdn.wccftech.com/wp-content/uploads/2014/11/gtav-comp-2-1.png");*/
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  overflow: hidden;
+  background-color: transparent !important;
+  font-family:'Akshar', sans-serif;
+}
+.centered{
+  text-align: center;
+}
+.offwhite{
+  color: rgba(255,255,255,0.7);
+}
+
+.medium-font{
+  font-size: 125%;
+}
+
+.optLabel{
+  color: white;
+  font-size: 90%;
+}
+.tablecustom{
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  padding: 5px;
+  width: 60%;
+  margin-bottom: none !important;
+  min-height: fit-content;
+  background: rgba(0,0,0,0.0);
+}
+
+.tableRow{
+       font-size: 75%;
+  color: rgba(255,255,255,0.6);
+  background: rgba(0,0,0,0.8);
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
+  height: 20%;
+}
+
+.tableRow:hover{
+  color: white;
+}
+
+.tippy-box[data-theme~='dirk'] {
+  background-color: rgba(36,43,46,0.35);
+  color: white;
+  font-weight: bolder;
+  margin-left: 7.5px;
+  font-size: 75%;
+  user-select: none;
+/*          transform: skew(3deg, 3deg);*/
+  border-radius: 5px;
+}
+
+input[type="text"]{
+  background: rgba(255, 255, 255, 0.7);
+  color: black;
+  outline: none;
+  border: none;
+}
+
+input[type="text"]:focus{
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+/*      font-size:75%;*/
+}
+
+input[type="number"]{
+  background: rgba(255, 255, 255, 0.7);
+  color: white;
+  outline: none;
+  border: none;
+
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+input[type="number"]:focus{
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+
+  -webkit-appearance: none;
+  margin: 0;
+
+}
+
+
+.buttonRow{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 25px;
+}
+
+.buttonRow > i{
+  color: grey;
+  font-size: 150%;
+}
+
+.buttons:hover{
+  color: white;
+}
+
+.deleteButton:hover{
+  color: red;
+}
+
+.button{
+  color: white;
+}
+
+.addButton{
+  font-size: 150%;
+   color: rgba(255,255,255,0.6);
+}
+
+.addButton:hover{
+  color: white;
+}

@@ -1,0 +1,74 @@
+.promptList {
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-family: 'Koulen', cursive;
+  font-weight: 500;
+  font-size: large;
+  display: flex;
+  flex-direction: column;
+  transition: opacity 1s;
+  user-select: none;
+  position: absolute;
+  /* left: 35%;
+  top: 35%; */
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+  transition: width 1.5s ease;
+  transition: height 1.5s ease;
+
+}
+
+.Prompt {
+  /* Chrome 10-25, Safari 5.1-6 */
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  gap: 2px;
+  padding: 2.5px;
+  margin-top:5px;
+}
+
+
+
+
+
+.icon {
+  width: 25px;
+  height: 25px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.26));
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  border-radius: 2px;
+  border: 1px solid black;
+  font-size: smaller;
+}
+
+.icon:hover {
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.56));
+}
+
+.promptButton {
+  font-weight: bolder;
+  width: 25px;
+  height: 25px;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.26));
+  display: flex;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  align-content: center;
+  border-radius: 2px;
+  border: 1px solid black;
+}
+
+.promptText {
+  color: white;
+}
