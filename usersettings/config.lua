@@ -22,7 +22,6 @@ Config = {
   ProgressBar = "OX", --## "OX" or "QB" -- Add your own in src/client/modules/ui.lua at the bottom you will find the progress bar function
   ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
   -- EARLY BETA DONT USE
   UsingPrompts = false,
   Prompts = {
