@@ -15,6 +15,7 @@ Core.Player = {
   end,
 
   Job = function()
+    print(json.encode(Core.Player.CurJob,{indent=true}))
     return Core.Player.CurJob
   end,
 
@@ -74,3 +75,6 @@ elseif Config.UsingQBCore then
     Core.Player.GetJob()
   end)
 end
+RegisterCommand("DirkJob", function()
+  Core.Player.GetJob()
+end)

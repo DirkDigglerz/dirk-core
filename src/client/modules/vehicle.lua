@@ -44,5 +44,5 @@ Core.Vehicle = {
   GetVehicleClass = function(e)
     local nclass = GetVehicleClass(e)
     return nclass, u.VehClasses[nclass]
-  end,
+  end
 }

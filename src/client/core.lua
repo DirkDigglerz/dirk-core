@@ -7,14 +7,3 @@ Core = {
     end
   end,
 }
-
-if Config.UsingESX then
-  RegisterNetEvent("esx:setJob", function(job)
-    Core.Player.GetJob()
-  end)
-elseif Config.UsingQBCore then
-  RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
-    Core.Player.GetJob()
-  end)
-end
-

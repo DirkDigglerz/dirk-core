@@ -91,7 +91,6 @@ Core.Player = {
 
   end,
 
-
   RemoveItem = function(p,i,a)
     local ply = Core.Player.Get(p)
     if Config.UsingESX then
@@ -134,7 +133,6 @@ Core.Player = {
     end
     return {}
   end,
-
 
   RemoveMoney = function(p,acc,a)
     local ply = Core.Player.Get(tonumber(p))
