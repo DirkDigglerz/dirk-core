@@ -66,8 +66,9 @@ Core.Game = {
   end,
 
   GetClosestPed = function()
-    if Settings.UsingESX then
-    elseif Settings.UsingQBCore then
+    if Config.UsingESX then
+      
+    elseif Config.UsingQBCore then
      local peds = QBCore.Functions.GetPeds()
     local closestDistance = false
     local closestPed = false
@@ -87,14 +88,14 @@ Core.Game = {
   end,
 
   GetClosestObject = function(obj,cs,rad)
-    if Settings.UsingQBCore then
+    if Config.UsingQBCore then
       local cO, cD = QBCore.Functions.GetClosestObject(cs.xyz)
       if GetEntityModel(cO) == tonumber(obj) then
         if cD <= rad then
           return cO
         end
       end
-    elseif Settings.UsingESX then
+    elseif Config.UsingESX then
       local cO = ESX.Game.GetClosestObject()
       local cD = GetEntityCoords(cO)
       if GetEntityModel(cO) == tonumber(obj) then
@@ -107,10 +108,10 @@ Core.Game = {
   end,
 
   GetClosestVehicle = function(cs)
-    if Settings.UsingESX then
+    if Config.UsingESX then
       local cV, cD = ESX.Game.GetClosestVehicle()
       return cV, cD
-    elseif Settings.UsingQBCore then
+    elseif Config.UsingQBCore then
       local cV,cD = QBCore.Functions.GetClosestVehicle()
       return cV,cD
     end
