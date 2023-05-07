@@ -227,13 +227,6 @@ Config = {
 
 
 
-if Config.UsingESX then
-  TriggerEvent("esx:getSharedObject", function(obj) ESX = obj; end)
-  --ESX = exports["es_extended"]:getSharedObject() -- Uncomment if spamming errors
-elseif Config.UsingQBCore then
-  QBCore = exports['qb-core']:GetCoreObject()
-  RegisterNetEvent('QBCore:Client:UpdateObject', function() QBCore = exports['qb-core']:GetCoreObject(); end)
-end
 
 getCore = function()
   return Core, Config
