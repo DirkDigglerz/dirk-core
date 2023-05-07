@@ -34,6 +34,7 @@ Core.Game = {
     SetBlipDisplay(blip, data.Display)
     SetBlipScale  (blip, data.Scale)
     SetBlipColour (blip, data.Color)
+    print('Short Range', data.ShortRange)
     SetBlipAsShortRange(blip, data.ShortRange)
 
 
