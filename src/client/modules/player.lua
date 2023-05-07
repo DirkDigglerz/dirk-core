@@ -75,6 +75,3 @@ elseif Config.UsingQBCore then
     Core.Player.GetJob()
   end)
 end
-RegisterCommand("DirkJob", function()
-  Core.Player.GetJob()
-end)
