@@ -8,10 +8,6 @@ Core.UI = {
 
   AdvancedHelpNotif = function(name, items)
     local now = GetGameTimer()
-    print('name', name)
-    print('Current', Core.UI.Current)
-    print(((now - Core.UI.Last_Call) >= 2.5))
-    print(Core.UI.Current ~= name)
     Core.UI.Last_Call = GetGameTimer()
     if Core.UI.Current ~= name or ((now - Core.UI.Last_Call) >= 2.5) then
       print('Creating NEw')
