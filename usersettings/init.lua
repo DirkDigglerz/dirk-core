@@ -90,5 +90,5 @@ Citizen.CreateThread(function()
     end
   end
 
-  print(string.format('^2Dirk-Core^7\nWe have detected you are using the following:\nFramework: %s\nInventory: %s\nTime Sync: %s\nTarget System: %s', fw, Config.Inventory, Config.TimeSystem,Config.TargetSystem))
+  print(string.format('^2Dirk-Core^7\nWe have detected you are using the following:\nFramework: %s\nInventory: %s\nProgress Bar: %s\nTime Sync: %s\nTarget System: %s', fw, Config.Inventory, Config.ProgressBar, Config.TimeSystem,Config.TargetSystem))
 end)
