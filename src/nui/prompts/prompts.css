@@ -104,8 +104,8 @@
 }
 
 #button {
-  border: 1px solid white;
-  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.753);
+  color: rgba(255, 255, 255, 0.836);
   font-size: 150%;
   text-align: center;
   font-weight:bolder;

@@ -253,7 +253,7 @@ Citizen.CreateThread(function()
         Core.UI.Hide()
       end
     else
-      Wait(5)
+      Wait(10)
     end
     Wait(0)
   end
