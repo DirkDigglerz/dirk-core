@@ -44,7 +44,7 @@ Config = {
           end,
 
           action = function()
-            print('TRiggered')
+            print('Triggered')
           end,
         }
       },
