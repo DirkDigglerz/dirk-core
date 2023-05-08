@@ -149,6 +149,10 @@ Core.Player = {
   end,
 
   GetPlayerJob = function(p)
+    print('Invalid Function')
+  end,
+
+  GetJob = function(p)
     local ply = Core.Player.Get(tonumber(p))
     if not ply then return {}; end
     local jt = {}
