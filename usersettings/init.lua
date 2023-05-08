@@ -68,7 +68,6 @@ Citizen.CreateThread(function()
   else
     for _,v in pairs(targetsystems) do
       local resState = GetResourceState(v)
-      print('resState', resState)
       if resState ~= "missing" and resState ~= "unknown" then
         Config.TargetSystem = v
         Count.target = Count.target + 1

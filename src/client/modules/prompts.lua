@@ -25,7 +25,7 @@ Update = function()
     local ply = PlayerPedId()
     local pos = GetEntityCoords(ply)
 
-    local entPool = GetEntityPool()
+    local entPool = Core.Game.GetEntityPool()
 
 
 
@@ -76,7 +76,6 @@ Update = function()
       if promptEnt and not IsEntityOnScreen(promptEnt) then promptPos = false; end
 
       if promptPos and #(promptPos.xyz - pos) <= data.Distance then
-
         wait_time = 0
         DisplayPrompt(id, promptPos, data, promptEnt)
         if not data.InteractDistance or #(promptPos.xyz - pos) <= data.InteractDistance then
@@ -185,28 +184,6 @@ RegisterCommand('nuifocus', function()
 end, false)
 
 RegisterKeyMapping('nuifocus', 'DIRK TARGET', 'keyboard', 'o')
-
-
-
-GetEntityPool = function()
-  local ret = {}
-  local pools = {
-    'CPed',
-    'CObject',
-    'CVehicle',
-  }
-  for _,pool in pairs(pools) do
-    local retPool = GetGamePool(pool)
-    for k,v in pairs(retPool) do
-      table.insert(ret, v)
-    end
-  end
-  return ret
-end
-
--- RegisterNUICallback('SearchOpen', function(d)
-
--- end)
 
 GetAsPercent = function(n1, n2)
   return n1 * 100, n2 * 100

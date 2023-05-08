@@ -46,73 +46,90 @@ Core.Game = {
     while true do
       local ply = PlayerPedId()
       local pos = GetEntityCoords(ply)
-      local pool = GetGamePool('CPed')
+      local pool = Core.Game.GetEntityPool({'CPed'})
       local nearby = {}
       local coords = GetEntityCoords(v)
       local hit, endCoords, entityHit = Core.UI.ScreenToWorld()
 
       if (endCoords ~= vector3(0,0,0) and entityHit ~= ply) then
         if entityHit == v then
-          print(entityHit)
           Core.UI.ShowHelpNotification("Press ~INPUT_THROW_GRENADE~ to select this player")
           if IsControlJustPressed(0,47) then
             return v
           end
         end
-
       end
       Wait(0)
     end
   end,
 
-  GetClosestPed = function(coords, modelFilter)
-    if Config.UsingESX then 
-      local closestPed, closestDistance = ESX.Game.GetClosestPed(coords, modelFilter)
-      return closestPed, closestDistance  
-    elseif Config.UsingQBCore then 
-      local closestPed, closestDistance = QBCore.Functions.GetClosestPed(coords, modelFilter)
-      return closestPed, closestDistance
-    end
-  end,
-
-  GetAllPeds = function(onlyOtherPeds)
-    if Config.UsingESX then
-      return ESX.Game.GetPeds(onlyOtherPeds)   
-    elseif Config.UsingQBCore then
-      QBCore.Functions.GetPeds(onlyOtherPeds)
-    end
-    return {}
-  end,
-
-  GetClosestObject = function(obj,cs,rad)
-    if Config.UsingQBCore then
-      local cO, cD = QBCore.Functions.GetClosestObject(cs.xyz)
-      if GetEntityModel(cO) == tonumber(obj) then
-        if cD <= rad then
-          return cO
-        end
-      end
-    elseif Config.UsingESX then
-      local cO = ESX.Game.GetClosestObject()
-      local cD = GetEntityCoords(cO)
-      if GetEntityModel(cO) == tonumber(obj) then
-        if #(cD - cs.xyz) <= rad then
-          return cO
-        end
+  GetEntityPool = function(pools)
+    local ret = {}
+    if not pools then pools = {'CPed', 'CObject', 'CVehicle'}
+    for _,pool in pairs(pools) do
+      local retPool = GetGamePool(pool)
+      for k,v in pairs(retPool) do
+        table.insert(ret, v)
       end
     end
-    return false
+    return ret
+  end,
+
+  GetClosestPlayer = function(ignoreMe)
+    local pool, ply, coords, closestPlayer, closestDistance = Core.Game.GetEntityPool({'CPed'}), PlayerPedId(), GetEntityCoords(ply), 99999999, 99999999
+    for k,v in pairs(pool) do
+      if IsPedAPlayer(v) then 
+        local pedCoords = GetEntityCoords(v)
+        local distance  = #(pedCoords - coords)
+        if distance <= closestDistance then 
+          closestPlayer = v
+          closestDistance = distance
+        end 
+      end
+    end
+    return closestPlayer, closestDistance
+  end, 
+
+  GetClosestPed = function(pos, ignoreMe)
+    local pool, ply, coords, closestPed, closestDistance = Core.Game.GetEntityPool({'CPed'}), PlayerPedId(), GetEntityCoords(ply), 99999999, 99999999
+    for k,v in pairs(pool) do
+      local pedCoords = GetEntityCoords(v)
+      local distance  = #(pedCoords - coords)
+      if distance <= closestDistance then 
+        closestPed = v
+        closestDistance = distance
+      end 
+    end
+    return closestPed, closestDistance
+  end,
+
+  GetClosestObject = function(model,rad)
+    local pool, ply, coords, closestObject, closestDistance = Core.Game.GetEntityPool({'CObject'}), PlayerPedId(), GetEntityCoords(ply), 99999999, 99999999
+    for k,v in pairs(pool) do
+      local pedCoords = GetEntityCoords(v)
+      local distance  = #(pedCoords - coords)
+      if distance <= rad and distance <= closestDistance then 
+        if GetEntityModel(v) == tonumber(model) then
+          closestObject = v
+          closestDistance = distance
+        end
+      end 
+    end
+    return closestObject, closestDistance
   end,
 
   GetClosestVehicle = function(cs)
-    if Config.UsingESX then
-      local cV, cD = ESX.Game.GetClosestVehicle()
-      return cV, cD
-    elseif Config.UsingQBCore then
-      local cV,cD = QBCore.Functions.GetClosestVehicle()
-      return cV,cD
+    local pool, ply, coords, closestVehicle, closestDistance = Core.Game.GetEntityPool({'CVehicle'}), PlayerPedId(), GetEntityCoords(ply), 99999999, 99999999
+    for k,v in pairs(pool) do
+      local pedCoords = GetEntityCoords(v)
+      local distance  = #(pedCoords - coords)
+      if distance <= closestDistance then 
+        closestVehicle = v
+        closestDistance = distance
+      end 
     end
-    return false,false
+    return closestVehicle, closestDistance
   end
-
 }
+
+
