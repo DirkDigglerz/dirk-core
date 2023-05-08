@@ -156,15 +156,16 @@ Core.Player = {
     local ply = Core.Player.Get(tonumber(p))
     if not ply then return {}; end
     local jt = {}
-
-    if Config.UsingQBCore then
-      jt.grade = ply.PlayerData.job.grade.level
+    if Config.UsingESX then
+      jt.name  =  ply.job.name
+      jt.label =  ply.job.label
+      jt.rank  =  ply.job.grade
+      jt.isCop =  Config.PoliceJobs[ply.job.name]
+    elseif Config.UsingQBCore then
       jt.name  = ply.PlayerData.job.name
-      return jt
-    elseif Config.UsingESX then
-      jt.grade = ply.job.grade
-      jt.name  = ply.job.name
-      return jt
+      jt.label = ply.PlayerData.job.label
+      jt.rank  = ply.PlayerData.job.grade.level
+      jt.isCop = Config.PoliceJobs[ply.PlayerData.job.name]
     end
     return {}
   end,
