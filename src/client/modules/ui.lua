@@ -158,7 +158,7 @@ Core.UI = {
   end,
 
   ProgressBar = function(s, cb)
-    if Config.ProgressBar == "OX" then
+    if Config.ProgressBar == "ox_lib" then
       local bar = lib.progressBar({
         duration = s.time,
         label = s.label,
@@ -171,7 +171,7 @@ Core.UI = {
         },
       })
       if cb then cb(bar); end
-    elseif Config.ProgressBar == "QB" then
+    elseif Config.ProgressBar == "progressbar" then
       QBCore.Functions.Progressbar('Changeme', s.label, s.time, false, s.canCancel, {
         disableMovement = false,
         disableCarMovement = s.disableControl,

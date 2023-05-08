@@ -8,11 +8,7 @@ local inventories = {
 
 
 
-local progressbars = {
-  ['QB'] = "progressbar",
-  ['OX'] = "ox_lib",
-}
-
+local progressbars = {"progressbar","ox_lib"}
 local targetsystems = {'qtarget', 'qb-target', 'ox_target'}
 local timesystems = {'vSync', 'cd_easytime', 'qb-weathersync'}
 local jailSystems = {'esx_jail', 'qb-prison'}
@@ -42,7 +38,7 @@ Citizen.CreateThread(function()
   end
 
   for k,v in pairs(jailSystems) do
-    local resState = GetResourceState(k)
+    local resState = GetResourceState(v)
     if resState ~= "missing" and resState ~= "unknown" then
       Config.JailSystem = k
       Count.jail = Count.jail + 1
