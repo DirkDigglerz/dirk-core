@@ -62,7 +62,7 @@ Core.Game = {
 
   GetEntityPool = function(pools)
     local ret = {}
-    if not pools then pools = {'CPed', 'CObject', 'CVehicle'}
+    if not pools then pools = {'CPed', 'CObject', 'CVehicle'}; end
     for _,pool in pairs(pools) do
       local retPool = GetGamePool(pool)
       for k,v in pairs(retPool) do
