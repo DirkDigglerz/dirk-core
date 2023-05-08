@@ -24,8 +24,6 @@ Core.Game = {
     SetBlipColour (blip, data.Color)
     print('Short Range', data.ShortRange)
     SetBlipAsShortRange(blip, data.ShortRange)
-
-
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentString(data.Text)
     EndTextCommandSetBlipName(blip)
@@ -39,7 +37,6 @@ Core.Game = {
   RemoveBlip = function(id)
     RemoveBlip(id)
   end,
-
 
   ChooseNearbyPlayer = function()
     Core.UI.Notify("Look at the player you wish to select")
