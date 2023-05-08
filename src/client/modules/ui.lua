@@ -10,7 +10,6 @@ Core.UI = {
     local now = GetGameTimer()
     Core.UI.Last_Call = GetGameTimer()
     if Core.UI.Current ~= name or ((now - Core.UI.Last_Call) >= 2.5) then
-      print('Creating NEw')
       Core.UI.Current = name
       SetNuiFocusKeepInput(true)
       SendNuiMessage(json.encode({
