@@ -67,7 +67,7 @@ Core.Game = {
 
   GetClosestPed = function()
     if Config.UsingESX then
-      
+
     elseif Config.UsingQBCore then
      local peds = QBCore.Functions.GetPeds()
     local closestDistance = false

@@ -37,13 +37,13 @@ Core.Player = {
   end,
 
   IsCop = function()
-    for k,v in pairs(Config.PoliceJobs) do 
-      if Core.Player.CurJob.name == k then 
+    for k,v in pairs(Config.PoliceJobs) do
+      if Core.Player.CurJob.name == k then
         return true
       end
     end
     return false
-  end, 
+  end,
 
   GetJob = function()
     local jt = {}
