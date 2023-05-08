@@ -4,7 +4,7 @@
 
 Core.UI = {
   Current   = "name",
-  Last_Call = 1000, 
+  Last_Call = 1000,
 
   AdvancedHelpNotif = function(name, items)
     local now = GetGameTimer()
@@ -13,7 +13,7 @@ Core.UI = {
     print(((now - Core.UI.Last_Call) >= 2.5))
     print(Core.UI.Current ~= name)
     Core.UI.Last_Call = GetGameTimer()
-    if Core.UI.Current ~= name or ((now - Core.UI.Last_Call) >= 2.5) then  
+    if Core.UI.Current ~= name or ((now - Core.UI.Last_Call) >= 2.5) then
       print('Creating NEw')
       Core.UI.Current = name
       SetNuiFocusKeepInput(true)
@@ -22,14 +22,14 @@ Core.UI = {
         message = items,
       }))
     end
-    
+
   end,
 
   Hide = function()
     Core.UI.Current     = false
     SendNuiMessage(json.encode({
       type = "hide"
-    })) 
+    }))
     SetNuiFocusKeepInput(false)
   end,
 
@@ -247,9 +247,9 @@ Core.UI = {
 }
 
 Citizen.CreateThread(function()
-  while true do 
-    if Core.UI.Current then 
-      if (GetGameTimer() - Core.UI.Last_Call) >= 300 then 
+  while true do
+    if Core.UI.Current then
+      if (GetGameTimer() - Core.UI.Last_Call) >= 300 then
         Core.UI.Hide()
       end
     else

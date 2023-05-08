@@ -65,38 +65,23 @@ Core.Game = {
     end
   end,
 
-  GetClosestPed = function()
-    if Config.UsingESX then
-      local peds = ESX.Game.GetPeds()
-      local closestDistance = false
-      local closestPed = false
-      for i = 1, #peds, 1 do
-          local pedCoords = GetEntityCoords(peds[i])
-          local ply = PlayerPedId()
-          local distance = #(pedCoords - GetEntityCoords(ply))
-          if distance < 15.0 and ply ~= peds[i] then
-            closestPed = peds[i]
-            closestDistance = peds[i]
-          end
-      end
-      return closestPed, closestDistance    
-    elseif Config.UsingQBCore then
-      local peds = QBCore.Functions.GetPeds()
-      local closestDistance = false
-      local closestPed = false
-      for i = 1, #peds, 1 do
-          local pedCoords = GetEntityCoords(peds[i])
-          local ply = PlayerPedId()
-          local distance = #(pedCoords - GetEntityCoords(ply))
-          if distance < 15.0 and ply ~= peds[i] then
-            closestPed = peds[i]
-            closestDistance = peds[i]
-          end
-
-      end
+  GetClosestPed = function(coords, modelFilter)
+    if Config.UsingESX then 
+      local closestPed, closestDistance = ESX.Game.GetClosestPed(coords, modelFilter)
+      return closestPed, closestDistance  
+    elseif Config.UsingQBCore then 
+      local closestPed, closestDistance = QBCore.Functions.GetClosestPed(coords, modelFilter)
       return closestPed, closestDistance
     end
-    return false,false
+  end,
+
+  GetAllPeds = function(onlyOtherPeds)
+    if Config.UsingESX then
+      return ESX.Game.GetPeds(onlyOtherPeds)   
+    elseif Config.UsingQBCore then
+      QBCore.Functions.GetPeds(onlyOtherPeds)
+    end
+    return {}
   end,
 
   GetClosestObject = function(obj,cs,rad)

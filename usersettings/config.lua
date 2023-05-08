@@ -44,7 +44,7 @@ Config = {
           end,
 
           action = function()
-            print('TRiggered')
+            print('Triggered')
           end,
         }
       },
@@ -71,7 +71,7 @@ Config = {
           end,
 
           action = function()
-            print('TRiggered')
+            print('Triggered')
           end,
         }
       },
@@ -98,7 +98,7 @@ Config = {
           end,
 
           action = function()
-            print('TRiggered')
+            print('Triggered')
           end,
         }
       },
@@ -126,7 +126,7 @@ Config = {
           end,
 
           action = function()
-            print('TRiggered')
+            print('Triggered')
           end,
         }
       },
@@ -167,7 +167,7 @@ Config = {
           end,
 
           action = function(entity)
-            print('triggered')
+            print('Triggered')
           end,
         },
 
@@ -209,7 +209,7 @@ Config = {
           end,
 
           action = function()
-            print('TRiggered')
+            print('Triggered')
           end,
         }
       },
