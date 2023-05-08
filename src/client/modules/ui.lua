@@ -3,6 +3,36 @@
 
 
 Core.UI = {
+  Current   = "name",
+  Last_Call = 1000, 
+
+  AdvancedHelpNotif = function(name, items)
+    local now = GetGameTimer()
+    print('name', name)
+    print('Current', Core.UI.Current)
+    print(((now - Core.UI.Last_Call) >= 2.5))
+    print(Core.UI.Current ~= name)
+    Core.UI.Last_Call = GetGameTimer()
+    if Core.UI.Current ~= name or ((now - Core.UI.Last_Call) >= 2.5) then  
+      print('Creating NEw')
+      Core.UI.Current = name
+      SetNuiFocusKeepInput(true)
+      SendNuiMessage(json.encode({
+        type    = "show",
+        message = items,
+      }))
+    end
+    
+  end,
+
+  Hide = function()
+    Core.UI.Current     = false
+    SendNuiMessage(json.encode({
+      type = "hide"
+    })) 
+    SetNuiFocusKeepInput(false)
+  end,
+
   ShowHelpNotification = function(msg)
     AddTextEntry(GetCurrentResourceName(), msg)
 
@@ -216,6 +246,18 @@ Core.UI = {
 
 }
 
+Citizen.CreateThread(function()
+  while true do 
+    if Core.UI.Current then 
+      if (GetGameTimer() - Core.UI.Last_Call) >= 300 then 
+        Core.UI.Hide()
+      end
+    else
+      Wait(5)
+    end
+    Wait(0)
+  end
+end)
 
 RegisterNetEvent(string.format("%s:Notify", GetCurrentResourceName()), function(msg)
   Core.UI.Notify(msg)

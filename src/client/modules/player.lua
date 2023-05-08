@@ -36,6 +36,15 @@ Core.Player = {
     return data.gang.name
   end,
 
+  IsCop = function()
+    for k,v in pairs(Config.PoliceJobs) do 
+      if Core.Player.CurJob.name == k then 
+        return true
+      end
+    end
+    return false
+  end, 
+
   GetJob = function()
     local jt = {}
     if Config.UsingESX then
@@ -53,6 +62,7 @@ Core.Player = {
       jt.IsCop = Config.PoliceJobs[data.job.name]
     end
     Core.Player.CurJob = jt
+    return Core.Player.CurJob, Core.Player.IsCop()
   end,
 
   PlayAnim = function(data)
@@ -69,9 +79,13 @@ Core.Player = {
 if Config.UsingESX then
   RegisterNetEvent("esx:setJob", function(job)
     Core.Player.GetJob()
+    local isCop = Core.Player.IsCop()
+    TriggerEvent("Dirk-Core:JobChange", Core.Player.CurJob, isCop)
   end)
 elseif Config.UsingQBCore then
   RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
     Core.Player.GetJob()
+    local isCop = Core.Player.IsCop()
+    TriggerEvent("Dirk-Core:JobChange", Core.Player.CurJob, isCop)
   end)
 end
