@@ -53,17 +53,19 @@ Core.Player = {
       jt.label =  data.job.label
       jt.rank  =  data.job.grade
       jt.rankL =  data.job.grade_label
-      jt.IsCop =  Config.PoliceJobs[data.job.name]
+      jt.isCop =  Config.PoliceJobs[data.job.name]
     elseif Config.UsingQBCore then
       local data = QBCore.Functions.GetPlayerData()
       jt.name  = data.job.name
       jt.label = data.job.label
       jt.rank  = data.job.grade.level
-      jt.IsCop = Config.PoliceJobs[data.job.name]
+      jt.isCop = Config.PoliceJobs[data.job.name]
     end
     Core.Player.CurJob = jt
-    return Core.Player.CurJob, Core.Player.IsCop()
+    return Core.Player.CurJob
   end,
+
+
 
   PlayAnim = function(data)
     while not HasAnimDictLoaded(data.dict) do RequestAnimDict(data.dict) Wait(0); end
@@ -79,13 +81,11 @@ Core.Player = {
 if Config.UsingESX then
   RegisterNetEvent("esx:setJob", function(job)
     Core.Player.GetJob()
-    local isCop = Core.Player.IsCop()
-    TriggerEvent("Dirk-Core:JobChange", Core.Player.CurJob, isCop)
+    TriggerEvent("Dirk-Core:JobChange", Core.Player.CurJob)
   end)
 elseif Config.UsingQBCore then
   RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
     Core.Player.GetJob()
-    local isCop = Core.Player.IsCop()
-    TriggerEvent("Dirk-Core:JobChange", Core.Player.CurJob, isCop)
+    TriggerEvent("Dirk-Core:JobChange", Core.Player.CurJob)
   end)
 end
