@@ -54,6 +54,39 @@ Core = {
     end
   end,
 
+  GetAllPlayers = function()
+    if Config.UsingESX then
+      local players = {}
+      local result = MySQL.query.await('SELECT firstname, lastname, dateofbirth, phone_number, identifier FROM users', {})
+      for k,v in pairs(result) do
+        local info = {
+          name       = v.firstname.." "..v.lastname,
+          identifier = v.identifier,
+          dob        = v.dateofbirth,
+          phone      = v.phone_number or "UNKNOWN"
+        }
+        players[info.identifier] = info
+      end
+      return players
+    elseif Config.UsingQBCore then
+      local players = {}
+      local result = MySQL.query.await('SELECT charinfo, citizenid FROM players', {})
+      for k,v in pairs(result) do
+        local charinfo = json.decode(v.charinfo)
+        local info = {
+          name       = charinfo.firstname.." "..charinfo.lastname,
+          identifier = v.citizenid,
+          dob        = charinfo.birthdate,
+          phone      = charinfo.phone
+        }
+        players[info.identifier] = info
+      end
+      return players
+    end
+    return {}
+  end,
+
+
   TC = function(t)
     local c = 0
     for k,v in pairs(t) do

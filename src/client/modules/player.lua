@@ -53,7 +53,7 @@ Core.Player = {
       jt.label =  data.job.label
       jt.rank  =  data.job.grade
       jt.rankL =  data.job.grade_label
-      jt.IsCop = Config.PoliceJobs[data.job.name]
+      jt.IsCop =  Config.PoliceJobs[data.job.name]
     elseif Config.UsingQBCore then
       local data = QBCore.Functions.GetPlayerData()
       jt.name  = data.job.name

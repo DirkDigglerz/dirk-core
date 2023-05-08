@@ -6,6 +6,8 @@ local inventories = {
   ['ox_inventory'] = "ox_inventory/web/images/",
 }
 
+
+
 local progressbars = {
   ['QB'] = "progressbar",
   ['OX'] = "ox_lib",
@@ -13,6 +15,7 @@ local progressbars = {
 
 local targetsystems = {'qtarget', 'qb-target', 'ox_target'}
 local timesystems = {'vSync', 'cd_easytime', 'qb-weathersync'}
+local jailSystems = {'esx_jail', 'qb-prison'}
 
 Citizen.CreateThread(function()
   local qb = GetResourceState('qb-core') -- If you cleverly :rollseyes: changed the name of qb-core then change this to the name of "your" framework
@@ -23,7 +26,7 @@ Citizen.CreateThread(function()
   local fw = ""
   Config.UsingQBCore = false -- DONT TOUCH. WILL AUTOMATICALLY DETECT!
   Config.UsingESX = false -- DONT TOUCH. WILL AUTOMATICALLY DETECT!
-  local Count = {target = 0, time = 0, inventory = 0, progressbar = 0}
+  local Count = {jail = 0, target = 0, time = 0, inventory = 0, progressbar = 0}
 
   if qb ~= "missing" and qb ~= "unknown" then
     Config.UsingQBCore = true
@@ -36,6 +39,14 @@ Citizen.CreateThread(function()
     TriggerEvent("esx:getSharedObject", function(obj) ESX = obj; end)
   else
     print('Dirk-Core has not detected a framework please create a ticket')
+  end
+
+  for k,v in pairs(jailSystems) do
+    local resState = GetResourceState(k)
+    if resState ~= "missing" and resState ~= "unknown" then
+      Config.JailSystem = k
+      Count.jail = Count.jail + 1
+    end
   end
 
   for k,v in pairs(inventories) do

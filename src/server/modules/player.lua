@@ -91,6 +91,37 @@ Core.Player = {
 
   end,
 
+  CheckOnline = function(id)
+    local plys = GetPlayers()
+    for k,v in pairs(plys) do
+      if Core.Player.Id(tonumber(v)) == id then
+        return v
+      end
+    end
+    return false
+  end,
+
+  Jail = function(id,time)
+    if Config.JailSystem == "esx_jail" then 
+      TriggerEvent('esx_jail:sendToJail', id, time * 60)
+    elseif Config.JailSystem == "qb-prison" then
+      local OtherPlayer = Core.Player.Get(id)
+      if not OtherPlayer then return; end
+
+      local currentDate = os.date("*t")
+      if currentDate.day == 31 then
+          currentDate.day = 30
+      end
+
+      OtherPlayer.Functions.SetMetaData("injail", time)
+      OtherPlayer.Functions.SetMetaData("criminalrecord", {
+          ["hasRecord"] = true,
+          ["date"] = currentDate
+      })
+      TriggerClientEvent("police:client:SendToJail", OtherPlayer.PlayerData.source, time)
+    end
+  end,
+
   RemoveItem = function(p,i,a)
     local ply = Core.Player.Get(p)
     if Config.UsingESX then
