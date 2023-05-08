@@ -2,9 +2,6 @@ Config = {
   --## ITEM AUTO ADD
   AutoAddItems = true, --## QBCore will automatically add these to the shared.lua if using an upto date version. ESX will add items to the table you configure below
   ESXItemTable = "items",
-  --## USING ESX OR QBCORE
-  UsingESX     = false,
-  UsingQBCore  = true,
   --## JOB EVENTS
   PoliceJobs = {
     police = true,
