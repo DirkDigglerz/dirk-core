@@ -65,7 +65,7 @@ Citizen.CreateThread(function()
     local resState = GetResourceState(v)
     if resState ~= "missing" and resState ~= "unknown" then
       Config.ProgressBar = v
-      Count.time = Count.progressbar + 1
+      Count.progressbar = Count.progressbar + 1
     end
   end
 
