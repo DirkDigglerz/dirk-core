@@ -224,6 +224,7 @@ Core.UI = {
       SetNuiFocusKeepInput(true)
       SendNuiMessage(json.encode({
         type    = "show",
+        name    = name,
         message = items,
       }))
     else
@@ -231,9 +232,10 @@ Core.UI = {
     end
   end,
 
-  Hide = function()
+  Hide = function(name)
     SendNuiMessage(json.encode({
-      type = "hide"
+      type = "hide",
+      name = name,
     }))
     SetNuiFocusKeepInput(false)
   end,
@@ -246,8 +248,9 @@ Citizen.CreateThread(function()
       for k,v in pairs(Core.UI.Current) do 
         if k then wait_time = 0; end
         if (GetGameTimer() - v) >= 300 then
+          print('Hiding')
           Core.UI.Current[k] = nil
-          Core.UI.Hide()
+          Core.UI.Hide(k)
         end
       end
     Wait(wait_time)

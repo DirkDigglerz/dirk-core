@@ -83,23 +83,18 @@ var HelpOpen = false;
 
 window.addEventListener('message', function (event) {
   if (event.data.type == "show") {
-    HelpOpen = true;
-    console.log("Adding New Help", event.data.message)
-    $(`<div id="HelpContainer"></div>`).appendTo("body");
+    Current[event.data.name] = $(`<div id="HelpContainer"></div>`).appendTo("body");
     $.each(event.data.message, function (index, value) {
       var raw = value.key
-
       var uppercase = raw.toUpperCase();
-      Current[raw] = $(`
-            <div id='row'>
-              <div id='button'><kbd>${uppercase}</kbd></div>
-              <div id='useinfo'>${value.label}</div>
-            </div>
-          `).appendTo("#HelpContainer");
+      $(`<div id='row'>
+          <div id='button'><kbd>${uppercase}</kbd></div>
+          <div id='useinfo'>${value.label}</div>
+        </div>
+      `).appendTo(Current[event.data.name]);
     });
   } else if (event.data.type == 'hide') {
-    HelpOpen = false;
-    $(`#${event.data.name}`).empty()
+    $(Current[event.data.name]).remove();
   }
 })
 
