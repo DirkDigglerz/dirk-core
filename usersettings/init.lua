@@ -1,20 +1,22 @@
 local SupportedResources = {
   Inventory = {
     ['qb-inventory'] = "qb-inventory/html/images/",
+    ['lj-inventory'] = "lj-inventory/html/images/",
     ['qs-inventory'] = "qs-inventory/html/images/",
     ['mf-inventory'] = "mf-inventory/nui/items/",
     ['ox_inventory'] = "ox_inventory/web/images/"
   },
-  TargetSystem = {'qtarget', 'qb-target', 'ox_target'},
-  TimeSystem = {'vSync', 'cd_easytime', 'qb-weathersync'},
-  JailSystem = {'esx_jail', 'qb-prison'},
-  ProgressBar = {'progressbar', 'ox_lib'},
-  Framework   = {'es_extended', 'qb-core'},
-  KeySystem   = {'qb-vehiclekeys', 'cd_garage'},
+  TargetSystem   = {'qtarget', 'qb-target', 'ox_target'},
+  TimeSystem     = {'vSync', 'cd_easytime', 'qb-weathersync'},
+  JailSystem     = {'esx_jail', 'qb-prison'},
+  ProgressBar    = {'progressbar', 'ox_lib'},
+  Framework      = {'es_extended', 'qb-core'},
+  KeySystem      = {'qb-vehiclekeys', 'cd_garage'},
+  DispatchSystem = {'ps-dispatch', 'cd_dispatch'},
+  PhoneSystem    = {'qs-smartphone', 'lb-phone', 'nwpd', 'qb-phone'},
 }
 
 local FoundResources = {}
-
 Citizen.CreateThread(function()
   for type,resources in pairs(SupportedResources) do 
     if type == "TargetSystem" then 

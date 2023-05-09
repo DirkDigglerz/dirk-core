@@ -1,5 +1,3 @@
-Core.Inventories = {}
-
 Core.Inventory = {
 
   UseableItem = function(name, cb)
