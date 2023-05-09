@@ -90,18 +90,18 @@ window.addEventListener('message', function (event) {
     $.each(event.data.message, function (index, value) {
       var raw = value.key
       var uppercase = raw.toUpperCase();
-      $(`<div id='row'>
+      $(`<div style="display:hidden;" id='row'>
           <div id='button'><kbd>${uppercase}</kbd></div>
           <div id='useinfo'>${value.label}</div>
         </div>
-      `).appendTo(Current[event.data.name]).fadeIn(100);
+      `).appendTo(Current[event.data.name]).hide().fadeIn(200);
     });
   } else if (event.data.type == 'hide') {
-    $(Current[event.data.name]).fadeOut(1000, function () {
+    $(Current[event.data.name]).fadeOut(600, function () {
       console.log('Finsiehd')
       $(Current[event.data.name]).remove();
     });
-
+  
     delete Current[event.data.name]
     if (Object.keys(Current).length === 0) {
       $('.HelpOuter').remove();
