@@ -226,6 +226,8 @@ Core.UI = {
         type    = "show",
         message = items,
       }))
+    else
+      Core.UI.Current[name] = now; 
     end
   end,
 
