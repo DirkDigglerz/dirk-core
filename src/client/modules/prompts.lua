@@ -1,7 +1,7 @@
 local currentPrompts = {}
 local Prompts = {}
 
-Config.UsingPrompts = false,
+Config.UsingPrompts = false
 Config.Prompts = {
   ['Test Position'] = {
     Distance     = 4.0,

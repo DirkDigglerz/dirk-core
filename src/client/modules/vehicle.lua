@@ -38,7 +38,7 @@ Core.Vehicle = {
     [21] = "Trains",
   },
 
-  GetVehicleClass = function(e)/
+  GetVehicleClass = function(e)
     local nClass = GetVehicleClass(e)
     return nClass, Core.Vehicle.VehClasses[nClass]
   end
