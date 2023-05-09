@@ -1,12 +1,3 @@
--- Inventory resource name = Image path
-local inventories = {
-  ['qb-inventory'] = "qb-inventory/html/images/",
-  ['qs-inventory'] = "qs-inventory/html/images/",
-  ['mf-inventory'] = "mf-inventory/nui/items/",
-  ['ox_inventory'] = "ox_inventory/web/images/",
-}
-
-
 local SupportedResources = {
   Inventory = {
     ['qb-inventory'] = "qb-inventory/html/images/",
@@ -60,9 +51,11 @@ Citizen.CreateThread(function()
     end
   end
 
-  for type,resource in pairs(FoundResources) do 
-    print("^2Dirk-Core^7 | Found ^5"..resource.."^7 for ^3"..type.."^7")
+  for type,_ in pairs(SupportedResources) do 
+    if FoundResources[type] then 
+      print("^2Dirk-Core^7 | Found ^5"..FoundResources[type].."^7 for ^3"..type.."^7")
+    else 
+      print("^2Dirk-Core^7 | Found ^8NOTHING^7 for ^3"..type.."^7")
+    end
   end
-
-
 end)
