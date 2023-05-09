@@ -83,7 +83,10 @@ var HelpOpen = false;
 
 window.addEventListener('message', function (event) {
   if (event.data.type == "show") {
-    Current[event.data.name] = $(`<div id="HelpContainer"></div>`).appendTo("body");
+    if (Object.keys(Current).length === 0){
+      $(`<div class="HelpOuter"></div>`).appendTo('body')
+    }
+    Current[event.data.name] = $(`<div id="HelpContainer"></div>`).appendTo(".HelpOuter");
     $.each(event.data.message, function (index, value) {
       var raw = value.key
       var uppercase = raw.toUpperCase();
@@ -94,7 +97,16 @@ window.addEventListener('message', function (event) {
       `).appendTo(Current[event.data.name]);
     });
   } else if (event.data.type == 'hide') {
-    $(Current[event.data.name]).remove();
+    $(Current[event.data.name]).fadeOut(1000, function () {
+      console.log('Finsiehd')
+      $(Current[event.data.name]).remove();
+    });
+
+    delete Current[event.data.name]
+    if (Object.keys(Current).length === 0) {
+      $('.HelpOuter').remove();
+    }
+
   }
 })
 

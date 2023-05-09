@@ -73,18 +73,20 @@
   color: white;
 }
 
-#HelpContainer {
+.HelpOuter{
   user-select: none;
   font-family: 'Bebas Neue';
   position: absolute;
   top: 60%;
   left: 60%;
   transform: translate(-50%, -50%);
-
   width: auto;
   height: auto;
+  display: flex;
+  flex-direction: column;
+}
 
-
+#HelpContainer {
   display: flex;
   flex-direction: column;
   /*      box-shadow: 10px 10px 10px black;*/
