@@ -10,6 +10,7 @@ Core.UI = {
     local now = GetGameTimer()
     Core.UI.Last_Call = GetGameTimer()
     if Core.UI.Current ~= name or ((now - Core.UI.Last_Call) >= 2.5) then
+      print('Taken Too Long Display Again')
       Core.UI.Current = name
       SetNuiFocusKeepInput(true)
       SendNuiMessage(json.encode({
@@ -243,14 +244,14 @@ Core.UI = {
 
 Citizen.CreateThread(function()
   while true do
+    local wait_time = 50
     if Core.UI.Current then
+      wait_time = 0 
       if (GetGameTimer() - Core.UI.Last_Call) >= 300 then
         Core.UI.Hide()
       end
-    else
-      Wait(10)
     end
-    Wait(0)
+    Wait(wait_time)
   end
 end)
 

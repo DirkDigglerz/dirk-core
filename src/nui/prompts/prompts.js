@@ -84,7 +84,7 @@ var HelpOpen = false;
 window.addEventListener('message', function (event) {
   if (event.data.type == "show") {
     HelpOpen = true;
-
+    console.log("Adding New Help", event.data.message)
     $(`<div id="HelpContainer"></div>`).appendTo("body");
     $.each(event.data.message, function (index, value) {
       var raw = value.key
