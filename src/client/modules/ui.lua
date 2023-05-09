@@ -3,31 +3,7 @@
 
 
 Core.UI = {
-  Current   = "name",
-  Last_Call = 1000,
 
-  AdvancedHelpNotif = function(name, items)
-    local now = GetGameTimer()
-    Core.UI.Last_Call = GetGameTimer()
-    if Core.UI.Current ~= name or ((now - Core.UI.Last_Call) >= 2.5) then
-      print('Taken Too Long Display Again')
-      Core.UI.Current = name
-      SetNuiFocusKeepInput(true)
-      SendNuiMessage(json.encode({
-        type    = "show",
-        message = items,
-      }))
-    end
-
-  end,
-
-  Hide = function()
-    Core.UI.Current     = false
-    SendNuiMessage(json.encode({
-      type = "hide"
-    }))
-    SetNuiFocusKeepInput(false)
-  end,
 
   ShowHelpNotification = function(msg)
     AddTextEntry(GetCurrentResourceName(), msg)
@@ -240,17 +216,39 @@ Core.UI = {
     return output
   end,
 
+  Current   = {},
+  AdvancedHelpNotif = function(name, items)
+    local now = GetGameTimer()
+    if not Core.UI.Current[name] then 
+      Core.UI.Current[name] = now; 
+      SetNuiFocusKeepInput(true)
+      SendNuiMessage(json.encode({
+        type    = "show",
+        message = items,
+      }))
+    end
+  end,
+
+  Hide = function()
+    Core.UI.Current     = false
+    SendNuiMessage(json.encode({
+      type = "hide"
+    }))
+    SetNuiFocusKeepInput(false)
+  end,
+
 }
 
 Citizen.CreateThread(function()
   while true do
     local wait_time = 50
-    if Core.UI.Current then
-      wait_time = 0 
-      if (GetGameTimer() - Core.UI.Last_Call) >= 300 then
-        Core.UI.Hide()
+      for k,v in pairs(Core.UI.Current) do 
+        if k then wait_time = 0; end
+        if (GetGameTimer() - v) >= 300 then
+          Core.UI.Current[k] = nil
+          Core.UI.Hide()
+        end
       end
-    end
     Wait(wait_time)
   end
 end)

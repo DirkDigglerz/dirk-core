@@ -361,13 +361,10 @@ ClosePrompt = function(id)
   })
 end
 
-
-
 RegisterNUICallback('LoseFocus', function()
   SetNuiFocus(false,false)
   Focused = false
 end)
-
 
 RegisterCommand('nuifocus', function()
   if not Focused then

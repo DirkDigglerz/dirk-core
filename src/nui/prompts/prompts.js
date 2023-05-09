@@ -99,7 +99,7 @@ window.addEventListener('message', function (event) {
     });
   } else if (event.data.type == 'hide') {
     HelpOpen = false;
-    $('body').empty()
+    $(`#${event.data.name}`).empty()
   }
 })
 
