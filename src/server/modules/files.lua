@@ -9,7 +9,7 @@ Core.Files = {
   end,
 
   TableToSQL = function(t)
-    local output = "INSERT INTO `"..Config.ESXItemTable.."` (`name`, `label`) VALUES"
+    local output = "INSERT INTO `"..Config.ItemsDatabaseName.."` (`name`, `label`) VALUES"
     for k,v in pairs(t) do
       output = output..string.format("\n ('%s', '%s'),", k, v.label)
     end

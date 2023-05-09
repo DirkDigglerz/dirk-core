@@ -10,6 +10,7 @@ local SupportedResources = {
   JailSystem = {'esx_jail', 'qb-prison'},
   ProgressBar = {'progressbar', 'ox_lib'},
   Framework   = {'es_extended', 'qb-core'},
+  KeySystem   = {'qb-vehiclekeys', 'cd_garage'},
 }
 
 local FoundResources = {}
@@ -61,7 +62,11 @@ Citizen.CreateThread(function()
 
   if FoundResources.Framework then 
     if Config.Framework == "es_extended" then 
-      TriggerEvent("esx:getSharedObject", function(obj) ESX = obj; end)
+      if Config.ESXGetObjectEvent then 
+        TriggerEvent("esx:getSharedObject", function(obj) ESX = obj; end)
+      else 
+        ESX = exports['es_extended']:getSharedObject()
+      end
     elseif Config.Framework == "qb-core" then 
       QBCore = exports['qb-core']:GetCoreObject()
       RegisterNetEvent('QBCore:Client:UpdateObject', function() QBCore = exports['qb-core']:GetCoreObject(); end)

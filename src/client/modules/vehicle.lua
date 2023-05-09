@@ -6,13 +6,10 @@ Core.Vehicle = {
   end,
 
   AddKeys = function(veh,plate) --#' This is the function called to add keys for a vehicle you own. '
-
-    if Config.Framework == "qb-core" then
-      --## Standard event compatible with qb-vehiclekeys
+    if Config.KeySystem == "qb-vehiclekeys" then
       TriggerServerEvent('qb-vehiclekeys:server:AcquireVehicleKeys', plate)
-      --TriggerEvent('cd_garage:AddKeys', exports['cd_garage']:GetPlate(plate)) --## If using cd_garage then uncomment this
-    elseif Config.Framework == "es_extended" then
-      --TriggerEvent('cd_garage:AddKeys', exports['cd_garage']:GetPlate(plate)) --## If using cd_garage then uncomment this
+    elseif Config.KeySystem == "cd_garage" then
+      TriggerEvent('cd_garage:AddKeys', exports['cd_garage']:GetPlate(plate))
     end
   end,
 
@@ -41,8 +38,8 @@ Core.Vehicle = {
     [21] = "Trains",
   },
 
-  GetVehicleClass = function(e)
-    local nclass = GetVehicleClass(e)
-    return nclass, Core.Vehicle.VehClasses[nclass]
+  GetVehicleClass = function(e)/
+    local nClass = GetVehicleClass(e)
+    return nClass, Core.Vehicle.VehClasses[nClass]
   end
 }
