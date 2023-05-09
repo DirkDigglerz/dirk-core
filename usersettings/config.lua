@@ -18,6 +18,7 @@ Config = {
   --## PROGRESS BAR OPTIONS
   ProgressBar = "OX", --## "OX" or "QB" -- Add your own in src/client/modules/ui.lua at the bottom you will find the progress bar function
   ------------------------------------------------------------------------------------------------------------------------------------------------------------
+  UsingClassicCommand = false, --## If you want to use the old command /target
 
   -- EARLY BETA DONT USE
   UsingPrompts = false,

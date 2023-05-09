@@ -27,11 +27,13 @@ Citizen.CreateThread(function()
   if qb ~= "missing" and qb ~= "unknown" then
     Config.UsingQBCore = true
     fw = 'QB-CORE'
+    Config.Framework = "qb-core"
     QBCore = exports['qb-core']:GetCoreObject()
     RegisterNetEvent('QBCore:Client:UpdateObject', function() QBCore = exports['qb-core']:GetCoreObject(); end)
   elseif esx ~= "missing" and esx ~= "unkown" then
     Config.UsingESX = true
     fw = "ESX"
+    Config.Framework = "es_extended"
     TriggerEvent("esx:getSharedObject", function(obj) ESX = obj; end)
   else
     print('Dirk-Core has not detected a framework please create a ticket')
