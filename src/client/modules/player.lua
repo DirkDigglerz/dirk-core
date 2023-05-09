@@ -2,11 +2,11 @@ Core.Player = {
   CurJob = {},
 
   Ready = function()
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       while not ESX do Wait(500); end
       while not ESX.IsPlayerLoaded() do Wait(500); end
       return true
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       while not QBCore do Wait(500); end
       while not QBCore.Functions.GetPlayerData().job do Wait(500); end
       return true
@@ -20,17 +20,17 @@ Core.Player = {
   end,
 
   Identifier = function()
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       local data = ESX.GetPlayerData()
       return data.identifier
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       local data = QBCore.Functions.GetPlayerData()
       return data.citizenid
     end
   end,
 
   Gang = function()
-    if Config.UsingESX then return "None"; end
+    if Config.Framework == "es_extended" then return "None"; end
     if not Config.UsingQBCore then return false; end
     local data = QBCore.Functions.GetPlayerData()
     return data.gang.name
@@ -47,14 +47,14 @@ Core.Player = {
 
   GetJob = function()
     local jt = {}
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       local data = ESX.GetPlayerData()
       jt.name  =  data.job.name
       jt.label =  data.job.label
       jt.rank  =  data.job.grade
       jt.rankL =  data.job.grade_label
       jt.isCop =  Config.PoliceJobs[data.job.name]
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       local data = QBCore.Functions.GetPlayerData()
       jt.name  = data.job.name
       jt.label = data.job.label
@@ -78,12 +78,12 @@ Core.Player = {
   end,
 }
 
-if Config.UsingESX then
+if Config.Framework == "es_extended" then
   RegisterNetEvent("esx:setJob", function(job)
     Core.Player.GetJob()
     TriggerEvent("Dirk-Core:JobChange", Core.Player.CurJob)
   end)
-elseif Config.UsingQBCore then
+elseif Config.Framework == "qb-core" then
   RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
     Core.Player.GetJob()
     TriggerEvent("Dirk-Core:JobChange", Core.Player.CurJob)

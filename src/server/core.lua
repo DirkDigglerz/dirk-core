@@ -1,8 +1,8 @@
 Core = {
   Callback = function(name,route)
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       ESX.RegisterServerCallback(name,route)
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       QBCore.Functions.CreateCallback(name,route)
     end
   end,
@@ -15,11 +15,11 @@ Core = {
       return
     end
 
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       ESX.RegisterCommand(name, Config.CommandPerms, function(xPlayer, args, showError)
         func(xPlayer.playerId)
       end, false, {help = desc})
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       QBCore.Commands.Add(name, desc, {}, false, function(source)
         func(source)
       end, Config.CommandPerms)
@@ -27,7 +27,7 @@ Core = {
   end,
 
   AddAllItems = function(toAdd)
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       if Config.AutoAddItems then
         local items = MySQL.query.await(string.format('SELECT * FROM %s',Config.ItemsDatabaseName), {})
         local indexed = {}
@@ -43,7 +43,7 @@ Core = {
           end
         end
       end
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       while not QBCore do Wait(500); end
       if Config.AutoAddItems then
         for k,v in pairs(toAdd) do
@@ -55,7 +55,7 @@ Core = {
   end,
 
   GetAllPlayers = function()
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       local players = {}
       local result = MySQL.query.await('SELECT firstname, lastname, dateofbirth, phone_number, identifier FROM users', {})
       for k,v in pairs(result) do
@@ -68,7 +68,7 @@ Core = {
         players[info.identifier] = info
       end
       return players
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       local players = {}
       local result = MySQL.query.await('SELECT charinfo, citizenid FROM players', {})
       for k,v in pairs(result) do

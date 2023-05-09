@@ -3,11 +3,11 @@ Core.Inventories = {}
 Core.Inventory = {
 
   UseableItem = function(name, cb)
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       ESX.RegisterUsableItem(name, function(playerId)
         cb(playedId)
       end)
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       QBCore.Functions.CreateUseableItem(name, function(source, item)
         cb(source,item)
       end)
@@ -15,8 +15,8 @@ Core.Inventory = {
   end,
 
   GetItemLabel = function(name)
-    if Config.UsingESX then return ESX.GetItemLabel(name); end
-    if Config.UsingQBCore then
+    if Config.Framework == "es_extended" then return ESX.GetItemLabel(name); end
+    if Config.Framework == "qb-core" then
       if not QBCore.Shared.Items[name] then return "No Label"; end
       return QBCore.Shared.Items[name]['label']
     end

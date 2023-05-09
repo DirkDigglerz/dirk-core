@@ -41,9 +41,9 @@ Core.UI = {
   end,
 
   Notify = function(msg)
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       ESX.ShowNotification(msg)
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       QBCore.Functions.Notify(msg)
     end
   end,

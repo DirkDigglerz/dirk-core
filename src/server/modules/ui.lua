@@ -1,8 +1,8 @@
 Core.UI = {
   Notify = function(p,msg)
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       TriggerClientEvent("esx:showNotification", p, msg)
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       TriggerClientEvent("QBCore:Notify", p, msg)
     end
   end,

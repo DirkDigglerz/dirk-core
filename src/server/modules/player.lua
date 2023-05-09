@@ -1,16 +1,16 @@
 Core.Player = {
   Get = function(s)
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       return ESX.GetPlayerFromId(s)
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       return QBCore.Functions.GetPlayer(s)
     end
   end,
 
   Id = function(p)
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       return ESX.GetPlayerFromId(p).identifier
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       return QBCore.Functions.GetPlayer(p).PlayerData.citizenid
     end
   end,
@@ -18,9 +18,9 @@ Core.Player = {
   Name = function(p)
     local p = tonumber(p)
     local ply = Core.Player.Get(p)
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       return ply.getName()
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       return ply.PlayerData.charinfo.firstname.." "..ply.PlayerData.charinfo.lastname
     end
   end,
@@ -28,9 +28,9 @@ Core.Player = {
   DOB = function(p)
     local p = tonumber(p)
     local ply = Core.Player.Get(p)
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       return "Circa 1923"
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       return ply.PlayerData.charinfo.birthdate
     end
   end,
@@ -39,9 +39,9 @@ Core.Player = {
     local ply = Core.Player.Get(tonumber(p))
     local ret = {}
     local inv = {}
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       inv = ply.getInventory()
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       inv = ply.PlayerData.items
     end
 
@@ -81,9 +81,9 @@ Core.Player = {
         end
       end)
     else
-      if Config.UsingESX then
+      if Config.Framework == "es_extended" then
         ply.addInventoryItem(i,a)
-      elseif Config.UsingQBCore then
+      elseif Config.Framework == "qb-core" then
         ply.Functions.AddItem(i,a)
         TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "add")
       end
@@ -124,10 +124,10 @@ Core.Player = {
 
   RemoveItem = function(p,i,a)
     local ply = Core.Player.Get(p)
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       ply.removeInventoryItem(i,a)
       return true
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       ply.Functions.RemoveItem(i,a)
       TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "remove")
       return true
@@ -156,12 +156,12 @@ Core.Player = {
     local ply = Core.Player.Get(tonumber(p))
     if not ply then return {}; end
     local jt = {}
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       jt.name  =  ply.job.name
       jt.label =  ply.job.label
       jt.rank  =  ply.job.grade
       jt.isCop =  Config.PoliceJobs[ply.job.name]
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       jt.name  = ply.PlayerData.job.name
       jt.label = ply.PlayerData.job.label
       jt.rank  = ply.PlayerData.job.grade.level
@@ -172,15 +172,15 @@ Core.Player = {
 
   RemoveMoney = function(p,acc,a)
     local ply = Core.Player.Get(tonumber(p))
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       ply.removeAccountMoney(acc,a)
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       ply.Functions.RemoveMoney(acc,a)
     end
   end,
 
   AddMoney = function(p,acc,a)
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       local ply = ESX.GetPlayerFromId(p)
       local accs = ply.getAccounts()
       local exists = false
@@ -191,7 +191,7 @@ Core.Player = {
         end
       end
       ply.addAccountMoney(acc,a)
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       local ply = QBCore.Functions.GetPlayer(p)
       ply.Functions.AddMoney(acc,a)
     end
@@ -199,7 +199,7 @@ Core.Player = {
 
   HasMoney = function(p,a)
     local ply = Core.Player.Get(tonumber(p))
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       local has, account
       for k,v in pairs(Config.FrameworkAccounts) do
         local tryAcc = ply.getAccount(v)
@@ -209,7 +209,7 @@ Core.Player = {
           return v
         end
       end
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       local has, account
       for k,v in pairs(Config.FrameworkAccounts) do
         if ply.Functions.GetMoney(v) >= a then
@@ -222,11 +222,11 @@ Core.Player = {
 
   HasMoneyInAccount = function(p,acc,a)
     local ply = Core.Player.Get(tonumber(p))
-    if Config.UsingESX then
+    if Config.Framework == "es_extended" then
       if ply.getAccount(acc).money >= a then
         return true
       end
-    elseif Config.UsingQBCore then
+    elseif Config.Framework == "qb-core" then
       if ply.PlayerData.money[acc] and (ply.PlayerData.money[acc] >= a) then
         return true
       end
