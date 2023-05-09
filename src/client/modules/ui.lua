@@ -230,7 +230,6 @@ Core.UI = {
   end,
 
   Hide = function()
-    Core.UI.Current     = false
     SendNuiMessage(json.encode({
       type = "hide"
     }))
