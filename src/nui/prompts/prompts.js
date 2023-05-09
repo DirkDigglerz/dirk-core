@@ -94,7 +94,7 @@ window.addEventListener('message', function (event) {
           <div id='button'><kbd>${uppercase}</kbd></div>
           <div id='useinfo'>${value.label}</div>
         </div>
-      `).appendTo(Current[event.data.name]);
+      `).appendTo(Current[event.data.name]).fadeIn(100);
     });
   } else if (event.data.type == 'hide') {
     $(Current[event.data.name]).fadeOut(1000, function () {
