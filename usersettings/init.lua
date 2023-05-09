@@ -58,4 +58,13 @@ Citizen.CreateThread(function()
       print("^2Dirk-Core^7 | Found ^8NOTHING^7 for ^3"..type.."^7")
     end
   end
+
+  if FoundResources.Framework then 
+    if Config.Framework == "es_extended" then 
+      TriggerEvent("esx:getSharedObject", function(obj) ESX = obj; end)
+    elseif Config.Framework == "qb-core" then 
+      QBCore = exports['qb-core']:GetCoreObject()
+      RegisterNetEvent('QBCore:Client:UpdateObject', function() QBCore = exports['qb-core']:GetCoreObject(); end)
+    end
+  end
 end)
