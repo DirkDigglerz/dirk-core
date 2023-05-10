@@ -14,8 +14,6 @@ Config = {
   StashSystem       = "default", --## If default then will use ox,qs,mf and qb-core inventories. if "dirk" then will use my stash system (ESX Default Inv will need to use mine)
   --## DEBUG FOR TARGET ZONES
   DrawDebug    = true,
-  --## PROGRESS BAR OPTIONS
-  ProgressBar = "OX", --## "OX" or "QB" -- Add your own in src/client/modules/ui.lua at the bottom you will find the progress bar function
   ------------------------------------------------------------------------------------------------------------------------------------------------------------
   UsingClassicCommand = false, --## If you want to use the old command /target
 

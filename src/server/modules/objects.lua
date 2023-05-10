@@ -6,6 +6,7 @@ Core.Objects = {
 
   CreatePhysical = function(name,data) --## Will create a physical object in the world a player will spawn/despawn when they get close to 
     local self = {}
+    self.resource        = GetInvokingResource()
     self.name            = name 
     self.model           = data.model
     self.position        = data.position
@@ -13,6 +14,8 @@ Core.Objects = {
     self.metadata        = data.metadata or {}
     self.canSpawn        = data.canSpawn or false
     self.canInteract     = data.canInteract or false
+    self.searchTime      = data.searchTime or (1000 * 5)
+    self.maxLoot         = data.maxLoot or 1
 
     self.globalState = function(data)
       for k,v in pairs(data) do 
@@ -29,13 +32,28 @@ Core.Objects = {
     end
 
     self.Searched = function(src)
+
+
       if not self.metadata.searched then 
+        local lootedAmount = 0 
         self.metadata.searched = true
         self.globalState({
           metadata = self.metadata,
         })
-        --## Loop Search Loot
-        
+        for k,v in pairs(self.interactions.Search) do 
+          math.randomseed(os.time() * math.random(1231))
+          local chance = math.random(100)
+          if chance <= v.chance then 
+            if self.maxLoot and lootedAmount > self.maxLoot then return false; end 
+            lootedAmount = lootedAmount + 1
+            local newAmount = math.random(v.amount[1], v.amount[2])
+            if v.item then 
+              Core.Player.AddItem(src, v.item, newAmount, v.info)
+            elseif v.account then 
+              Core.Player.AddMoney(src, v.account, newAmount)
+            end
+          end
+        end
       else
         Core.UI.Notify(src, "There is nothing in here.")
       end
@@ -43,7 +61,21 @@ Core.Objects = {
 
     self.Grabbed = function(src)
       if not self.metadata.grabbed then 
-        --## loop table
+        local lootedAmount = 0 
+        for k,v in pairs(self.interactions.Grab) do 
+          math.randomseed(os.time() * math.random(1231))
+          local chance = math.random(100)
+          if chance <= v.chance then 
+            if self.maxLoot and lootedAmount > self.maxLoot then return false; end 
+            lootedAmount = lootedAmount + 1
+            local newAmount = math.random(v.amount[1], v.amount[2])
+            if v.item then 
+              Core.Player.AddItem(src, v.item, newAmount, v.info)
+            elseif v.account then 
+              Core.Player.AddMoney(src, v.account, newAmount)
+            end
+          end
+        end
       else
         Core.UI.Notify(src, "There is nothing to grab here")
       end
@@ -135,23 +167,4 @@ Citizen.CreateThread(function()
     }
     cb(invs)
   end)
-
-
-
-end)
-
-
-
-RegisterCommand("testPhysical", function(source,args)
-  Core.Objects.CreatePhysical("myTest", {
-    model = "prop_acc_guitar_01_d1",
-    position = vector4(199.54, -1018.05, 29.35, 286.58),
-    interactions = {
-      Carry = {Weight = 150, oPos = vector3(0,0,0), oRot = vector3(0,0,0)}, 
-      Search = {},
-      Grab   = {}, 
-    },
-    canSpawn = true,
-    canInteract = true,
-  })
 end)

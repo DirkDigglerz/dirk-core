@@ -12,17 +12,21 @@ Core.Objects = {
   end,
 
   Physicals = {}, 
+  Holding   = {},
 
   CreatePhysical = function(name,data) --## Will create a physical object in the world a player will spawn/despawn when they get close to 
     local self = {}
     self.name            = name 
     self.model           = data.model
     self.position        = data.position
+    self.resource        = data.resource
+
 
     self.interactions    = data.interactions or {}
     self.metadata        = data.metadata or {}
     self.canSpawn        = data.canSpawn or false
     self.canInteract     = data.canInteract or true
+    self.searchTime      = data.searchTime or (5000)
 
 
     --## Client Variables
@@ -45,7 +49,6 @@ Core.Objects = {
     self.spawn = function()
       while not HasModelLoaded(self.hash) do RequestModel(self.hash) Wait(0); end 
       self.object = CreateObject(self.hash, self.position.x,self.position.y,self.position.z,false,true, false)
-      print(self.position)
       SetEntityHeading(self.object, (self.position['w'] or 0.0))
       FreezeEntityPosition(self.object,true)
       SetModelAsNoLongerNeeded(self.hash)
@@ -79,7 +82,7 @@ Core.Objects = {
               return true
             end,
 
-            action      = function()
+            action      = function() 
               self.carry()
             end, 
 
@@ -115,7 +118,7 @@ Core.Objects = {
     end
 
     self.stateChange = function(data)
-      if not data.canSpawn and self.canSpawn ~= data.canSpawn then
+      if data.canSpawn == false and self.canSpawn == true then
         self.disableSpawn()
       end
 
@@ -128,10 +131,7 @@ Core.Objects = {
       TriggerServerEvent("Dirk-Core:Physicals:State", self.name, data)
     end
 
-
-
     --## Remove this entity from ever spawning will have to be called again to add it back to this table
-
 
     self.removePhysical = function()
       TriggerServerEvent("Dirk-Core:Physicals:RemovePhysical", self.name)
@@ -149,37 +149,92 @@ Core.Objects = {
         self.metadata.carried = true
         self.globalState({
           canSpawn = false, 
-          metadata = self.metadata, 
+          metadata = self.metadata,
         })
-        Core.Objects.Carrying = self.name
+        local ply = PlayerPedId()
+        while not HasModelLoaded(self.hash) do RequestModel(self.hash) Wait(0); end
+        local obj = CreateObject(self.hash, vector3(self.position.x, self.position.y, self.position.z), true,true,false)
+        SetEntityAsMissionEntity(obj, true, true)
+        SetModelAsNoLongerNeeded(self.hash)
+        SetEntityHeading(obj,self.position.w)
+        SetEntityVisible(obj,false)
+        FreezeEntityPosition(obj,false)
+
+        SetCurrentPedWeapon(ply, 0xA2719263)
+        local bone = GetPedBoneIndex(ply, 28422)
+
+        RequestAnimDict("anim@heists@load_box")
+        while not HasAnimDictLoaded("anim@heists@load_box") do
+          Citizen.Wait(10)
+        end
+        TaskPlayAnim(ply,"anim@heists@load_box","lift_box",1.0, -1.0, -1, 49, 0, 0, 0, 0)
+        Wait(900)
+        SetEntityVisible(obj,true)
+        local carrySets = self.interactions.Carry
+        AttachEntityToEntity(obj, ply, bone, (carrySets.oPos.x or 0.0), (carrySets.oPos.y or 0.0), (carrySets.oPos.z or 0.0), (carrySets.oRot.x or 0.0), (carrySets.oRot.y or 0.0), (carrySets.oRot.z or 0.0), 1, 1, 0, 0, 2, 1)
+        Wait(900)
+        RequestAnimDict("anim@heists@box_carry@")
+        while not HasAnimDictLoaded("anim@heists@box_carry@") do Wait(10); end
+        TaskPlayAnim(ply,"anim@heists@box_carry@","idle",1.0, -1.0, -1, 49, 0, 0, 0, 0)
+        Wait(500)
+        Core.Objects.Holding = {
+          object = obj,
+          name   = self.name,
+          speed  = (self.interactions.Carry.WalkSpeed or 1.0)
+        }
       end
     end
 
     self.drop = function()
-      Core.Objects.Carrying = nil
+      local oPos = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0.0, 1.0, -1.0)
+      local h = GetEntityHeading(Core.Objects.Holding.object)
+      local nPos = vector4(oPos.x,oPos.y,oPos.z, h)
+      ClearPedTasksImmediately(PlayerPedId())
+      ClearPedTasks(PlayerPedId())
+      DeleteEntity(Core.Objects.Holding.object)
+      Core.Objects.Holding = {}
+      self.metadata.carried = false
       self.globalState({
+        metadata = self.metadata,
         canSpawn = true, 
-        position = newPosition,
+        position = nPos,
       })
     end
 
     self.search = function()
       if not self.metadata.searched then
         --## Search Anim
-
+        local ply = PlayerPedId()
+        FreezeEntityPosition(ply, true, true)
+        TaskStartScenarioInPlace(ply, "PROP_HUMAN_BUM_BIN", 0, true)
+        Wait(self.searchTime * 1000)
+        TaskStartScenarioInPlace(ply, "PROP_HUMAN_BUM_BIN", 0, false)
+        Wait(100)
+        FreezeEntityPosition(ply, false, false)
+        ClearPedTasksImmediately(ply)
         --## Reward Player
         TriggerServerEvent("Dirk-Core:Physicals:Searched", self.name)
       end
     end
 
     self.grab   = function()
-      if not self.metadata.grabbed then 
-        self.metadata.grabbed = true
+      if not self.metadata.grabbed then
+        --## Grab Anim
+        local ply = PlayerPedId()
+        TaskTurnPedToFaceEntity(ply, self.object, 1500)
+        local dict = "anim@heists@prison_heiststation@"
+        RequestAnimDict(dict)
+        while not HasAnimDictLoaded(dict) do Wait(10); end
+        FreezeEntityPosition(ply, true)
+        TaskPlayAnim(ply,dict,"pickup_bus_schedule",1.0, -1.0, -1, 49, 0, 0, 0, 0)
+        Wait(1750)
         self.globalState({
           canSpawn = false, 
-          metadata = self.metadata,
         })
-        --## Grab Anim
+        TriggerServerEvent("Dirk-Core:Physicals:Grabbed", self.name)
+        Wait(750)
+        ClearPedTasksImmediately(ply)
+        FreezeEntityPosition(ply, false)      
       end
     end
 
@@ -201,7 +256,6 @@ RegisterNetEvent("Dirk-Core:Physicals:RemovePhysical", function(name)
 end)
 
 RegisterNetEvent("Dirk-Core:Physicals:AddPhysical", function(name,data)
-  print('Adding Physical')
   if Core.Objects.Physicals[name] then Core.Objects.Physicals[name].remove(); end 
   Core.Objects.CreatePhysical(name,data)
 end)
@@ -217,14 +271,37 @@ Citizen.CreateThread(function()
     dataLoaded = true
   end)
   while not dataLoaded do Wait(0); end
+
+
   while true do 
     local wait_time = 1000
     local ply = PlayerPedId()
     local pos = GetEntityCoords(ply)
+
+    if Core.Objects.Holding.object then 
+      wait_time = 0 
+      SetPedMoveRateOverride(ply, tonumber(Core.Objects.Holding.speed))
+      if not IsEntityPlayingAnim(ply, "anim@heists@box_carry@", "idle", 3) then
+        TaskPlayAnim(ply,"anim@heists@box_carry@","idle",1.0, -1.0, -1, 49, 0, 0, 0, 0)
+      end 
+
+      Core.UI.AdvancedHelpNotif("CarryObject", {
+        {
+          key   = "g",
+          label = "Drop Object",
+        }
+      })
+
+      if IsControlJustPressed(0,47) then 
+        Core.Objects.Physicals[Core.Objects.Holding.name].drop();
+      end
+    end
+
+
     for k,v in pairs(Core.Objects.Physicals) do 
       if #(pos - v.position.xyz) <= 50.0 then 
-        wait_time = 500
-        if not v.object then
+        if wait_time >= 500 then wait_time = 500; end 
+        if not v.object and v.canSpawn then
           v.spawn()
         elseif v.object then 
           if not v.canSpawn then 
@@ -243,5 +320,26 @@ Citizen.CreateThread(function()
       end
     end
     Wait(wait_time)
+  end
+end)
+
+RegisterNetEvent("onResourceStop", function(rN)
+  local affected = 0 
+  if rN == GetCurrentResourceName() then 
+    for k,v in pairs(Core.Objects.Physicals) do 
+      v.remove()
+      affected = affected + 1
+    end
+
+  else
+    for k,v in pairs(Core.Objects.Physicals) do 
+      if v.resource == rN then
+        v.remove()
+        affected = affected + 1
+      end
+    end
+  end
+  if affected > 0 then 
+    print("^2Dirk-Core^7 | Cleaned up ^5"..affected.."^7 Physical Objects for resource: ^3"..rN.."^7")
   end
 end)
