@@ -13,7 +13,7 @@ local SupportedResources = {
   Framework      = {'es_extended', 'qb-core'},
   KeySystem      = {'qb-vehiclekeys', 'cd_garage'},
   DispatchSystem = {'ps-dispatch', 'cd_dispatch'},
-  PhoneSystem    = {'qs-smartphone', 'lb-phone', 'nwpd', 'qb-phone'},
+  PhoneSystem    = {'qs-smartphone', 'gks_phone', 'lb-phone', 'nwpd', 'qb-phone'},
 }
 
 local FoundResources = {}

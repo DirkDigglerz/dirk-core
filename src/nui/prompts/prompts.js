@@ -98,7 +98,6 @@ window.addEventListener('message', function (event) {
     });
   } else if (event.data.type == 'hide') {
     $(Current[event.data.name]).fadeOut(600, function () {
-      console.log('Finsiehd')
       $(Current[event.data.name]).remove();
     });
   

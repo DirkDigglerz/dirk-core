@@ -32,7 +32,7 @@ Core.UI = {
       link        = link,
     })
   end,
-
+  
   CopyToClipboard = function(val)
     SendNUIMessage({
       type        = "copy",

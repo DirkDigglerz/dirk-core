@@ -37,7 +37,7 @@ Core = {
 
         for k,v in pairs(toAdd) do
           if not indexed[k] then
-            MySQL.insert('INSERT INTO items (name, label) VALUES (?, ?)', {k, v.label}, function(id)
+            MySQL.insert(string.format('INSERT INTO %s (name, label) VALUES (?, ?)', Config.ItemsDatabaseName), {k, v.label}, function(id)
               print('Item:',k, " has been added to your database because it was missing")
             end)
           end
