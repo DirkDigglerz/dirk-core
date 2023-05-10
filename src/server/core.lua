@@ -1,4 +1,11 @@
 Core = {
+  States = {},
+
+  ChangeState = function(name,data)
+    Core.States = data
+    TriggerClientEvent("Dirk-Core:States:Update", -1, name, data)
+  end,
+
   Callback = function(name,route)
     if Config.Framework == "es_extended" then
       ESX.RegisterServerCallback(name,route)

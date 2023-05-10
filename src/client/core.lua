@@ -1,4 +1,14 @@
 Core = {
+  States = {},
+
+  ChangeState = function(name,data)
+    Core.States[name] = data
+  end,
+
+  updateGlobalState = function(name,data)
+    TriggerServerEvent("Dirk-Core:States:Update", name, data)
+  end,
+
   Callback = function(name,cb,...)
     if Config.Framework == "es_extended" then
       ESX.TriggerServerCallback(name,cb,...)
@@ -15,3 +25,7 @@ Core = {
     return c
   end
 }
+
+RegisterNetEvent("Dirk-Core:States:Update", function(name,data)
+  Core.States.ChangeState(name,data)
+end)

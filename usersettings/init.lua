@@ -1,3 +1,7 @@
+function string.insert(str1, str2, pos)
+    return str1:sub(1,pos)..str2..str1:sub(pos+1)
+end
+
 local SupportedResources = {
   Inventory = {
     ['qb-inventory'] = "qb-inventory/html/images/",
@@ -18,6 +22,23 @@ local SupportedResources = {
 
 local FoundResources = {}
 Citizen.CreateThread(function()
+  for type,resources in pairs(SupportedResources) do 
+    for index,resource in pairs(resources) do 
+      if type == "Inventory" then 
+        if Config.AlternativeResourceNames[type][index] then 
+          print("^2Dirk-Core^7 | You are using ^5"..Config.AlternativeResourceNames[type][index].."^7 as an alternative name for ^3"..index.."^7")
+          SupportedResources[type][Config.AlternativeResourceNames[type][index]] = resource
+          SupportedResources[type][index] = nil
+        end
+      else
+        if Config.AlternativeResourceNames[type][resource] then 
+          print("^2Dirk-Core^7 | You are using ^5"..Config.AlternativeResourceNames[type][resource].."^7 as an alternative name for ^3"..SupportedResources[type][index].."^7")
+          SupportedResources[type][index] = Config.AlternativeResourceNames[type][resource]
+        end  
+      end
+    end
+  end
+
   for type,resources in pairs(SupportedResources) do 
     if type == "TargetSystem" then 
       local ox_target = GetResourceState('ox_target')
