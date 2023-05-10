@@ -95,4 +95,5 @@ Citizen.CreateThread(function()
       RegisterNetEvent('QBCore:Client:UpdateObject', function() QBCore = exports['qb-core']:GetCoreObject(); end)
     end
   end
+  Core.DataLoaded = true
 end)

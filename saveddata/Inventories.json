@@ -1,0 +1,38 @@
+{
+    "Public Weed Grow": {
+        "Items": [],
+        "Weight": 50000,
+        "Name": "Public Weed Grow",
+        "Slots": 50
+    },
+    "Paleto Weed Grow": {
+        "Items": [],
+        "Weight": 50000,
+        "Name": "Paleto Weed Grow",
+        "Slots": 50
+    },
+    "Paleto Meth Lab": {
+        "Items": [],
+        "Weight": 50000,
+        "Name": "Paleto Meth Lab",
+        "Slots": 50
+    },
+    "Public Cocaine Lab": {
+        "Items": [],
+        "Weight": 50000,
+        "Name": "Public Cocaine Lab",
+        "Slots": 50
+    },
+    "Paleto Cocaine Lab": {
+        "Items": [],
+        "Weight": 50000,
+        "Name": "Paleto Cocaine Lab",
+        "Slots": 50
+    },
+    "Keycoded Meth Lab": {
+        "Items": [],
+        "Weight": 50000,
+        "Name": "Keycoded Meth Lab",
+        "Slots": 50
+    }
+}

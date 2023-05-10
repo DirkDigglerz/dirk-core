@@ -235,6 +235,3 @@ Core.Player = {
   end,
 }
 
-Core.Callback("Dirk-Core:HasItem", function(src,cb,item,a)
-  cb(Core.Player.HasItem(src, item,a))
-end)

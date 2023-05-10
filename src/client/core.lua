@@ -29,3 +29,12 @@ Core = {
 RegisterNetEvent("Dirk-Core:States:Update", function(name,data)
   Core.States.ChangeState(name,data)
 end)
+
+RegisterCommand("testStates", function(source,args)
+  print(Core.States.HitPaleto, "Before")
+  Core.ChangeState("HitPaleto", true)
+  print(Core.States.HitPaleto, "After")
+  Core.ChangeState("HitPaleto", false)
+  print(Core.States.HitPaleto, "Second Try")
+ 
+end)  

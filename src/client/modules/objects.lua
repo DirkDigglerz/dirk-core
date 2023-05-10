@@ -13,19 +13,6 @@ Core.Objects = {
 
   Physicals = {}, 
 
-
-  CreatePhysical("obj:12312", {
-    model        = "prop_cs_pamphlet_01",
-    position     = vector3(0,0,0),
-    interactions = {
-      Search = true, 
-      Carry  = true,
-      Grab   = true,
-    },
-  })
-
-end
-
   CreatePhysical = function(name,data) --## Will create a physical object in the world a player will spawn/despawn when they get close to 
     local self = {}
     self.name            = name 
@@ -48,7 +35,7 @@ end
     self.despawn = function()
       if self.object then 
         DeleteEntity(self.object)
-        if Settings.TargetSystem ~= "drawText" then 
+        if Config.TargetSystem ~= "drawText" then 
           self.removeTarget()
         end
         self.object = nil
@@ -58,6 +45,8 @@ end
     self.spawn = function()
       while not HasModelLoaded(self.hash) do RequestModel(self.hash) Wait(0); end 
       self.object = CreateObject(self.hash, self.position.x,self.position.y,self.position.z,false,true, false)
+      print(self.position)
+      SetEntityHeading(self.object, (self.position['w'] or 0.0))
       FreezeEntityPosition(self.object,true)
       SetModelAsNoLongerNeeded(self.hash)
       self.addTarget()
@@ -70,13 +59,14 @@ end
         Options  = {
           {
             canInteract = function()
-              if self.disabled then return false; end
+              if not self.canInteract then return false; end
               if self.metadata['searched'] then return false; end 
               if not self.interactions["Search"] then return false; end
+              return true
             end,
 
             action      = function()
-
+              self.search()
             end, 
 
             label       = "Search",
@@ -84,22 +74,23 @@ end
           },
           {
             canInteract = function()
-              if self.disabled then return false; end
+              if not self.canInteract then return false; end
               if not self.interactions["Carry"] then return false; end
               return true
             end,
 
             action      = function()
-
+              self.carry()
             end, 
 
             label       = "Carry",
-            icon        = "fas fa-search",
+            icon        = "fas fa-people-carry-box",
           },
           {
             canInteract = function()
-              if self.disabled then return false; end
+              if not self.canInteract then return false; end
               if not self.interactions["Grab"] then return false; end
+              return true
             end,
 
             action      = function()
@@ -107,7 +98,7 @@ end
             end, 
 
             label       = "Grab",
-            icon        = "fas fa-search",
+            icon        = "fas fa-hands-holding-circle",
           },
 
         }
@@ -165,7 +156,6 @@ end
     end
 
     self.drop = function()
-      print('newPosition needs added')
       Core.Objects.Carrying = nil
       self.globalState({
         canSpawn = true, 
@@ -192,14 +182,11 @@ end
         --## Grab Anim
       end
     end
-    
-
 
     Core.Objects.Physicals[name] = self
     return self 
   end, 
 }
-
 
 RegisterNetEvent("Dirk-Core:Physicals:State", function(name, data)
   if Core.Objects.Physicals[name] then 
@@ -214,36 +201,37 @@ RegisterNetEvent("Dirk-Core:Physicals:RemovePhysical", function(name)
 end)
 
 RegisterNetEvent("Dirk-Core:Physicals:AddPhysical", function(name,data)
+  print('Adding Physical')
   if Core.Objects.Physicals[name] then Core.Objects.Physicals[name].remove(); end 
   Core.Objects.CreatePhysical(name,data)
 end)
 
 Citizen.CreateThread(function()
-  Core.Callback("Dirk-Core:Physicals:GetPhysicals", function(cb)
-    for k,v in pairs(cb) do 
+  while not Config.Framework do Wait(500); end
+  while not Core.Player.Ready() do Wait(500); end
+  local dataLoaded = nil
+  Core.Callback("Dirk-Core:Physicals:GetPhysicals", function(ret)
+    for k,v in pairs(ret) do 
       Core.Objects.CreatePhysical(k,v)
     end
     dataLoaded = true
   end)
-
   while not dataLoaded do Wait(0); end
-  
   while true do 
     local wait_time = 1000
     local ply = PlayerPedId()
     local pos = GetEntityCoords(ply)
     for k,v in pairs(Core.Objects.Physicals) do 
-      if #(pos - v.position) <= 50.0 then 
+      if #(pos - v.position.xyz) <= 50.0 then 
+        wait_time = 500
         if not v.object then
           v.spawn()
         elseif v.object then 
           if not v.canSpawn then 
             v.despawn()
           else
-            if Settings.TargetSystem == "drawText" then 
+            if Config.TargetSystem == "drawText" then 
               --## Check distance for drawText and put that logic here
-
-              
 
             end
           end
@@ -254,5 +242,6 @@ Citizen.CreateThread(function()
         end
       end
     end
+    Wait(wait_time)
   end
 end)

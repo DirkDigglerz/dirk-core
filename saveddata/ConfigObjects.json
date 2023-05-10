@@ -1,0 +1,33 @@
+{
+    "Car-Keys": {
+        "GrabMin": 1,
+        "GrabItem": "car-keys",
+        "GrabMax": 1,
+        "Tiny": 0.3,
+        "Model": "p_car_keys_01",
+        "Grab": true
+    },
+    "Monitor": {
+        "Carry": 0.25,
+        "GrabItem": "car-keys",
+        "Search": false,
+        "MaxPrice": 1000,
+        "Tiny": 1.0,
+        "Model": "ex_prop_monitor_01_ex",
+        "PRot": {
+            "y": 0.0,
+            "X": 0.0,
+            "z": 0.0
+        },
+        "Grab": false,
+        "Weight": 100,
+        "GrabMax": 1,
+        "MinPrice": 500,
+        "PPos": {
+            "y": 0.0,
+            "X": 0.0,
+            "z": 0.0
+        },
+        "GrabMin": 1
+    }
+}

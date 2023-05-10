@@ -104,4 +104,3 @@ Core = {
     return c
   end,
 }
-

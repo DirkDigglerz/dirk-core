@@ -19,11 +19,11 @@ Config = {
   ------------------------------------------------------------------------------------------------------------------------------------------------------------
   UsingClassicCommand = false, --## If you want to use the old command /target
 
-  AlternativeResourceNames = {
+  AlternativeResourceNames = { --## Replace false with the alternative name you have used for that resource if you are renaming resources.
     Inventory = {
-      ['qb-inventory'] = 'johboy-inventory',
+      ['qb-inventory'] = false,
       ['lj-inventory'] = false,
-      ['ox_inventory'] = 'johboy-inventory',
+      ['ox_inventory'] = false,
       ['mf-inventory'] = false,
       ['qs-inventory'] = false,
     },
@@ -35,7 +35,7 @@ Config = {
     TimeSystem     = {
       ['vSync'] = false,
       ['cd_easytime']    = false,
-      ['qb-weathersync'] = 'johnboy_weather',
+      ['qb-weathersync'] = false,
     },
     JailSystem     = {
       ['esx_jail']  = false,

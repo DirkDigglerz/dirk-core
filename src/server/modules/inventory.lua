@@ -1,4 +1,7 @@
+Core.Inventories = {}
+
 Core.Inventory = {
+
 
   UseableItem = function(name, cb)
     if Config.Framework == "es_extended" then
@@ -287,28 +290,6 @@ local cleanse = function(t)
   return t
 end
 
-Core.Callback("Dirk:Inventory:Open", function(src,cb,id)
-  local tInv = Core.Inventory.GetById(id)
-  if not tInv then cb(nil, nil) return false; end
-  if tInv.inUse then cb(nil,nil) return false; end
-  tInv.ChangeUse(true)
-
-
-
-  local invs = {
-    {
-      id = "Player",
-      label = "My Inventory",
-      items = cleanse(Core.Player.Inventory(src)),
-    },
-    {
-      id = tInv.ID,
-      label = tInv.Name,
-      items = cleanse(tInv.Items),
-    },
-  }
-  cb(invs)
-end)
 
 -- TriggerServerEvent("Dirk:Inventory:Transfer", "Player", "ID1", {
 --     name = "bread",
