@@ -17,6 +17,7 @@ Core.Objects = {
   CreatePhysical = function(name,data) --## Will create a physical object in the world a player will spawn/despawn when they get close to 
     local self = {}
     self.name            = name 
+    self.label           = data.label or "Nothing"
     self.model           = data.model
     self.position        = data.position
     self.resource        = data.resource
@@ -263,6 +264,7 @@ end)
 Citizen.CreateThread(function()
   while not Config.Framework do Wait(500); end
   while not Core.Player.Ready() do Wait(500); end
+  while not Core.Target do Wait(500); end
   local dataLoaded = nil
   Core.Callback("Dirk-Core:Physicals:GetPhysicals", function(ret)
     for k,v in pairs(ret) do 
@@ -271,7 +273,33 @@ Citizen.CreateThread(function()
     dataLoaded = true
   end)
   while not dataLoaded do Wait(0); end
+  local busy = nil
+  Core.Target.AddGlobalVehicle({
+    Distance = 1.5, 
+    Options  = { 
+      {
+        canInteract = function()
+          if busy or not Core.Objects.Holding.object then return false; end
+          return true
+        end,
 
+        action = function(...)
+          local arg = {...}
+          local class = Core.Vehicle.GetVehicleClass(arg.entity)
+          local plate = GetVehicleNumberPlateText(arg.entity)
+          busy = true
+          Core.Callback("Dirk-Core:Physicals:PlaceInTrunk", function(can)
+            if can then 
+
+            end
+            busy = nil
+          end, Core.Objects.Holding.name, plate, class)
+        end,
+        icon  = "fas fa-box-open",
+        label = "Place Object",
+      }
+    },
+  })
 
   while true do 
     local wait_time = 1000
@@ -309,7 +337,6 @@ Citizen.CreateThread(function()
           else
             if Config.TargetSystem == "drawText" then 
               --## Check distance for drawText and put that logic here
-
             end
           end
         end
