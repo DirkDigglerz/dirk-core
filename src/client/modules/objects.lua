@@ -80,7 +80,7 @@ Core.Objects = {
         Options  = {
           {
             canInteract = function(entity, distance, data)
-              if distance >= 1.2 then return false; end
+              if distance >= 1.35 then return false; end
               if not self.canInteract then return false; end
               if self.metadata['searched'] then return false; end 
               if not self.interactions["Search"] then return false; end
@@ -96,7 +96,7 @@ Core.Objects = {
           },
           {
             canInteract = function(entity, distance, data)
-              if distance >= 1.2 then return false; end
+              if distance >= 1.35 then return false; end
               if not self.canInteract then return false; end
               if not self.interactions["Carry"] then return false; end
               return true
@@ -111,7 +111,7 @@ Core.Objects = {
           },
           {
             canInteract = function(entity, distance, data)
-              if distance >= 1.2 then return false; end
+              if distance >= 1.35 then return false; end
               if not self.canInteract then return false; end
               if not self.interactions["Grab"] then return false; end
               return true

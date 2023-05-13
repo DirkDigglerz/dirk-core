@@ -14,7 +14,7 @@ Config = {
   ItemsDatabaseName = "items", --## ESX Users this will usually just be items its for autoadding items
   StashSystem       = "default", --## If default then will use ox,qs,mf and qb-core inventories. if "dirk" then will use my stash system (ESX Default Inv will need to use mine)
   --## DEBUG FOR TARGET ZONES
-  DrawDebug    = true,
+  DrawDebug    = false,
   ------------------------------------------------------------------------------------------------------------------------------------------------------------
   UsingClassicCommand = false, --## If you want to use the old command /target
 
