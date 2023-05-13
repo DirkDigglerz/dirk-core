@@ -14,6 +14,20 @@ Core.Objects = {
   Physicals = {}, 
   Holding   = {},
 
+  DeleteHolding = function()
+    ClearPedTasksImmediately(PlayerPedId())
+    DeleteEntity(Core.Objects.Holding.object)
+    Core.Objects.Holding = {}
+  end,
+
+  GetHolding = function()
+    return Core.Objects.Holding
+  end,
+
+  GetPhysical = function(name)
+    return Core.Objects.Physicals[name]
+  end,
+
   CreatePhysical = function(name,data) --## Will create a physical object in the world a player will spawn/despawn when they get close to 
     local self = {}
     self.name            = name 
@@ -21,13 +35,13 @@ Core.Objects = {
     self.model           = data.model
     self.position        = data.position
     self.resource        = data.resource
-
+    self.placeOnGround   = true or data.placeOnGround
 
     self.interactions    = data.interactions or {}
     self.metadata        = data.metadata or {}
     self.canSpawn        = data.canSpawn or false
     self.canInteract     = data.canInteract or true
-    self.searchTime      = data.searchTime or (5000)
+
 
 
     --## Client Variables
@@ -51,6 +65,9 @@ Core.Objects = {
       while not HasModelLoaded(self.hash) do RequestModel(self.hash) Wait(0); end 
       self.object = CreateObject(self.hash, self.position.x,self.position.y,self.position.z,false,true, false)
       SetEntityHeading(self.object, (self.position['w'] or 0.0))
+      if self.placeOnGround then 
+        PlaceObjectOnGroundProperly(self.object)
+      end
       FreezeEntityPosition(self.object,true)
       SetModelAsNoLongerNeeded(self.hash)
       self.addTarget()
@@ -59,10 +76,11 @@ Core.Objects = {
     self.addTarget = function()
       Core.Target.AddEntity(self.object, {
         Local    = true, 
-        Distance = 1.5,
+        Distance = 0.5,
         Options  = {
           {
-            canInteract = function()
+            canInteract = function(entity, distance, data)
+              if distance >= 1.2 then return false; end
               if not self.canInteract then return false; end
               if self.metadata['searched'] then return false; end 
               if not self.interactions["Search"] then return false; end
@@ -77,7 +95,8 @@ Core.Objects = {
             icon        = "fas fa-search",
           },
           {
-            canInteract = function()
+            canInteract = function(entity, distance, data)
+              if distance >= 1.2 then return false; end
               if not self.canInteract then return false; end
               if not self.interactions["Carry"] then return false; end
               return true
@@ -91,7 +110,8 @@ Core.Objects = {
             icon        = "fas fa-people-carry-box",
           },
           {
-            canInteract = function()
+            canInteract = function(entity, distance, data)
+              if distance >= 1.2 then return false; end
               if not self.canInteract then return false; end
               if not self.interactions["Grab"] then return false; end
               return true
@@ -208,7 +228,7 @@ Core.Objects = {
         local ply = PlayerPedId()
         FreezeEntityPosition(ply, true, true)
         TaskStartScenarioInPlace(ply, "PROP_HUMAN_BUM_BIN", 0, true)
-        Wait(self.searchTime * 1000)
+        Wait(self.interactions.Search.Time * 1000)
         TaskStartScenarioInPlace(ply, "PROP_HUMAN_BUM_BIN", 0, false)
         Wait(100)
         FreezeEntityPosition(ply, false, false)
@@ -256,6 +276,12 @@ RegisterNetEvent("Dirk-Core:Physicals:RemovePhysical", function(name)
   end
 end)
 
+RegisterNetEvent("Dirk-Core:Physicals:CreateMass", function(data)
+  for k,v in pairs(data) do 
+    Core.Objects.CreatePhysical(k,v)
+  end
+end)
+
 RegisterNetEvent("Dirk-Core:Physicals:AddPhysical", function(name,data)
   if Core.Objects.Physicals[name] then Core.Objects.Physicals[name].remove(); end 
   Core.Objects.CreatePhysical(name,data)
@@ -278,19 +304,30 @@ Citizen.CreateThread(function()
     Distance = 1.5, 
     Options  = { 
       {
-        canInteract = function()
+        canInteract = function(entity, distance, data,name, bone)
+          if distance >= 1.0 then return false; end
           if busy or not Core.Objects.Holding.object then return false; end
           return true
         end,
 
         action = function(...)
-          local arg = {...}
-          local class = Core.Vehicle.GetVehicleClass(arg.entity)
-          local plate = GetVehicleNumberPlateText(arg.entity)
+          local argR = {...}
+          local arg = argR[1]
+          local _,class = Core.Vehicle.GetVehicleClass(arg.entity)
+          local plate, varplate   = GetVehicleNumberPlateText(arg.entity)
           busy = true
           Core.Callback("Dirk-Core:Physicals:PlaceInTrunk", function(can)
             if can then 
-
+              ClearPedTasksImmediately(PlayerPedId())
+              ClearPedTasks(PlayerPedId())
+              DeleteEntity(Core.Objects.Holding.object)
+              Core.Objects.Holding = {}
+              Core.Objects.Physicals[Core.Objects.Holding.name].metadata.carried = false
+              Core.Objects.Physicals[Core.Objects.Holding.name].globalState({
+                metadata = self.metadata,
+                canSpawn = false, 
+                position = nPos,
+              })
             end
             busy = nil
           end, Core.Objects.Holding.name, plate, class)
@@ -350,8 +387,21 @@ Citizen.CreateThread(function()
   end
 end)
 
+RegisterNetEvent("Dirk-Core:Physicals:MassUpdate", function(table)
+  for k,v in pairs(table) do 
+    if Core.Objects.Physicals[k] then 
+      for type,value in pairs(v) do 
+        Core.Objects.Physicals[k][type] = value
+      end
+    end
+  end
+end)
+
 RegisterNetEvent("onResourceStop", function(rN)
   local affected = 0 
+  if Core.Objects.Holding.object then 
+    DeleteEntity(Core.Objects.Holding.object)
+  end
   if rN == GetCurrentResourceName() then 
     for k,v in pairs(Core.Objects.Physicals) do 
       v.remove()

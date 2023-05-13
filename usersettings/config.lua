@@ -64,6 +64,7 @@ Config = {
     JailSystem     = {
       ['esx_jail']  = false,
       ['qb-prison'] = false,
+      ['rcore_prison'] = false,
     },
     ProgressBar    = {
       ['progressbar'] = false,

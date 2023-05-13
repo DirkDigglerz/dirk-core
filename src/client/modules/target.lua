@@ -16,6 +16,7 @@ Core.Target = {
     elseif Config.TargetSystem == "ox_target" then
       for k,v in pairs(data.Options) do
         data.Options[k].onSelect = v.action
+        data.Options[k].distance = (data.Distance or 1.5)
       end
       local newTarget = exports['ox_target']:addBoxZone({
         coords = vector3(data.Position.x, data.Position.y, data.Position.z),
@@ -38,6 +39,7 @@ Core.Target = {
     elseif Config.TargetSystem == "ox_target" then
       for k,v in pairs(data.Options) do
         data.Options[k].onSelect = v.action
+      --  data.Options[k].distance = (data.Distance or 1.5)
       end
       if not data.Local then
         local id = NetworkGetNetworkIdFromEntity(entity)
@@ -69,6 +71,7 @@ Core.Target = {
     elseif Config.TargetSystem == "ox_target" then
       for k,v in pairs(data.Options) do
         data.Options[k].onSelect = v.action
+       -- data.Options[k].distance = (data.Distance or 1.5)
       end
       return exports.ox_target:addGlobalVehicle(data.Options)
     end

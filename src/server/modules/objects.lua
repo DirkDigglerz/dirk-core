@@ -1,7 +1,5 @@
-
-
-Core.Objects = {
-  Trunks = {},
+Core.Trunks = {
+  Data = {},
   CreateNew = function(plate,data)
     local self = {}
     self.plate = plate
@@ -10,7 +8,7 @@ Core.Objects = {
     self.max   = data.max or Config.VehicleClassCapacities[data.vehicleClass] or 250
 
     self.save = function()
-      Core.Files.Save("objectTrunks.json", Core.Objects.Trunks)
+      Core.Files.Save("objectTrunks.json", Core.Trunks.Data)
     end
 
     self.canHold = function(weight)
@@ -36,8 +34,6 @@ Core.Objects = {
           }
           self.save()
           return true
-        else
-          return false
         end
       else
         if self.canHold(item.Weight) then 
@@ -48,10 +44,9 @@ Core.Objects = {
           }
            self.save()
           return true
-        else 
-          return false
         end
       end
+      return false
     end
 
     self.removeItem = function(item,amount)
@@ -71,7 +66,6 @@ Core.Objects = {
       return false
     end
 
-
     self.hasItem = function(item, amount)
       if self.items[item] and self.items[item].Amount >= amount then 
         return true
@@ -87,16 +81,35 @@ Core.Objects = {
 
 
     self.save()
-    Core.Objects.Trunks[plate] = self
+    Core.Trunks.Data[plate] = self
   end,
 
   GetTrunk = function(plate)
-    return Core.Objects.Trunks[plate]
+    return Core.Trunks.Data[plate]
   end,
+}
 
+
+Core.Objects = {
   Physicals = {}, 
 
-  CreatePhysical = function(name,data) --## Will create a physical object in the world a player will spawn/despawn when they get close to 
+  Mass = {},
+
+  GetPhysical = function(id)
+    return Core.Objects.Physicals[id]
+  end,
+
+  CreateMassPhysical = function(table)
+    for k,v in pairs(table) do 
+      Core.Objects.CreatePhysical(k,v, true)
+    end
+    TriggerClientEvent("Dirk-Core:Physicals:CreateMass", -1, Core.Objects.Mass)
+    Core.Objects.Mass = {}
+  end,
+
+
+
+  CreatePhysical = function(name,data, mass) --## Will create a physical object in the world a player will spawn/despawn when they get close to 
     local self = {}
     self.resource        = GetInvokingResource()
     self.name            = name 
@@ -107,8 +120,7 @@ Core.Objects = {
     self.metadata        = data.metadata or {}
     self.canSpawn        = data.canSpawn or false
     self.canInteract     = data.canInteract or false
-    self.searchTime      = data.searchTime or (1000 * 5)
-    self.maxLoot         = data.maxLoot or 1
+    self.placeOnGround   = true or data.placeOnGround
 
     self.globalState = function(data)
       for k,v in pairs(data) do 
@@ -133,7 +145,7 @@ Core.Objects = {
         self.globalState({
           metadata = self.metadata,
         })
-        for k,v in pairs(self.interactions.Search) do 
+        for k,v in pairs(self.interactions.Search.Loot) do 
           math.randomseed(os.time() * math.random(1231))
           local chance = math.random(100)
           if chance <= v.chance then 
@@ -152,29 +164,41 @@ Core.Objects = {
       end
     end
 
-    self.placeInTrunk = function(plate, class)
-      local trunk = Core.Objects.GetTrunk(plate)
+    self.placeInTrunk = function(src,plate, class)
+      local trunk = Core.Trunks.GetTrunk(plate)
       if trunk then 
-        if trunk.canHold(self.Interactions.Carry.Weight) then 
-          if trunk.addItem({
+        if trunk.canHold(self.interactions.Carry.Weight) then 
+          trunk.addItem({
             Model  = self.model, 
-            Weight = self.Interactions.Carry.Weight, 
+            Weight = self.interactions.Carry.Weight, 
             Label  = self.label, 
-          }, 1) then 
-            self.removePhysical()
-          end
+          }, 1) 
+          return true
         else
           Core.UI.Notify(src, "This trunk is full.")
+          return false
         end
       else
-     
+        --## Create Trunk if not one
+        Core.Trunks.CreateNew(plate, {
+          items = {
+            [self.name] = {
+              Label  = self.label,
+              Amount = 1,
+              Weight = self.interactions.Carry.Weight,
+            },
+          },
+          class = class,
+          max   = (Config.VehicleClassCapacities[class] or 250)
+        })
+        return true
       end
     end
 
     self.Grabbed = function(src)
       if not self.metadata.grabbed then 
         local lootedAmount = 0 
-        for k,v in pairs(self.interactions.Grab) do 
+        for k,v in pairs(self.interactions.Grab.Loot) do 
           math.randomseed(os.time() * math.random(1231))
           local chance = math.random(100)
           if chance <= v.chance then 
@@ -201,7 +225,12 @@ Core.Objects = {
         clientData[k] = v
       end
     end
-    TriggerClientEvent("Dirk-Core:Physicals:AddPhysical", -1, self.name, clientData)
+    if not mass then 
+      TriggerClientEvent("Dirk-Core:Physicals:AddPhysical", -1, self.name, clientData)
+    else
+      Core.Objects.Mass[name] = clientData 
+    end
+    
     return self 
   end, 
 }
@@ -232,17 +261,18 @@ RegisterNetEvent("Dirk-Core:Physicals:RemovePhysical", function(name)
   end
 end)
 
-Core.Callbac("Dirk-Core:Physicals:PlaceItemInTrunk", function(source,cb, name, plate, class)
-  if Core.Objects.Physicals[name] then 
-    local canPlace = Core.Objects.Physicals[name].placeInTrunk(plate, class)
-    while not canPlace do Wait(500); end
-    cb(canPlace)
+RegisterNetEvent("Dirk-Core:Physicals:MassUpdate", function(table)
+  for k,v in pairs(table) do 
+    if Core.Objects.Physicals[k] then 
+      for type,value in pairs(v) do 
+        Core.Objects.Physicals[k][type] = value
+      end
+    end
   end
+  TriggerClientEvent("Dirk-Core:Physicals:MassUpdate", -1, table)
 end)
 
-RegisterNetEvent("Dirk-Core:Physicals:PlaceItemInTrunk", function(name, plate, class)
 
-end)
 
 -- Probably not the best idea to let clients do this :shrug:
 -- RegisterNetEvent("Dirk-Core:Physicals:AddPhysical", function(name,data)
@@ -312,4 +342,16 @@ Citizen.CreateThread(function()
     }
     cb(invs)
   end)
+
+  while not Core.Objects do Wait(500); end 
+  Core.Callback("Dirk-Core:Physicals:PlaceInTrunk", function(source,cb, name, plate, class)
+    print('Callback')
+    if Core.Objects.Physicals[name] then 
+      print('CanPlace')
+      local canPlace = Core.Objects.Physicals[name].placeInTrunk(source, plate, class)
+      while canPlace == nil do Wait(500); end
+      cb(canPlace)
+    end
+  end)
+
 end)

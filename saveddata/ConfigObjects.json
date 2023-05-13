@@ -1,33 +1,33 @@
 {
-    "Monitor": {
-        "Grab": false,
-        "PRot": {
-            "X": 0.0,
-            "y": 0.0,
-            "z": 0.0
-        },
-        "GrabMax": 1,
-        "MinPrice": 500,
-        "GrabItem": "car-keys",
-        "Model": "ex_prop_monitor_01_ex",
-        "Weight": 100,
-        "GrabMin": 1,
-        "Search": false,
-        "MaxPrice": 1000,
-        "Carry": 0.25,
-        "PPos": {
-            "X": 0.0,
-            "y": 0.0,
-            "z": 0.0
-        },
-        "Tiny": 1.0
-    },
     "Car-Keys": {
-        "Grab": true,
-        "GrabMax": 1,
         "GrabMin": 1,
-        "GrabItem": "car-keys",
+        "Model": "p_car_keys_01",
         "Tiny": 0.3,
-        "Model": "p_car_keys_01"
+        "GrabItem": "car-keys",
+        "Grab": true,
+        "GrabMax": 1
+    },
+    "Monitor": {
+        "PPos": {
+            "y": 0.0,
+            "X": 0.0,
+            "z": 0.0
+        },
+        "Grab": false,
+        "Model": "ex_prop_monitor_01_ex",
+        "Carry": 0.25,
+        "Search": false,
+        "GrabItem": "car-keys",
+        "Tiny": 1.0,
+        "PRot": {
+            "y": 0.0,
+            "X": 0.0,
+            "z": 0.0
+        },
+        "GrabMin": 1,
+        "Weight": 100,
+        "MinPrice": 500,
+        "MaxPrice": 1000,
+        "GrabMax": 1
     }
 }
