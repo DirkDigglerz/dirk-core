@@ -38,23 +38,87 @@ Core.Game = {
   end,
 
   ChooseNearbyPlayer = function()
-    Core.UI.Notify("Look at the player you wish to select")
-    while true do
-      local ply = PlayerPedId()
-      local pos = GetEntityCoords(ply)
-      local pool = Core.Game.GetEntityPool({'CPed'})
-      local nearby = {}
-      local coords = GetEntityCoords(v)
-      local hit, endCoords, entityHit = Core.UI.ScreenToWorld()
-
-      if (endCoords ~= vector3(0,0,0) and entityHit ~= ply) then
-        if entityHit == v then
-          Core.UI.ShowHelpNotification("Press ~INPUT_THROW_GRENADE~ to select this player")
-          if IsControlJustPressed(0,47) then
-            return v
-          end
-        end
+    print('Choosing Nearby')
+    local pedPool = Core.Game.GetEntityPool({'CPed'})
+    local nearPlayers = {}
+    local ply = PlayerPedId()
+    local pos = GetEntityCoords(ply)
+    local currentSelect, index = nil, nil
+    for k,v in pairs(pedPool) do 
+      if IsPedAPlayer(v) and v ~= ply then 
+        local pedCoords = GetEntityCoords(v)
+        local distance  = #(pedCoords - pos)
+        if distance <= 20.0 then 
+          table.insert(nearPlayers, v)     
+        end 
       end
+    end
+
+    for k,v in pairs(nearPlayers) do 
+      if k then 
+        index = k 
+        currentSelect = nearPlayers[k]
+        break
+      end
+    end
+
+    while true do
+
+
+
+    
+
+      local pedCoords = GetEntityCoords(currentSelect)
+      DrawMarker(0, pedCoords.x, pedCoords.y, pedCoords.z + 1.4, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 255, 0, 100, 0, 0, 0, 0)
+
+
+
+
+      Core.UI.AdvancedHelpNotif("choosePlayer", {
+        {
+          label = "Next Player",
+          key   = "->",
+        },
+        {
+          label = "Previous player",
+          key   = "<-",
+        },
+        {
+          label = "Select Player",
+          key   = "g",
+        },
+        {
+          label = "Cancel",
+          key   = "c",
+        },
+      })
+
+
+        if IsControlJustPressed(0,175) then
+          if index + 1 > #nearPlayers then
+            index = 1
+          else
+            index = index + 1
+          end
+          currentSelect = nearPlayers[index]
+
+        elseif IsControlJustPressed(0,174) then
+          if index - 1 <= 0 then
+            index = #nearPlayers
+          else
+            index = index - 1
+          end
+          currentSelect = nearPlayers[index]
+        elseif IsControlJustPressed(0,47) then
+        if IsPedAPlayer(currentSelect) then
+          return GetPlayerServerId(NetworkGetPlayerIndexFromPed(currentSelect))
+        else
+          Core.UI.Notify("This is not a player")
+        end
+      elseif IsControlJustPressed(0,79) then
+        return nil
+      end
+      
       Wait(0)
     end
   end,
