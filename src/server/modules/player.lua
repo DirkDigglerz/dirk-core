@@ -60,7 +60,6 @@ Core.Player = {
         })
       end
     end
-
     return ret
   end,
 

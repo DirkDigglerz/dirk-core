@@ -38,7 +38,6 @@ Core.Game = {
   end,
 
   ChooseNearbyPlayer = function()
-    print('Choosing Nearby')
     local pedPool = Core.Game.GetEntityPool({'CPed'})
     local nearPlayers = {}
     local ply = PlayerPedId()

@@ -15,7 +15,6 @@ Core.Player = {
   end,
 
   Job = function()
-    print(json.encode(Core.Player.CurJob,{indent=true}))
     return Core.Player.CurJob
   end,
 

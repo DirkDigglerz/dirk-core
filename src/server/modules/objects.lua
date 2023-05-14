@@ -345,9 +345,7 @@ Citizen.CreateThread(function()
 
   while not Core.Objects do Wait(500); end 
   Core.Callback("Dirk-Core:Physicals:PlaceInTrunk", function(source,cb, name, plate, class)
-    print('Callback')
     if Core.Objects.Physicals[name] then 
-      print('CanPlace')
       local canPlace = Core.Objects.Physicals[name].placeInTrunk(source, plate, class)
       while canPlace == nil do Wait(500); end
       cb(canPlace)

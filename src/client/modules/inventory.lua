@@ -50,8 +50,8 @@ RegisterNUICallback("TransferInventory", function(data,cb)
    Core.Inventory.Transfer(data.Source, data.Target, data.Item) -- source, target, item
 end)
 
-RegisterNetEvent("Dirk:Inventory:Open", function(id)
-  Core.Inventory.Open(id)
+RegisterNetEvent("Dirk:Inventory:Open", function(id, data)
+  Core.Inventory.Open(id, data)
 end)
 
 

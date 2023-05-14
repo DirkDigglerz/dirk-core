@@ -213,7 +213,7 @@ Core.Inventory = {
 
   CheckMatch = function(a,b)
     for k,v in pairs(a) do
-      if b[k] == nil or (b[k] ~= v) then return false; end
+      if k ~= "quality" and (b[k] == nil or (b[k] ~= v)) then return false; end
     end
     return true
   end,

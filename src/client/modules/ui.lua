@@ -248,7 +248,6 @@ Citizen.CreateThread(function()
       for k,v in pairs(Core.UI.Current) do 
         if k then wait_time = 0; end
         if (GetGameTimer() - v) >= 300 then
-          print('Hiding')
           Core.UI.Current[k] = nil
           Core.UI.Hide(k)
         end
