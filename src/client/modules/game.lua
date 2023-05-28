@@ -62,17 +62,8 @@ Core.Game = {
     end
 
     while true do
-
-
-
-    
-
       local pedCoords = GetEntityCoords(currentSelect)
       DrawMarker(0, pedCoords.x, pedCoords.y, pedCoords.z + 1.4, 0, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5, 0, 255, 0, 100, 0, 0, 0, 0)
-
-
-
-
       Core.UI.AdvancedHelpNotif("choosePlayer", {
         {
           label = "Next Player",
@@ -91,24 +82,22 @@ Core.Game = {
           key   = "c",
         },
       })
+      if IsControlJustPressed(0,175) then
+        if index + 1 > #nearPlayers then
+          index = 1
+        else
+          index = index + 1
+        end
+        currentSelect = nearPlayers[index]
 
-
-        if IsControlJustPressed(0,175) then
-          if index + 1 > #nearPlayers then
-            index = 1
-          else
-            index = index + 1
-          end
-          currentSelect = nearPlayers[index]
-
-        elseif IsControlJustPressed(0,174) then
-          if index - 1 <= 0 then
-            index = #nearPlayers
-          else
-            index = index - 1
-          end
-          currentSelect = nearPlayers[index]
-        elseif IsControlJustPressed(0,47) then
+      elseif IsControlJustPressed(0,174) then
+        if index - 1 <= 0 then
+          index = #nearPlayers
+        else
+          index = index - 1
+        end
+        currentSelect = nearPlayers[index]
+      elseif IsControlJustPressed(0,47) then
         if IsPedAPlayer(currentSelect) then
           return GetPlayerServerId(NetworkGetPlayerIndexFromPed(currentSelect))
         else
@@ -117,7 +106,6 @@ Core.Game = {
       elseif IsControlJustPressed(0,79) then
         return nil
       end
-      
       Wait(0)
     end
   end,

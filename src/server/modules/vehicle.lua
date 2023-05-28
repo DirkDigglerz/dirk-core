@@ -4,12 +4,24 @@ Core.Vehicle = {
     cb(veh)
   end,
 
+  AddKeys = function(p,veh,plate) --#' This is the function called to add keys for a vehicle you own. '
+    if Config.KeySystem == "qb-vehiclekeys" then
+      TriggerEvent('qb-vehiclekeys:server:GiveVehicleKeys',p, plate)
+    elseif Config.KeySystem == "cd_garage" then
+      TriggerClientEvent('cd_garage:AddKeys', tonumber(p), exports['cd_garage']:GetPlate(plate))
+    end
+  end,
+
+  FixVehicle = function(p)
+    TriggerClientEvent("Core:Vehicle:Fix", p)
+  end,
+
   -- CreateStealable("Barnfind:2", {
   --   position = vector4(0,0,0,0),
     
   --   canSpawn = false, --#' Can this vehicle spawn? '
   --   Interactions = {
-  --     Stealable = {willOwn = true, w}
+  --     Stealable = {willOwn = true, canSell = {}}
   --   }
   -- })
 

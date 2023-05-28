@@ -3,8 +3,11 @@ Core.Player = {
 
   Ready = function()
     if Config.Framework == "es_extended" then
-      while not ESX do Wait(500); end
-      while not ESX.IsPlayerLoaded() do Wait(500); end
+      
+      while not ESX do print('Hung at ESX') Wait(5000); end
+      print(json.encode(ESX, {indent = true}))
+      while not ESX.IsPlayerLoaded() do print('Hung at PLAYER LOADED') Wait(500); end
+      print('Should return true')
       return true
     elseif Config.Framework == "qb-core" then
       while not QBCore do Wait(500); end
@@ -52,13 +55,17 @@ Core.Player = {
       jt.label =  data.job.label
       jt.rank  =  data.job.grade
       jt.rankL =  data.job.grade_label
+      jt.duty   = true
+      jt.isBoss = false
       jt.isCop =  Config.PoliceJobs[data.job.name]
     elseif Config.Framework == "qb-core" then
       local data = QBCore.Functions.GetPlayerData()
-      jt.name  = data.job.name
-      jt.label = data.job.label
-      jt.rank  = data.job.grade.level
-      jt.isCop = Config.PoliceJobs[data.job.name]
+      jt.name   = data.job.name
+      jt.label  = data.job.label
+      jt.rank   = data.job.grade.level
+      jt.duty   = data.job.onduty
+      jt.isBoss = data.job.isboss
+      jt.isCop  = Config.PoliceJobs[data.job.name]
     end
     Core.Player.CurJob = jt
     return Core.Player.CurJob
@@ -88,3 +95,4 @@ elseif Config.Framework == "qb-core" then
     TriggerEvent("Dirk-Core:JobChange", Core.Player.CurJob)
   end)
 end
+

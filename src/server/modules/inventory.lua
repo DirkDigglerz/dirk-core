@@ -59,7 +59,7 @@ Core.Inventory = {
     if Config.StashSystem ~= "dirk" then
       if Config.Inventory == "ox_inventory" then
         exports.ox_inventory:RegisterStash(inv, (data.Name or string.format("Inventory:%s", math.random(1111111,9999999999))), data.Slots, data.Weight, false)
-      elseif Config.Inventory == "qs-inventory" or Config.Inventory == "qb-inventory" then
+      elseif Config.Inventory == "qs-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" then
 
       elseif Config.Inventory == "mf-inventory" then
         exports["mf-inventory"]:createInventory(inv,"inventory","stash",(data.Name or string.format("Inventory:%s", math.random(1111111,9999999999))),data.Weight,data.Slots,{})
@@ -93,7 +93,7 @@ Core.Inventory = {
         elseif Config.Inventory == "mf-inventory" then
 
         elseif Config.Inventory == "qb-inventory" then
-
+          
         end
       end
       return false

@@ -159,14 +159,44 @@ Core.Player = {
       jt.name  =  ply.job.name
       jt.label =  ply.job.label
       jt.rank  =  ply.job.grade
+      jt.duty   = true
+      jt.isBoss = false
       jt.isCop =  Config.PoliceJobs[ply.job.name]
     elseif Config.Framework == "qb-core" then
       jt.name  = ply.PlayerData.job.name
       jt.label = ply.PlayerData.job.label
       jt.rank  = ply.PlayerData.job.grade.level
+      jt.duty  = ply.PlayerData.job.onduty
+      jt.isBoss = ply.PlayerData.job.isboss
       jt.isCop = Config.PoliceJobs[ply.PlayerData.job.name]
     end
     return {}
+  end,
+
+  SetJob = function(p,j,r)
+    local ply = Core.Player.Get(tonumber(p))
+    if Config.Framework == "es_extended" then
+      ply.setJob(j,r)
+    elseif Config.Framework == "qb-core" then
+      ply.Functions.SetJob(j,r)
+    end
+  end,
+
+  SetGang = function(p,g,r)
+    local ply = Core.Player.Get(tonumber(p))
+    if Config.Framework == "es_extended" then
+      print('ESX does not have a standardised gang system please insert your own code here')
+    elseif Config.Framework == "qb-core" then
+      ply.Functions.SetGang(g,r)
+    end
+  end,
+
+  Revive = function(p)
+    if Config.Framework == "qb-core" then
+      TriggerClientEvent('hospital:client:Revive', tonumber(p))
+    elseif Config.Framework == "es_extended" then
+      TriggerClientEvent('esx_ambulancejob:revive', tonumber(p)) -- IS THIS RIGHT?
+    end
   end,
 
   RemoveMoney = function(p,acc,a)

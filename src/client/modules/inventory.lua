@@ -15,7 +15,7 @@ Core.Inventory = {
         end
       end, id)
     elseif Config.StashSystem == "default" then
-      if Config.Inventory == "qb-inventory" or Config.Inventory == "qs-inventory" then
+      if Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or Config.Inventory == "qs-inventory" then
         TriggerServerEvent("inventory:server:OpenInventory", "stash", id, {
           maxweight = data.Weight,
           slots     = data.Slots,

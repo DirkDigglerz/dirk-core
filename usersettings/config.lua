@@ -21,7 +21,6 @@ Config = {
   AlternativeResourceNames = { --## Replace false with the alternative name you have used for that resource if you are renaming resources.
     Inventory = {
       ['qb-inventory'] = false,
-      ['lj-inventory'] = false,
       ['ox_inventory'] = false,
       ['mf-inventory'] = false,
       ['qs-inventory'] = false,
@@ -48,6 +47,7 @@ Config = {
     Framework      = {
       ['es_extended'] = false,
       ['qb-core']     = false,
+      ['vrp']         = false,
     },
     KeySystem      = {
       ['qb-vehiclekeys'] = false,
@@ -95,4 +95,5 @@ Config = {
 getCore = function()
   return Core, Config
 end
+
 

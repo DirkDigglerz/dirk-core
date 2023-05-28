@@ -13,6 +13,23 @@ Core.Vehicle = {
     end
   end,
 
+  FixVehicle = function()
+    local p = PlayerPedId()
+    local v = GetVehiclePedIsIn(p, false)
+    if v ~= 0 then
+      SetVehicleFixed(v)
+      SetVehicleDeformationFixed(v)
+      SetVehicleUndriveable(v, false)
+      SetVehicleEngineOn(v, true, true)
+      SetVehicleEngineHealth(v, 1000)
+      SetVehiclePetrolTankHealth(v, 1000)
+      SetVehicleDirtLevel(v, 0)
+      SetVehicleOilLevel(v, 100.0)
+    else 
+      Core.UI.Notify("You are not in a vehicle")
+    end
+  end,
+
   VehClasses = {
     [0] = "Compacts",
     [1] = "Sedans",
