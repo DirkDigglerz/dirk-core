@@ -12,7 +12,7 @@ Core.Vehicle = {
     end
   end,
 
-  FixVehicle = function(p)
+  Fix = function(p)
     TriggerClientEvent("Core:Vehicle:Fix", p)
   end,
 

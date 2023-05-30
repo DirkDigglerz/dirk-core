@@ -71,8 +71,6 @@ Core.Player = {
     return Core.Player.CurJob
   end,
 
-
-
   PlayAnim = function(data)
     while not HasAnimDictLoaded(data.dict) do RequestAnimDict(data.dict) Wait(0); end
     TaskPlayAnim(data.ent, data.dict, data.anim, 8.0, 8.0, -1, -1, -1, false, false, false)
@@ -96,3 +94,6 @@ elseif Config.Framework == "qb-core" then
   end)
 end
 
+RegisterNetEvent("Core:Player:ClothingMenu", function()
+
+end)

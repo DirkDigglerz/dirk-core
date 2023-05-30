@@ -2,8 +2,6 @@
 local glm = require 'glm'
 
 Core.Polygon = {
-
-
   IsPointInside = function(point, polygon)
     local oddNodes = false
     local j = #polygon

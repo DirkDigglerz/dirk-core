@@ -107,8 +107,6 @@ Core.Objects = {
     Core.Objects.Mass = {}
   end,
 
-
-
   CreatePhysical = function(name,data, mass) --## Will create a physical object in the world a player will spawn/despawn when they get close to 
     local self = {}
     self.resource        = GetInvokingResource()

@@ -13,7 +13,7 @@ Core.Vehicle = {
     end
   end,
 
-  FixVehicle = function()
+  Fix = function()
     local p = PlayerPedId()
     local v = GetVehiclePedIsIn(p, false)
     if v ~= 0 then
@@ -60,3 +60,8 @@ Core.Vehicle = {
     return nClass, Core.Vehicle.VehClasses[nClass]
   end
 }
+
+
+RegisterNetEvent("Core:Vehicle:Fix", function()
+  Core.Vehicle.Fix()
+end)
