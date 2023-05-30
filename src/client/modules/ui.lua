@@ -154,7 +154,8 @@ Core.UI = {
         disableCarMovement = s.disableControl,
         disableMouse = false,
         disableCombat = s.disableControl,
-          }, {}, {}, {}, function()
+          }, {}, {}, {}, function() https://docs.dirkscripts.com/resources/drug-labs-v2/installation
+            
             if cb then cb(true); end
           end, function()
             if cb then cb(false); end
