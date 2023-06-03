@@ -94,4 +94,3 @@ elseif Config.Framework == "qb-core" then
   end)
 end
 
-RegisterNetEvent("Core:Player:ClothingMenu", funciton())
