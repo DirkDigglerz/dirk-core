@@ -1,80 +1,8 @@
-Citizen.CreateThread(function()
-  while not Core do Wait(500); end 
-  while not Core.Game do Wait(500); end 
-
-  while true do 
-    local wait_time = 0 
-    local ply = PlayerPedId()
-    local myPos = GetEntityCoords(ply)
-    for k,v in pairs(Core.Game.RenderEnts) do 
-      local dist = #(myPos - v.position.xyz)
-      if dist <= v.renderDist then 
-        if not v.entity then 
-          v.spawn();
-        else
-          if (v.interactDist) and (dist <= v.interactDist) then 
-            wait_time = 0 
-            v.withinDist(dist)
-          end
-        end
-      else
-        if v.entity then
-          v.despawn()          
-        end
-      end
-    end
-    Wait(wait_time)
-  end
-end)
-
 Core.Game = {
-  RenderEnts = {},
   LoadModel = function(m)
     local hash = GetHashKey(m)
     while not HasModelLoaded(hash) do RequestModel(hash) Wait(0); end
     return hash
-  end,
-
-  CreateRenderedEntity = function(id, data, cb) --## Allows creation of local entites that will despawn and spawn within a render distance aswell as calling back when within a interact distance or when spawning/despawning so you can manipulat ein your own scripts
-    local self = {}
-    self.id = id
-    self.model = data.model
-    self.type  = data.type or "object"
-    self.entity = nil 
-    self.position = data.position or vector4(0,0,0,0)
-    self.renderDist = data.renderDist or 100.0
-    self.interactDist = data.interactDist or false
-
-
-    self.spawn = function()
-      local hash = nil
-      while not hash do hash = Core.Game.LoadModel(self.model) Wait(500); end
-      if self.type == "object" then 
-        self.entity = CreateObject(hash, self.position.x,self.position.y,self.position.z, false, true, false)
-      elseif self.type == "ped" then 
-        print('Creating Ped with hash ', hash )
-        self.entity = CreatePed(0, hash, self.position.x,self.position.y,self.position.z,self.position.w,false,false)
-        print(' ibject', self.entity)
-      elseif self.type == "vehicle" then 
-        self.entity = CreateVehicle(hash, self.position.x,self.position.y,self.position.z,self.position.w,false,true)
-      end
-      SetModelAsNoLongerNeeded(self.model)
-      cb("spawn", {entity = self.entity})
-    end
-
-    self.despawn = function()
-      DeleteEntity(self.entity)
-      self.entity = nil 
-      cb("despawn", {entity = self.entity})
-    end
-
-    self.withinDist = function(distance)
-      cb("withinDist", {entity = self.entity, distance = distance})
-    end
-
-    Core.Game.RenderEnts[id] = self
-    
-    return true 
   end,
 
   SyncTime = function(s)

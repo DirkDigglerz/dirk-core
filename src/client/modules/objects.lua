@@ -1,10 +1,54 @@
 Core.Objects = {
+  RenderEnts = {},
   Create = function(modelname, pos, network, cb)
     local model = GetHashKey(modelname)
     while not HasModelLoaded(model) do RequestModel(model) Wait(0); end
     local obj = CreateObject(model, pos.x,pos.y,pos.z,network,true, false)
     SetEntityHeading(obj, (pos['w'] or 0.0))
     cb(obj)
+  end,
+
+  CreateRenderedEntity = function(id, data, cb) --## Allows creation of local entites that will despawn and spawn within a render distance aswell as calling back when within a interact distance or when spawning/despawning so you can manipulat ein your own scripts
+    local self = {}
+    self.id = id
+    self.model = data.model
+    self.type  = data.type or "object"
+    self.entity = nil 
+    self.position = data.position or vector4(0,0,0,0)
+    self.renderDist = data.renderDist or 100.0
+    self.interactDist = data.interactDist or false
+
+
+    self.spawn = function()
+      local hash = nil
+      while not hash do hash = Core.Game.LoadModel(self.model) Wait(500); end
+      if self.type == "object" then 
+        self.entity = CreateObject(hash, self.position.x,self.position.y,self.position.z, false, true, false)
+      elseif self.type == "ped" then 
+        self.entity = CreatePed(1, hash, self.position.x,self.position.y,self.position.z,self.position.w,false,false)
+      elseif self.type == "vehicle" then 
+        self.entity = CreateVehicle(hash, self.position.x,self.position.y,self.position.z,self.position.w,false,true)
+      end
+
+
+      SetModelAsNoLongerNeeded(hash)
+      cb("spawn", {entity = self.entity})
+    end
+
+    self.despawn = function()
+      DeleteEntity(self.entity)
+      local oldEnt = self.entity
+      self.entity = nil 
+      cb("despawn", {entity = oldEnt})
+    end
+
+    self.withinDist = function(distance)
+      cb("withinDist", {entity = self.entity, distance = distance})
+    end
+
+    Core.Objects.RenderEnts[id] = self
+    
+    return true 
   end,
 
   Delete = function(ent)
@@ -362,7 +406,6 @@ Citizen.CreateThread(function()
       end
     end
 
-
     for k,v in pairs(Core.Objects.Physicals) do 
       if #(pos - v.position.xyz) <= 50.0 then 
         if wait_time >= 500 then wait_time = 500; end 
@@ -386,6 +429,38 @@ Citizen.CreateThread(function()
     Wait(wait_time)
   end
 end)
+
+
+Citizen.CreateThread(function()
+  while not Core do Wait(500); end 
+  while not Core.Objects do Wait(500); end 
+
+  while true do 
+    local wait_time = 0 
+    local ply = PlayerPedId()
+    local myPos = GetEntityCoords(ply)
+    for k,v in pairs(Core.Objects.RenderEnts) do 
+      local dist = #(myPos - v.position.xyz)
+      if dist <= v.renderDist then 
+        if not v.entity then 
+          v.spawn();
+        else
+          if (v.interactDist) and (dist <= v.interactDist) then 
+            wait_time = 0 
+            v.withinDist(dist)
+          end
+        end
+      else
+        if v.entity then
+          v.despawn()          
+        end
+      end
+    end
+    Wait(wait_time)
+  end
+end)
+
+
 
 RegisterNetEvent("Dirk-Core:Physicals:MassUpdate", function(table)
   for k,v in pairs(table) do 
