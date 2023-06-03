@@ -1,9 +1,13 @@
 Core.Files = {
   Save = function(filename, data)
+    local resource = GetInvokingResource()
+    print(string.format("^2Dirk-Core^7 | %s is saving ^3: %s^7", resource, filename))
     SaveResourceFile(GetCurrentResourceName(), string.format('saveddata/%s', filename), json.encode(data, {indent = true}))
   end,
 
   Load = function(filename)
+    local resource = GetInvokingResource()
+    print(string.format("^2Dirk-Core^7 | %s is loading ^3: %s^7", resource, filename))
     local data = json.decode(LoadResourceFile(GetCurrentResourceName(), string.format('saveddata/%s', filename)))
     return data
   end,
@@ -48,6 +52,19 @@ Core.Files = {
       output = output.."\n},\n"
     end
     return output
+  end,
+
+  OXShared = function(input)
+    local ret = {}
+    for item,data in pairs(input) do
+      ret[item] = {} 
+      for k,v in pairs(data) do 
+        if k == "label" or k == "weight" then 
+          ret[item][k] = v
+        end
+      end
+    end
+    return ret
   end,
 
 }

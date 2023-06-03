@@ -37,6 +37,26 @@ Core.Game = {
     RemoveBlip(id)
   end,
 
+  PlotPoints = function()
+    local points = {}
+    while true do
+      local wait_time = 0
+      local hit, endCoords, entityHit = Core.UI.ScreenToWorld()
+      if (endCoords ~= vector3(0,0,0) and entityHit ~= ply) then
+        DrawSphere(endCoords.x,endCoords.y,endCoords.z, 0.4, 255,0,0, 0.7)
+        Core.UI.ShowHelpNotification("Press ~INPUT_CELLPHONE_CAMERA_GRID~ to add a point\nPress ~INPUT_CELLPHONE_CANCEL~ to delete last coordinate\nPress ~INPUT_CELLPHONE_CAMERA_DOF~ to finish")
+        if IsControlJustPressed(0,183) then
+          table.insert(points, endCoords)
+        elseif IsControlJustPressed(0,177) then
+          points[#points] = nil
+        elseif IsControlJustPressed(0,185) then
+          return points
+        end
+      end
+      Wait(wait_time)
+    end
+  end,
+
   ChooseNearbyPlayer = function()
     local pedPool = Core.Game.GetEntityPool({'CPed'})
     local nearPlayers = {}

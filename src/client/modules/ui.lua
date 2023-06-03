@@ -163,60 +163,6 @@ Core.UI = {
     end
   end,
 
-  PlotPoints = function()
-    local points = {}
-    while true do
-      local wait_time = 0
-      local hit, endCoords, entityHit = Core.UI.ScreenToWorld()
-      if (endCoords ~= vector3(0,0,0) and entityHit ~= ply) then
-        DrawSphere(endCoords.x,endCoords.y,endCoords.z, 0.4, 255,0,0, 0.7)
-        Core.UI.ShowHelpNotification("Press ~INPUT_CELLPHONE_CAMERA_GRID~ to add a point\nPress ~INPUT_CELLPHONE_CANCEL~ to delete last coordinate\nPress ~INPUT_CELLPHONE_CAMERA_DOF~ to finish")
-        if IsControlJustPressed(0,183) then
-          table.insert(points, endCoords)
-        elseif IsControlJustPressed(0,177) then
-          points[#points] = nil
-        elseif IsControlJustPressed(0,185) then
-          return points
-        end
-      end
-      Wait(wait_time)
-    end
-  end,
-
-
-  TableToText = function(table)
-    local output = ""
-    for k,v in pairs(table) do
-      output = output.."['"..k.."']".." = {\n"
-      for n,d in pairs(v) do
-        if type(d) == "table" then
-          output = output.."  ".."['"..n.."']".." = {\n"
-            for i,m in pairs(d) do
-              if type(m) == "boolean" then
-                output = output.."    ".."['"..i.."']".." = "..tostring(m)..",\n"
-              elseif type(m) == "number" then
-                output = output.."    ".."['"..i.."']".." = "..m..",\n"
-              else
-                output = output.."    ".."['"..i.."']".." = '"..m.."',\n"
-              end
-            end
-          output = output.."  },"
-        elseif type(d) == "boolean" then
-          output = output.."  ".."['"..n.."']".." = "..tostring(d)..","
-        elseif type(d) == "number" then
-          output = output.."  ".."['"..n.."']".." = "..d..","
-        else
-          output = output.."  ".."['"..n.."']".." = '"..d.."',"
-        end
-        output = output.."\n"
-      end
-
-
-      output = output.."\n},\n"
-    end
-    return output
-  end,
-
   Current   = {},
   AdvancedHelpNotif = function(name, items)
     local now = GetGameTimer()

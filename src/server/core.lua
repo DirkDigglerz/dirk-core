@@ -34,6 +34,7 @@ Core = {
   end,
 
   AddAllItems = function(toAdd)
+    print(string.format("^2Dirk-Core^7 RESOURCE: ^2%s^7 has automatically added items to your SQL/shared.lua", GetInvokingResource()))
     if Config.Framework == "es_extended" then
       if Config.AutoAddItems then
         local items = MySQL.query.await(string.format('SELECT * FROM %s',Config.ItemsDatabaseName), {})
@@ -52,12 +53,18 @@ Core = {
       end
     elseif Config.Framework == "qb-core" then
       while not QBCore do Wait(500); end
+      local failures = {}
       if Config.AutoAddItems then
         for k,v in pairs(toAdd) do
           local suc,msg = exports['qb-core']:AddItem(k,v)
-          if not suc then print("There has been an error adding: ", k, " to your shared.lua because ", msg) Wait(15); end
+          if not suc then failures[k] = msg; end 
+        end
+        for k,v in pairs(failures) do
+          print("^2Dirk-Core^1 | AUTO ADD ITEM ERROR^7")
+          print(string.format("%s couldn't be added because: %s", k,v))
         end
       end
+
     end
   end,
 
