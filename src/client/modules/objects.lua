@@ -8,7 +8,7 @@ Core.Objects = {
     cb(obj)
   end,
 
-  CreateRenderedEntity = function(id, data, cb) --## Allows creation of local entites that will despawn and spawn within a render distance aswell as calling back when within a interact distance or when spawning/despawning so you can manipulat ein your own scripts
+  AddRenderable = function(id, data, cb) --## Allows creation of local entites that will despawn and spawn within a render distance aswell as calling back when within a interact distance or when spawning/despawning so you can manipulat ein your own scripts
     local self = {}
     self.id = id
     self.model = data.model
@@ -46,9 +46,22 @@ Core.Objects = {
       cb("withinDist", {entity = self.entity, distance = distance})
     end
 
+    self.remove = function()
+      self.despawn()
+      Core.Objects.RenderEnts[id] = nil
+    end
+    
+
     Core.Objects.RenderEnts[id] = self
     
     return true 
+  end,
+
+  RemoveRenderable = function(id)
+    local render = Core.Objects.RenderEnts[id]
+    if render then 
+      render.remove()
+    end
   end,
 
   Delete = function(ent)
