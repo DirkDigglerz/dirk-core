@@ -1,1 +1,221 @@
-[]
+{
+    "SIM:137806382": {
+        "Notifications": [],
+        "Battery": 0.0,
+        "Damaged": false,
+        "ActiveUser": 11,
+        "SIMNo": "SIM:137806382",
+        "Settings": {
+            "Ringtone": "Default",
+            "PhoneName": "Not Set",
+            "Notifs": false,
+            "Wallpaper": "Default"
+        },
+        "Contacts": []
+    },
+    "SIM:885319025": {
+        "Notifications": [],
+        "Battery": 0.0,
+        "ActiveUser": 11,
+        "SIMNo": "SIM:885319025",
+        "Settings": {
+            "Ringtone": "Default",
+            "PhoneName": "Not Set",
+            "Notifs": false,
+            "Wallpaper": "Default"
+        },
+        "Contacts": []
+    },
+    "SIM:317161244": {
+        "Notifications": [
+            {
+                "Desc": "Thanks for the number, Aaron White. I'll let you know if I need anything.",
+                "Title": "Aaron White",
+                "Message": "Aaron White",
+                "Page": "Messages",
+                "Icon": "fas fa-message"
+            },
+            {
+                "Desc": "Yo, I'm looking to buy Coke x 69. Name your price, but don't rip me off.",
+                "Title": "Aaron White",
+                "Message": "Aaron White",
+                "Page": "Messages",
+                "Icon": "fas fa-message"
+            }
+        ],
+        "Battery": 100.0,
+        "SIMNo": "SIM:317161244",
+        "ActiveUser": 1,
+        "Charging": true,
+        "Settings": {
+            "Ringtone": "Default",
+            "PhoneName": "Not Set",
+            "Notifs": false,
+            "Wallpaper": "Default"
+        },
+        "Contacts": {
+            "Aaron White": {
+                "LastOffer": 1685806484,
+                "Rep": 10,
+                "MessageHistory": [
+                    {
+                        "Sender": "Aaron White",
+                        "Message": "Thanks for the number, Aaron White. I'll let you know if I need anything."
+                    },
+                    {
+                        "Sender": "Aaron White",
+                        "Message": "Yo, I'm looking to buy Coke x 69. Name your price, but don't rip me off."
+                    }
+                ],
+                "Type": "South Los Santos",
+                "Model": -1398552374,
+                "Mission": {
+                    "Available": false
+                }
+            }
+        }
+    },
+    "SIM:97752377": {
+        "Notifications": [],
+        "Battery": 0.0,
+        "SIMNo": "SIM:97752377",
+        "ActiveUser": 1,
+        "Charging": false,
+        "Settings": {
+            "Ringtone": "Default",
+            "PhoneName": "Not Set",
+            "Notifs": false,
+            "Wallpaper": "Default"
+        },
+        "Contacts": []
+    },
+    "SIM:846619397": {
+        "Notifications": [
+            {
+                "Desc": "Yo, it's Noah Jackson. Let's make some moves and turn it into cash.",
+                "Title": "Noah Jackson",
+                "Message": "Noah Jackson",
+                "Page": "Messages",
+                "Icon": "fas fa-message"
+            },
+            {
+                "Desc": "Yo, I'm looking to buy Coke x 88. Name your price, but don't rip me off.",
+                "Title": "Noah Jackson",
+                "Message": "Noah Jackson",
+                "Page": "Messages",
+                "Icon": "fas fa-message"
+            }
+        ],
+        "Battery": 0.0,
+        "SIMNo": "SIM:846619397",
+        "ActiveUser": 1,
+        "Charging": false,
+        "Settings": {
+            "Ringtone": "Default",
+            "PhoneName": "Not Set",
+            "Notifs": false,
+            "Wallpaper": "Default"
+        },
+        "Contacts": {
+            "Noah Jackson": {
+                "LastOffer": 1685799292,
+                "Rep": 10,
+                "MessageHistory": [
+                    {
+                        "Sender": "Noah Jackson",
+                        "Message": "Yo, it's Noah Jackson. Let's make some moves and turn it into cash."
+                    },
+                    {
+                        "Sender": "Noah Jackson",
+                        "Message": "Yo, I'm looking to buy Coke x 88. Name your price, but don't rip me off."
+                    }
+                ],
+                "Type": "South Los Santos",
+                "Model": -613248456,
+                "Mission": {
+                    "Available": false
+                }
+            }
+        }
+    },
+    "SIM:828380636": {
+        "Notifications": [],
+        "Battery": 0.0,
+        "ActiveUser": 11,
+        "SIMNo": "SIM:828380636",
+        "Settings": {
+            "Ringtone": "Default",
+            "PhoneName": "Not Set",
+            "Notifs": false,
+            "Wallpaper": "Default"
+        },
+        "Contacts": []
+    },
+    "SIM:320141136": {
+        "Notifications": [],
+        "Battery": 0.0,
+        "ActiveUser": 11,
+        "SIMNo": "SIM:320141136",
+        "Settings": {
+            "Ringtone": "Default",
+            "PhoneName": "Not Set",
+            "Notifs": false,
+            "Wallpaper": "Default"
+        },
+        "Contacts": []
+    },
+    "SIM:134564864": {
+        "Notifications": [],
+        "Battery": 0.0,
+        "SIMNo": "SIM:134564864",
+        "ActiveUser": 1,
+        "Charging": false,
+        "Settings": {
+            "Ringtone": "Default",
+            "PhoneName": "Not Set",
+            "Notifs": false,
+            "Wallpaper": "Default"
+        },
+        "Contacts": []
+    },
+    "SIM:899249213": {
+        "Notifications": [],
+        "Battery": 100,
+        "SIMNo": "SIM:899249213",
+        "Settings": {
+            "Ringtone": "Default",
+            "PhoneName": "Not Set",
+            "Notifs": false,
+            "Wallpaper": "Default"
+        },
+        "Contacts": []
+    },
+    "SIM:673052038": {
+        "Notifications": [],
+        "Battery": 0.0,
+        "SIMNo": "SIM:673052038",
+        "ActiveUser": 1,
+        "Charging": false,
+        "Settings": {
+            "Ringtone": "Default",
+            "PhoneName": "Not Set",
+            "Notifs": false,
+            "Wallpaper": "Default"
+        },
+        "Contacts": []
+    },
+    "SIM:566030635": {
+        "Notifications": [],
+        "Battery": 0.0,
+        "SIMNo": "SIM:566030635",
+        "ActiveUser": 1,
+        "Charging": false,
+        "Settings": {
+            "Ringtone": "Default",
+            "PhoneName": "Not Set",
+            "Notifs": false,
+            "Wallpaper": "Default"
+        },
+        "Contacts": []
+    }
+}

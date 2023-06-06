@@ -16,6 +16,7 @@ Core.Vehicle = {
     TriggerClientEvent("Core:Vehicle:Fix", p)
   end,
 
+
   -- CreateStealable("Barnfind:2", {
   --   position = vector4(0,0,0,0),
     

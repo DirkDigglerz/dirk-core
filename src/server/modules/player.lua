@@ -21,7 +21,7 @@ Core.Player = {
     if Config.Framework == "es_extended" then
       return ply.getName()
     elseif Config.Framework == "qb-core" then
-      return ply.PlayerData.charinfo.firstname.." "..ply.PlayerData.charinfo.lastname
+      return ply.PlayerData.charinfo.firstname, ply.PlayerData.charinfo.lastname
     end
   end,
 
@@ -34,6 +34,31 @@ Core.Player = {
       return ply.PlayerData.charinfo.birthdate
     end
   end,
+
+  PhoneNumber = function(p)
+    local p = tonumber(p)
+    local ply = Core.Player.Get(p)
+    if Config.Framework == "es_extended" then
+      return ply.getPhoneNumber()
+    elseif Config.Framework == "qb-core" then
+      return ply.PlayerData.charinfo.phone
+    end
+  end,
+
+  Gender = function(p)
+    local p = tonumber(p)
+    local ply = Core.Player.Get(p)
+    if Config.Framework == "es_extended" then 
+      
+    elseif Config.Framework == "qb-core" then 
+      return ply.PlayerData.charinfo.gender
+    end
+  end,
+
+
+  
+
+
 
   Inventory = function(p)
     local ply = Core.Player.Get(tonumber(p))
@@ -159,6 +184,8 @@ Core.Player = {
       jt.name  =  ply.job.name
       jt.label =  ply.job.label
       jt.rank  =  ply.job.grade
+      jt.rName  = ply.job.grade_name
+      jt.rLabel = ply.job.grade_label
       jt.duty   = true
       jt.isBoss = false
       jt.isCop =  Config.PoliceJobs[ply.job.name]
@@ -166,6 +193,7 @@ Core.Player = {
       jt.name  = ply.PlayerData.job.name
       jt.label = ply.PlayerData.job.label
       jt.rank  = ply.PlayerData.job.grade.level
+      jt.rLabel = ply.PlayerData.job.grade.label
       jt.duty  = ply.PlayerData.job.onduty
       jt.isBoss = ply.PlayerData.job.isboss
       jt.isCop = Config.PoliceJobs[ply.PlayerData.job.name]
@@ -179,6 +207,39 @@ Core.Player = {
       ply.setJob(j,r)
     elseif Config.Framework == "qb-core" then
       ply.Functions.SetJob(j,r)
+    end
+  end,
+
+  --## Admin Functionality
+
+  --[[
+    Types of Data:
+    firstname
+    lastname
+    gender
+    birthdate
+    phone
+    accounts 
+
+
+  ]] 
+
+  --Core.Player.UpdateInfo(p,"firstname", "John")
+  -- Core.Player.UpdateInfo(p, "accounts", {bank = 10000, cash = 10000})
+  UpdateInfo = function(p,type,info)
+    local ply = Core.Player.Get(tonumber(p))
+    if Config.Framework == "es_extended" then
+      
+    elseif Config.Framework == "qb-core" then
+      if type == "firstname" or type == "lastname" or type == "gender" or type == "birthdate" or type == "phone" then
+        local charInfo = ply.PlayerData.charinfo
+        charInfo[type] = info
+        ply.Functions.SetPlayerData("charinfo", charInfo)
+      elseif type == "accounts" then 
+        for k,v in pairs(info) do 
+          Core.Player.SetMoney(k,v, "ADMIN MENU")
+        end
+      end
     end
   end,
 
@@ -196,6 +257,24 @@ Core.Player = {
       TriggerClientEvent('hospital:client:Revive', tonumber(p))
     elseif Config.Framework == "es_extended" then
       TriggerClientEvent('esx_ambulancejob:revive', tonumber(p)) -- IS THIS RIGHT?
+    end
+  end,
+
+
+
+  
+
+
+
+
+  --## MONEY FUNCTIONS
+
+  GetAccounts = function(p)
+    local ply = Core.Player.Get(tonumber(p))
+    if Config.Framework == "es_extended" then
+      return ply.getAccounts()
+    elseif Config.Framework == "qb-core" then
+      return ply.PlayerData.money
     end
   end,
 
