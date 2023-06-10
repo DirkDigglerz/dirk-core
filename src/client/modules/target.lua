@@ -1,6 +1,9 @@
 Core.Target = {
   Holding = {},
   AddBoxZone = function(name,data)
+    for k,v in pairs(data.Options) do 
+      if not v.distance then v.distance = (data.Distance or 1.5); end
+    end  
     if Config.TargetSystem == "qb-target" or Config.TargetSystem == "qtarget" then
       exports[Config.TargetSystem]:AddBoxZone(name, vector3(data.Position.x, data.Position.y, data.Position.z), (data.Length or 1.0), (data.Width or 1.0), {
         name = name, -- This is the name of the zone recognized by PolyZone, this has to be unique so it doesn't mess up with other zones
@@ -27,6 +30,47 @@ Core.Target = {
       })
       Core.Target.Holding[name] = newTarget
       return newTarget
+    end
+  end,
+
+  AddPolyzone = function(name,data)
+    if Config.TargetSystem == "qb-target" or Config.TargetSystem == "qtarget" or Config.TargetSystem == "ox_target" then
+      if Config.TargetSystem == "ox_target" then tempTargetSystem = "qb-target" else tempTargetSystem = Config.TargetSystem;  end
+      local minZ = 999999999
+      for k,v in pairs(data.Polygon) do 
+        data.Polygon[k] = vector2(v.x, v.y)
+        if v.z <= minZ then minZ = v.z; end
+      end
+
+      for k,v in pairs(data.Options) do 
+        if not v.distance then v.distance = (data.Distance or 1.5); end
+      end
+      
+      local zone = exports[tempTargetSystem]:AddPolyZone(name, data.Polygon, {
+        name = name, -- This is the name of the zone recognized by PolyZone, this has to be unique so it doesn't mess up with other zones
+        debugPoly = Config.DrawDebug, -- This is for enabling/disabling the drawing of the box, it accepts only a boolean value (true or false), when true it will draw the polyzone in green
+        minZ = minZ, -- This is the bottom of the polyzone, this can be different from the Z value in the coords, this has to be a float value
+        maxZ = minZ + data.Height, -- This is the top of the polyzone, this can be different from the Z value in the coords, this has to be a float value
+      }, {
+        options = data.Options,
+        distance = data.Distance, -- This is the distance for you to be at for the target to turn blue, this is in GTA units and has to be a float value
+      })
+      Core.Target.Holding[name] = zone
+      return name
+    -- elseif Config.TargetSystem == "ox_target" then
+      -- for k,v in pairs(data.Options) do
+      --   data.Options[k].onSelect = v.action
+      --   data.Options[k].distance = (data.Distance or 1.5)
+      -- end
+      -- local newTarget = exports['ox_target']:addBoxZone({
+      --   coords = vector3(data.Position.x, data.Position.y, data.Position.z),
+      --   size = vector3((data.Length or 1.0), (data.Width or 1.0), (data.Height or 1.0)),
+      --   rotation = data.Position.w,
+      --   debug = Config.DrawDebug,
+      --   options = data.Options,
+      -- })
+      -- Core.Target.Holding[name] = newTarget
+      -- return newTarget
     end
   end,
 

@@ -26,13 +26,13 @@ server_script {
 }
 
 
-shared_script '@ox_lib/init.lua' -- Comment this out if not using ox_lib
+shared_script '@ox_lib/init.lua' -- Unomment this out if using ox_lib
 
 -- Uncomment if your script has UI. If not delete the folder upon release
 
 dependencies{
   'oxmysql', -- Comment out if not using oxmysql
-  -- 'ox_lib' -- Comment out if not using ox_lib
+  'ox_lib' -- Comment out if not using ox_lib
 }
 
 exports{

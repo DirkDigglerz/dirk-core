@@ -151,7 +151,7 @@ Core.Polygon = {
       elseif IsDisabledControlJustPressed(0, 74) then
         polygon[#polygon] = nil
       elseif IsDisabledControlJustPressed(0, 105) then
-        return polygon
+        return polygon, height
       elseif IsDisabledControlPressed(0, 172) then
         height = height + 0.05
       elseif IsDisabledControlPressed(0, 173) then
