@@ -198,7 +198,7 @@ Core.Player = {
       jt.isBoss = ply.PlayerData.job.isboss
       jt.isCop = Config.PoliceJobs[ply.PlayerData.job.name]
     end
-    return {}
+    return jt
   end,
 
   SetJob = function(p,j,r)
