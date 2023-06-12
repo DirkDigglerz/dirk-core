@@ -12,6 +12,7 @@ client_script {
   'usersettings/init.lua',
   'src/client/core.lua',
   'src/client/modules/*.lua',
+  'usersettings/shared.lua',
 }
 
 
@@ -23,6 +24,7 @@ server_script {
   'usersettings/init.lua',
   'src/server/core.lua',
   'src/server/modules/*.lua',
+  'usersettings/shared.lua',
 }
 
 

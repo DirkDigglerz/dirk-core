@@ -1,3 +1,5 @@
+
+
 Core.Shared = {}
 
 Core.Shared.Items = { --##
@@ -8,14 +10,14 @@ Core.Shared.Items = { --##
 }
 
 Core.Shared.Vehicles = {
-  ['ballas'] = {
+  ['blista'] = {
     ['name']  = "blista",
     ['label'] = "Blista",
   }
 }
 
 Core.Shared.Jobs = {
-  ['ballas'] = {
+  ['unemployed'] = {
     ['name']  = "unemployed",
     ['label'] = "Unemployed",
   }
