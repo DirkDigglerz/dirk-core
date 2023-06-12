@@ -54,10 +54,8 @@ files{
   -- MAIN
   'src/nui/main/*.*',
   'src/nui/prompts/*.*',
-  'src/nui/inventory/*.*',
   'src/nui/keycode/*.*',
-  -- INventory
-  'src/nui/inventory/*.png',
+
 }
 
 escrow_ignore{
