@@ -5,9 +5,7 @@ Core.Player = {
     if Config.Framework == "es_extended" then
       
       while not ESX do print('Hung at ESX') Wait(5000); end
-      print(json.encode(ESX, {indent = true}))
       while not ESX.IsPlayerLoaded() do print('Hung at PLAYER LOADED') Wait(500); end
-      print('Should return true')
       return true
     elseif Config.Framework == "qb-core" then
       while not QBCore do Wait(500); end
