@@ -133,7 +133,8 @@ RegisterNetEvent("Dirk:Inventory:Sync", function(id,data)
       exports.ox_inventory:RegisterStash(id, data.Name, data.Slots, data.Weight, false)
       Core.Inventory.CreateNew(id,data)
     elseif Config.Inventory == "qs-inventory" then
-    
+      exports['qs-inventory']:RegisterStash(source, "Stash_"..id, data.Slots, data.Weight) 
+      Core.Inventory.CreateNew(id,data)
     elseif Config.Inventory == "mf-inventory" then
     
     elseif Config.Inventory == "qb-inventory" then

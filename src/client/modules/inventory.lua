@@ -20,11 +20,8 @@ Core.Inventory = {
         end
       end
       if Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or Config.Inventory == "qs-inventory" then
-        TriggerServerEvent("inventory:server:OpenInventory", "stash", id, {
-          maxweight = data.Weight,
-          slots     = data.Slots,
-        })
-        TriggerEvent("inventory:client:SetCurrentStash", id)
+        TriggerServerEvent("inventory:server:OpenInventory", "stash", "Stash_"..id, {maxweight = data.Weight, slots = data.Slots})
+        TriggerEvent("inventory:client:SetCurrentStash", "Stash_"..id)
       elseif Config.Inventory == "mf-inventory" then
         exports["mf-inventory"]:openOtherInventory(id)
       elseif Config.Inventory == "ox_inventory" then
