@@ -17,6 +17,20 @@ Core = {
     end
   end,
 
+  deepCloneTable = function(original)
+    local cloned = {}
+    
+    for key, value in pairs(original) do
+        if type(value) == "table" then
+            cloned[key] = Core.deepCloneTable(value)  -- Recursive call for nested tables
+        else
+            cloned[key] = value  -- Copy non-table values directly
+        end
+    end
+    
+    return cloned
+  end,
+
   TableToText = function(table)
     local output = ""
     for k,v in pairs(table) do
