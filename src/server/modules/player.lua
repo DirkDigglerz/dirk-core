@@ -155,8 +155,8 @@ Core.Player = {
     local ply = Core.Player.Get(p)
     if Config.NewQSInventory then 
       exports['qs-inventory']:RemoveItem(p, i, a)
-    end
-    if Config.Framework == "es_extended" then
+      return true
+    elseif Config.Framework == "es_extended" then
       ply.removeInventoryItem(i,a)
       return true
     elseif Config.Framework == "qb-core" then
