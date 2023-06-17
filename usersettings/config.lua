@@ -19,6 +19,9 @@ Config = {
   ------------------------------------------------------------------------------------------------------------------------------------------------------------
   UsingClassicCommand = false, --## If you want to use the old command /target
 
+
+
+  NewQSInventory           = true, --## Had to add this because the name of the inventoryt is the same from v1-v2
   AlternativeResourceNames = { --## Replace false with the alternative name you have used for that resource if you are renaming resources.
     Inventory = {
       ['qb-inventory'] = false,

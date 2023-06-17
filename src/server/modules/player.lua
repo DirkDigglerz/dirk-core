@@ -96,7 +96,12 @@ Core.Player = {
     elseif Config.Inventory == "mf-inventory" then
       ply.addInventoryItem(i, a, 100.0, md)
     elseif Config.Inventory == "qs-inventory" then
-      TriggerEvent('qs-inventory:addItem', tonumber(p), i, a, false, md)
+      if Config.NewQSInventory then 
+        exports['qs-inventory']:AddItem(tonumber(p),i,a,false,md)
+      else
+        TriggerEvent('qs-inventory:addItem', tonumber(p), i, a, false, md)
+      end
+    
     elseif Config.Inventory == "ox_inventory" then
       exports['ox_inventory']:AddItem(p, i, a, md, nil, function(success, reason)
         if not success then
@@ -148,6 +153,9 @@ Core.Player = {
 
   RemoveItem = function(p,i,a)
     local ply = Core.Player.Get(p)
+    if Config.NewQSInventory then 
+      exports['qs-inventory']:RemoveItem(p, i, a)
+    end
     if Config.Framework == "es_extended" then
       ply.removeInventoryItem(i,a)
       return true
