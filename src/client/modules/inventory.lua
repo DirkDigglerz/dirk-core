@@ -11,11 +11,9 @@ Core.Inventory = {
       data.Slots = tonumber(data.Slots)
       data.Weight = tonumber(data.Weight)
       if not inv then 
-        print('CREATING NEW INV')
         TriggerServerEvent("Dirk:Inventory:Sync", id, data)
       else
         if (data.Slots ~= inv.Slots) or (data.Weight ~= inv.Weight) or (data.Name ~= inv.Name) then
-          print('UPDATING INV')
           TriggerServerEvent("Dirk:Inventory:Sync", id, data)
         end
       end
@@ -25,13 +23,10 @@ Core.Inventory = {
       elseif Config.Inventory == "mf-inventory" then
         exports["mf-inventory"]:openOtherInventory(id)
       elseif Config.Inventory == "ox_inventory" then
-        print('Opening OX')
         exports.ox_inventory:openInventory('stash', id)
       end
     else
       if Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or Config.Inventory == "qs-inventory" or Config.Inventory == "ox_inventory" then
-        print('Opening Shop')
-        print(json.encode(data.Items))
         TriggerServerEvent("inventory:server:OpenInventory", "shop", "Itemshop_" .. math.random(1111111,9999999), {
           items = data.Items,
           label = data.Name,

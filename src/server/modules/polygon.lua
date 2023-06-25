@@ -5,8 +5,6 @@ Core.Polygon = {
 
   GetRandomPoint = function(points)
     local minX, maxX, minY, maxY, minZ, maxZ = Core.Polygon.getMinMax(points)
-    print(minX)
-
     -- Find the minimum and maximum values for x and y coordinates
     for i = 1, #points do
       local point = points[i]

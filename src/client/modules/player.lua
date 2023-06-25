@@ -30,11 +30,34 @@ Core.Player = {
   end,
 
   Gang = function()
-    if Config.Framework == "es_extended" then return "None"; end
-    if not Config.UsingQBCore then return false; end
-    local data = QBCore.Functions.GetPlayerData()
-    return data.gang.name
+
+    -- local formatted = {
+
+    -- }
+    -- if Config.GangSystem == "t1ger_gangsystem" then 
+    --   return formatted
+    -- elseif Config.GangSystem == "rcore_gangs" then
+    --   local gang = exports['rcore_gangs']:GetPlayerGang()
+    --   return formatted
+    -- else
+      if Config.Framework == "es_extended" then return "None"; end
+      local data = QBCore.Functions.GetPlayerData()
+      return data.gang.name
+    -- end
   end,
+
+  -- GangRep = function(value)
+  --   if Config.GangSystem == "t1ger_gangsystem" then 
+  --     local myGang = exports['t1ger_gangsystem']:GetPlayerGang(ply)
+  --     if not myGang then return; end 
+
+  --     exports['t1ger_gangsystem']:MinusGangNotoriety(myGang, 15) --## This is where you'd change how much it gives you for a successful sale
+  --   elseif Config.RCORE_GANGS then 
+  
+  --   elseif Config.TEBIT_TERRITORIES then 
+  
+  --   end
+  -- end,
 
   IsCop = function()
     for k,v in pairs(Config.PoliceJobs) do

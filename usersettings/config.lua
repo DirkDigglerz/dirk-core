@@ -15,18 +15,29 @@ Config = {
   ItemsDatabaseName = "items", --## ESX Users this will usually just be items its for autoadding items
   StashSystem       = "default", --## If default then will use ox,qs,mf and qb-core inventories. if "dirk" then will use my stash system (ESX Default Inv will need to use mine)
   --## DEBUG FOR TARGET ZONES
-  DrawDebug    = true,
+  DrawDebug    = false,
   ------------------------------------------------------------------------------------------------------------------------------------------------------------
   UsingClassicCommand = false, --## If you want to use the old command /target
 
 
 
   NewQSInventory           = false, --## Had to add this because the name of the inventoryt is the same from v1-v2
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+--[[
+  DO NOT RENAME OR CHANGE ANYTHING BELOW UNLESS YOU HAVE RENAMED A RESOURCE THAT IS LISTED BELOW, REFER TO THE DOCS FOR MORE INFO 
+]]
+
   AlternativeResourceNames = { --## Replace false with the alternative name you have used for that resource if you are renaming resources.
     Inventory = {
       ['qb-inventory'] = false,
       ['ox_inventory'] = false,
       ['mf-inventory'] = false,
+      ['lj-inventory'] = false,
       ['qs-inventory'] = false,
     },
     TargetSystem   = {
@@ -99,5 +110,3 @@ Config = {
 getCore = function()
   return Core, Config
 end
-
-

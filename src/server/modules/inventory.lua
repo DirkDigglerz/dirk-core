@@ -92,15 +92,25 @@ Core.Inventory = {
     end
 
     self.addItem = function(item,amount,info)
-      
+      if Config.Inventory == "ox_inventory" then
+        local success, response = exports.ox_inventory:AddItem(self.id, item, amount, info or nil)
+        return success,response
+      end
     end
 
     self.removeItem = function(item,amount,info)
-
+      if Config.Inventory == "ox_inventory" then
+        local success, response = exports.ox_inventory:RemoveItem(self.id, item, amount, info or nil)
+        return success,response
+      end      
     end
 
     self.hasItem = function(item,amount,info)
-
+      if Config.Inventory == "ox_inventory" then
+        local count = exports.ox_inventory:GetItemCount(self.id, item, info, true)
+        if count <= amount then return false; end
+        return true 
+      end
     end
 
     self.canHold = function(item,amount,info)
@@ -129,7 +139,6 @@ RegisterNetEvent("Dirk:Inventory:Sync", function(id,data)
   local inv = Core.Inventory.GetById(id)
   if not inv then 
     if Config.Inventory == "ox_inventory" then
-      print('REgisteing Ox')
       exports.ox_inventory:RegisterStash(id, data.Name, data.Slots, data.Weight, false)
       Core.Inventory.CreateNew(id,data)
     elseif Config.Inventory == "qs-inventory" then

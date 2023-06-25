@@ -13,22 +13,23 @@ Core.Objects = {
     self.id = id
     self.model = data.model
     self.type  = data.type or "object"
+    self.hash  = data.hash or nil
     self.entity = nil 
+    self.network = data.network or false
     self.position = data.position or vector4(0,0,0,0)
     self.renderDist = data.renderDist or 100.0
     self.interactDist = data.interactDist or false
     self.spawnConditions = data.spawnConditions or {}
 
-
     self.spawn = function()
-      local hash = nil
-      while not hash do hash = Core.Game.LoadModel(self.model) Wait(500); end
+      local hash = self.hash or GetHashKey(self.model)
+      while not HasModelLoaded(hash) do RequestModel(hash) Wait(0); end
       if self.type == "object" then 
-        self.entity = CreateObject(hash, self.position.x,self.position.y,self.position.z, false, true, false)
+        self.entity = CreateObject(hash, self.position.x,self.position.y,self.position.z, self.network, true, false)
       elseif self.type == "ped" then 
-        self.entity = CreatePed(1, hash, self.position.x,self.position.y,self.position.z,self.position.w,false,false)
+        self.entity = CreatePed(1, hash, self.position.x,self.position.y,self.position.z,self.position.w,self.network,false)
       elseif self.type == "vehicle" then 
-        self.entity = CreateVehicle(hash, self.position.x,self.position.y,self.position.z,self.position.w,false,true)
+        self.entity = CreateVehicle(hash, self.position.x,self.position.y,self.position.z,self.position.w,self.network,true)
       end
 
 
@@ -459,7 +460,7 @@ Citizen.CreateThread(function()
     for k,v in pairs(Core.Objects.RenderEnts) do 
       local dist = #(myPos - v.position.xyz)
       if dist <= v.renderDist then 
-        if not v.entity then 
+        if not v.entity then
           v.spawn();
         else
           if (v.interactDist) and (dist <= v.interactDist) then 
