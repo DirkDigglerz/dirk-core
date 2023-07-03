@@ -163,6 +163,20 @@ Core.UI = {
           if cb then cb(false); end
       end)
       while not finished do Wait(0); end 
+    elseif Config.ProgressBar == "rprogress" then 
+      local finished = false
+      exports['rprogress']:Custom({
+        Async           = true,
+        Duration        = s.time,
+        Label           = s.label,
+        canCancel       = s.canCancel,
+        DisableControls = s.disableControl,
+        onComplete = function(cancelled)
+          if cancelled then cb(false); else cb(true); end
+          finished = true
+        end,
+      })
+      while not finished do Wait(0); end 
     end
   end,
 
