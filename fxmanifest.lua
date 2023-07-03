@@ -27,10 +27,8 @@ server_script {
   'usersettings/shared.lua',
 }
 
-
+---## IF YOU ARE NOT USING OX_LIB YOU NEED TO COMMENT THE BELOW OUT OR NONE OF YOUR DIRKSCRIPTS WILL WORK ##---
 shared_script '@ox_lib/init.lua' -- Unomment this out if using ox_lib
-
--- Uncomment if your script has UI. If not delete the folder upon release
 
 dependencies{
   'oxmysql', -- Comment out if not using oxmysql
@@ -58,8 +56,3 @@ files{
 
 }
 
-escrow_ignore{
-  '**/*.lua',
-  '**/*.json',
-}
-dependency '/assetpacks'

@@ -9,7 +9,9 @@ Core.Vehicle = {
     if Config.KeySystem == "qb-vehiclekeys" then
       TriggerServerEvent('qb-vehiclekeys:server:AcquireVehicleKeys', plate)
     elseif Config.KeySystem == "cd_garage" then
-      TriggerEvent('cd_garage:AddKeys', exports['cd_garage']:GetPlate(plate))
+      TriggerEvent('cd_garage:AddKeys', plate)
+    elseif Config.KeySystem == "okokGarage" then
+      TriggerServerEvent('okokGarage:GiveKeys', plate)
     end
   end,
 

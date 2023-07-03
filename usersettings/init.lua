@@ -15,8 +15,8 @@ local SupportedResources = {
   JailSystem     = {'esx_jail', 'qb-prison'},
   ProgressBar    = {'progressbar', 'ox_lib'},
   Framework      = {'vrp','es_extended', 'qb-core'},
-  KeySystem      = {'qb-vehiclekeys', 'cd_garage'},
-  DispatchSystem = {'ps-dispatch', 'cd_dispatch'},
+  KeySystem      = {'qb-vehiclekeys', 'cd_garage', 'okokGarage'},
+  DispatchSystem = {'ps-dispatch', 'cd_dispatch', 'qs-dispatch'},
   PhoneSystem    = {'qs-smartphone', 'gks_phone', 'lb-phone', 'nwpd', 'qb-phone'},
 }
 

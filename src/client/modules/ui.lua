@@ -149,17 +149,20 @@ Core.UI = {
       })
       if cb then cb(bar); end
     elseif Config.ProgressBar == "progressbar" then
+      local finished = false
       QBCore.Functions.Progressbar('Changeme', s.label, s.time, false, s.canCancel, {
         disableMovement = false,
         disableCarMovement = s.disableControl,
         disableMouse = false,
         disableCombat = s.disableControl,
           }, {}, {}, {}, function() 
-
-            if cb then cb(true); end
+          finished = true
+          if cb then cb(true); end
           end, function()
-            if cb then cb(false); end
+          finished = true
+          if cb then cb(false); end
       end)
+      while not finished do Wait(0); end 
     end
   end,
 

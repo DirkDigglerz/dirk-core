@@ -423,8 +423,10 @@ Citizen.CreateThread(function()
 
     for k,v in pairs(Core.Objects.Physicals) do 
       if #(pos - v.position.xyz) <= 50.0 then 
-        for name,data in pairs(v.spawnConditions) do 
-          v.canSpawn = data.func(data.data, data.args) 
+        if v.spawnConditions then 
+          for name,data in pairs(v.spawnConditions) do 
+            v.canSpawn = data.func(data.data, data.args) 
+          end
         end
         if wait_time >= 500 then wait_time = 500; end 
         if not v.object and v.canSpawn then
