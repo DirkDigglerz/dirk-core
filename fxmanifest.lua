@@ -7,6 +7,7 @@ description 'Dirk-Script'
 version '1.0.0'
 
 client_script {
+  -- "@vrp/lib/utils.lua", --## Uncomment this if you are using vRP
   'usersettings/config.lua',
   'usersettings/labels.lua',
   'usersettings/init.lua',
@@ -17,6 +18,7 @@ client_script {
 
 
 server_script {
+  -- "@vrp/lib/utils.lua", --## Uncomment this if you are using vRP
   -- '@mysql-async/lib/MySQL.lua', -- Uncomment if not using oxmysql
   '@oxmysql/lib/MySQL.lua', -- Comment out if not using oxmysql
   'usersettings/config.lua',

@@ -93,6 +93,14 @@ Citizen.CreateThread(function()
     elseif Config.Framework == "qb-core" then 
       QBCore = exports['qb-core']:GetCoreObject()
       RegisterNetEvent('QBCore:Client:UpdateObject', function() QBCore = exports['qb-core']:GetCoreObject(); end)
+    elseif Config.Framework == "vrp" then 
+      local serverSide = IsDuplicityVersion()
+      Proxy  = module("vrp", "lib/Proxy")
+      Tunnel = module("vrp","lib/Tunnel")
+      vRP = Proxy.getInterface("vRP")
+      if serverSide then 
+        vRPclient = Tunnel.getInterface("vRP")
+      end
     end
   end
   Core.DataLoaded = true

@@ -4,6 +4,8 @@ Core.Player = {
       return ESX.GetPlayerFromId(s)
     elseif Config.Framework == "qb-core" then
       return QBCore.Functions.GetPlayer(s)
+    elseif Config.Framework == "vrp" then 
+      return vRP.getUserId(s);
     end
   end,
 
@@ -12,6 +14,8 @@ Core.Player = {
       return ESX.GetPlayerFromId(p).identifier
     elseif Config.Framework == "qb-core" then
       return QBCore.Functions.GetPlayer(p).PlayerData.citizenid
+    elseif Config.Framework == "vrp" then 
+      return vRP.getUserId(p);
     end
   end,
 
@@ -22,6 +26,9 @@ Core.Player = {
       return ply.getName()
     elseif Config.Framework == "qb-core" then
       return ply.PlayerData.charinfo.firstname, ply.PlayerData.charinfo.lastname
+    elseif Config.Framework == "vrp" then 
+      local identity = vRP.getUserIdentity(Core.Player.Id(p))
+      return identity.name, identity.name2
     end
   end,
 
@@ -32,6 +39,8 @@ Core.Player = {
       return "Circa 1923"
     elseif Config.Framework == "qb-core" then
       return ply.PlayerData.charinfo.birthdate
+    elseif Config.Framework == "vrp" then
+
     end
   end,
 
@@ -42,6 +51,8 @@ Core.Player = {
       return ply.getPhoneNumber()
     elseif Config.Framework == "qb-core" then
       return ply.PlayerData.charinfo.phone
+    elseif Config.Framework == "vrp" then
+      return vRP.getPhoneDirectory(Core.Player.Id(p))
     end
   end,
 
@@ -55,10 +66,36 @@ Core.Player = {
     end
   end,
 
+  CheckOnline = function(id)
+    local plys = GetPlayers()
+    for k,v in pairs(plys) do
+      if Core.Player.Id(tonumber(v)) == id then
+        return v
+      end
+    end
+    return false
+  end,
 
-  
+  Jail = function(id,time)
+    if Config.JailSystem == "esx_jail" then 
+      TriggerEvent('esx_jail:sendToJail', id, time * 60)
+    elseif Config.JailSystem == "qb-prison" then
+      local OtherPlayer = Core.Player.Get(id)
+      if not OtherPlayer then return; end
 
+      local currentDate = os.date("*t")
+      if currentDate.day == 31 then
+          currentDate.day = 30
+      end
 
+      OtherPlayer.Functions.SetMetaData("injail", time)
+      OtherPlayer.Functions.SetMetaData("criminalrecord", {
+          ["hasRecord"] = true,
+          ["date"] = currentDate
+      })
+      TriggerClientEvent("police:client:SendToJail", OtherPlayer.PlayerData.source, time)
+    end
+  end,
 
   Inventory = function(p)
     local ply = Core.Player.Get(tonumber(p))
@@ -68,6 +105,8 @@ Core.Player = {
       inv = ply.getInventory()
     elseif Config.Framework == "qb-core" then
       inv = ply.PlayerData.items
+    elseif Config.Framework == "vrp" then
+      inv = vRP.getInventory(ply)
     end
 
     if Config.Inventory == "mf-inventory" then
@@ -120,37 +159,6 @@ Core.Player = {
 
   end,
 
-  CheckOnline = function(id)
-    local plys = GetPlayers()
-    for k,v in pairs(plys) do
-      if Core.Player.Id(tonumber(v)) == id then
-        return v
-      end
-    end
-    return false
-  end,
-
-  Jail = function(id,time)
-    if Config.JailSystem == "esx_jail" then 
-      TriggerEvent('esx_jail:sendToJail', id, time * 60)
-    elseif Config.JailSystem == "qb-prison" then
-      local OtherPlayer = Core.Player.Get(id)
-      if not OtherPlayer then return; end
-
-      local currentDate = os.date("*t")
-      if currentDate.day == 31 then
-          currentDate.day = 30
-      end
-
-      OtherPlayer.Functions.SetMetaData("injail", time)
-      OtherPlayer.Functions.SetMetaData("criminalrecord", {
-          ["hasRecord"] = true,
-          ["date"] = currentDate
-      })
-      TriggerClientEvent("police:client:SendToJail", OtherPlayer.PlayerData.source, time)
-    end
-  end,
-
   RemoveItem = function(p,i,a)
     local ply = Core.Player.Get(p)
     if Config.NewQSInventory then 
@@ -162,6 +170,9 @@ Core.Player = {
     elseif Config.Framework == "qb-core" then
       ply.Functions.RemoveItem(i,a)
       TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "remove")
+      return true
+    elseif Config.Framework == "vrp" then
+      vRP.tryGetInventoryItem(ply, i, a)
       return true
     end
   end,
@@ -178,10 +189,6 @@ Core.Player = {
       end
     end
     return false
-  end,
-
-  GetPlayerJob = function(p)
-    print('Invalid Function')
   end,
 
   GetJob = function(p)
@@ -205,6 +212,8 @@ Core.Player = {
       jt.duty  = ply.PlayerData.job.onduty
       jt.isBoss = ply.PlayerData.job.isboss
       jt.isCop = Config.PoliceJobs[ply.PlayerData.job.name]
+    elseif Config.Framework == "vrp" then
+      return vRP.getUserGroupByType(ply, "job")
     end
     return jt
   end,
@@ -215,25 +224,11 @@ Core.Player = {
       ply.setJob(j,r)
     elseif Config.Framework == "qb-core" then
       ply.Functions.SetJob(j,r)
+    elseif Config.Framework == "vrp" then 
+      vRP.addUserGroup(ply, j)
     end
   end,
 
-  --## Admin Functionality
-
-  --[[
-    Types of Data:
-    firstname
-    lastname
-    gender
-    birthdate
-    phone
-    accounts 
-
-
-  ]] 
-
-  --Core.Player.UpdateInfo(p,"firstname", "John")
-  -- Core.Player.UpdateInfo(p, "accounts", {bank = 10000, cash = 10000})
   UpdateInfo = function(p,type,info)
     local ply = Core.Player.Get(tonumber(p))
     if Config.Framework == "es_extended" then
@@ -257,6 +252,8 @@ Core.Player = {
       print('ESX does not have a standardised gang system please insert your own code here')
     elseif Config.Framework == "qb-core" then
       ply.Functions.SetGang(g,r)
+    elseif Config.Framework == "vrp" then 
+      vRP.addUserGroup(ply, g)
     end
   end,
 
@@ -265,15 +262,10 @@ Core.Player = {
       TriggerClientEvent('hospital:client:Revive', tonumber(p))
     elseif Config.Framework == "es_extended" then
       TriggerClientEvent('esx_ambulancejob:revive', tonumber(p)) -- IS THIS RIGHT?
+    elseif Config.Framework == "vrp" then 
+      vRPclient.varyHealth(Core.Player.Get(tonumber(p)), {100})
     end
   end,
-
-
-
-  
-
-
-
 
   --## MONEY FUNCTIONS
 
@@ -283,6 +275,11 @@ Core.Player = {
       return ply.getAccounts()
     elseif Config.Framework == "qb-core" then
       return ply.PlayerData.money
+    elseif Config.Framework == "vrp" then
+      return {
+        cash = vRP.getMoney(ply),
+        bank = vRP.getBankMoney(ply)
+      }
     end
   end,
 
@@ -292,12 +289,18 @@ Core.Player = {
       ply.removeAccountMoney(acc,a)
     elseif Config.Framework == "qb-core" then
       ply.Functions.RemoveMoney(acc,a)
+    elseif Config.Framework == "vrp" then 
+      if acc == "cash" then
+        vRP.tryPayment(ply,a)
+      elseif acc == "bank" then
+        vRP.tryBankPayment(ply,a)
+      end
     end
   end,
 
   AddMoney = function(p,acc,a)
+    local ply = Core.Player.Get(tonumber(p))
     if Config.Framework == "es_extended" then
-      local ply = ESX.GetPlayerFromId(p)
       local accs = ply.getAccounts()
       local exists = false
       for k,v in pairs(accs) do
@@ -308,8 +311,13 @@ Core.Player = {
       end
       ply.addAccountMoney(acc,a)
     elseif Config.Framework == "qb-core" then
-      local ply = QBCore.Functions.GetPlayer(p)
       ply.Functions.AddMoney(acc,a)
+    elseif Config.Framework == "vrp" then 
+      if acc == "cash" then
+        vRP.giveMoney(ply,a)
+      elseif acc == "bank" then
+        vRP.giveBankMoney(ply,a)
+      end
     end
   end,
 
@@ -332,6 +340,12 @@ Core.Player = {
           return v
         end
       end
+    elseif Config.Framework == "vrp" then
+      if vRP.getMoney(ply) >= a then
+        return "cash"
+      elseif vRP.getBankMoney(ply) >= a then
+        return "bank"
+      end
     end
     return false
   end,
@@ -345,6 +359,16 @@ Core.Player = {
     elseif Config.Framework == "qb-core" then
       if ply.PlayerData.money[acc] and (ply.PlayerData.money[acc] >= a) then
         return true
+      end
+    elseif Config.Framework == "vrp" then 
+      if acc == "cash" then
+        if vRP.getMoney(ply) >= a then
+          return true
+        end
+      elseif acc == "bank" then
+        if vRP.getBankMoney(ply) >= a then
+          return true
+        end
       end
     end
     return false
