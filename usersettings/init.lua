@@ -4,11 +4,12 @@ end
 
 local SupportedResources = {
   Inventory = {
-    ['qb-inventory'] = "qb-inventory/html/images/",
-    ['lj-inventory'] = "lj-inventory/html/images/",
-    ['qs-inventory'] = "qs-inventory/html/images/",
-    ['mf-inventory'] = "mf-inventory/nui/items/",
-    ['ox_inventory'] = "ox_inventory/web/images/"
+    ['qb-inventory']   = "qb-inventory/html/images/",
+    ['lj-inventory']   = "lj-inventory/html/images/",
+    ['qs-inventory']   = "qs-inventory/html/images/",
+    ['mf-inventory']   = "mf-inventory/nui/items/",
+    ['ox_inventory']   = "ox_inventory/web/images/",
+    ['core_inventory'] = "ox_inventory/web/images/",
   },
   TargetSystem   = {'qtarget', 'qb-target', 'ox_target'},
   TimeSystem     = {'vSync', 'cd_easytime', 'qb-weathersync'},
@@ -17,7 +18,7 @@ local SupportedResources = {
   Framework      = {'vrp','es_extended', 'qb-core'},
   KeySystem      = {'qb-vehiclekeys', 'cd_garage', 'okokGarage'},
   DispatchSystem = {'ps-dispatch', 'cd_dispatch', 'qs-dispatch'},
-  PhoneSystem    = {'qs-smartphone', 'gks_phone', 'lb-phone', 'nwpd', 'qb-phone'},
+  PhoneSystem    = {'qs-smartphone', 'gksphone', 'lb-phone', 'npwd', 'qb-phone'},
 }
 
 local FoundResources = {}
