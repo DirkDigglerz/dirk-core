@@ -56,15 +56,21 @@ Citizen.CreateThread(function()
         end 
       end
     elseif type == "Inventory" then
-      for resource,itemDir in pairs(resources) do 
-        local resState = GetResourceState(resource)
-        if resState ~= "missing" and resState ~= "unknown" then
-          Config[type] = resource 
-          Config.ItemsIconsDir = itemDir
-          FoundResources[type] = resource  
-        end        
+      local ox_inventory = GetResourceState('ox_inventory')
+      if ox_inventory ~= "missing" and ox_inventory ~= "unknown" then
+        Config[type]             = 'ox_inventory'
+        Config.ItemsIconsDir     = "ox_inventory/web/images/"
+        FoundResources[type]     = 'ox_inventory'
+      else 
+        for resource,itemDir in pairs(resources) do 
+          local resState = GetResourceState(resource)
+          if resState ~= "missing" and resState ~= "unknown" then
+            Config[type]         = resource 
+            Config.ItemsIconsDir = itemDir
+            FoundResources[type] = resource  
+          end        
+        end
       end
-
     else
       for index,resource in pairs(resources) do 
         local resState = GetResourceState(resource)
