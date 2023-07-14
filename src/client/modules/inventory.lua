@@ -1,10 +1,11 @@
 Core.Inventory = {
-  Open = function(id,data, type)
-
+  Open = function(id,data)
     if Config.Inventory == "ox_inventory" then 
       local exists = exports.ox_inventory:openInventory('stash', id)
       if not exists then 
         TriggerServerEvent("Dirk:Inventory:RegisterStash", id, data)
+        Wait(1000)
+        exports.ox_inventory:openInventory('stash', id)
       end
     elseif Config.Inventory == "qs-inventory" and Config.NewQSInventory then 
 

@@ -88,9 +88,8 @@ end)
 RegisterNetEvent("Dirk:Inventory:RegisterStash", function(id, data)
   if Config.Inventory == "ox_inventory" then 
     exports.ox_inventory:RegisterStash(id, data.Label, data.Slots, data.Weight)
-  elseif Config.Inventory == "qs-inventory" and Config. then
+  elseif Config.Inventory == "qs-inventory" and Config.NewQSInventory then
 
   end
 end)
 
-Citizen.CreateThread(Core.Inventory.Load)
