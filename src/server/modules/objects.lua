@@ -280,29 +280,6 @@ end)
 -----------------------------------------------------------------------
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Citizen.CreateThread(function()
   while not Config.Framework do Wait(500); end 
   Core.Callback("Dirk-Core:Physicals:GetPhysicals", function(source,cb)
@@ -318,27 +295,6 @@ Citizen.CreateThread(function()
   while not Core.Player do Wait(500); end
   Core.Callback("Dirk-Core:HasItem", function(src,cb,item,a)
     cb(Core.Player.HasItem(src, item,a))
-  end)
-
-  while not Core.Inventories do Wait(500); end
-  Core.Callback("Dirk:Inventory:Open", function(src,cb,id)
-    local tInv = Core.Inventory.GetById(id)
-    if not tInv then cb(nil, nil) return false; end
-    if tInv.inUse then cb(nil,nil) return false; end
-    tInv.ChangeUse(true)
-    local invs = {
-      {
-        id = "Player",
-        label = "My Inventory",
-        items = cleanse(Core.Player.Inventory(src)),
-      },
-      {
-        id = tInv.ID,
-        label = tInv.Name,
-        items = cleanse(tInv.Items),
-      },
-    }
-    cb(invs)
   end)
 
   while not Core.Objects do Wait(500); end 

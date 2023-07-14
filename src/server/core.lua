@@ -14,6 +14,10 @@ Core = {
     end
   end,
 
+  CheckScriptVersion = function()
+        
+  end,
+
   AddCommand = function(name,desc,func)
     if Config.UsingClassicCommand then
       RegisterCommand(name, function(source,args)
