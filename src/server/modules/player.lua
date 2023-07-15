@@ -152,7 +152,7 @@ Core.Player = {
       if Config.Framework == "es_extended" then
         ply.addInventoryItem(i,a)
       elseif Config.Framework == "qb-core" then
-        ply.Functions.AddItem(i,a)
+        ply.Functions.AddItem(i,a, md or nil)
         TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "add")
       end
     end
