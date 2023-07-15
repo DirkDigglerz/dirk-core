@@ -129,7 +129,7 @@ Core.Player = {
 
   AddItem = function(p,i,a,md)
     local ply = Core.Player.Get(p)
-    if Config.Inventory == "qb-inventory" then
+    if Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" then
       ply.Functions.AddItem(i, a, false, md)
       TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "add")
     elseif Config.Inventory == "mf-inventory" then
