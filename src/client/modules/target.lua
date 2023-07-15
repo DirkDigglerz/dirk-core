@@ -107,8 +107,13 @@ Core.Target = {
   end,
 
   AddGlobalVehicle = function(data)
-    if Config.TargetSystem == "qb-target" or Config.TargetSystem == "qtarget" then
+    if Config.TargetSystem == "qb-target" then
       exports[Config.TargetSystem]:AddGlobalVehicle({
+        distance = (data.Distance or 1.5),
+        options  = data.Options,
+      })
+    elseif Config.TargetSystem == "qtarget" then 
+      exports[Config.TargetSystem]:Veh({
         distance = (data.Distance or 1.5),
         options  = data.Options,
       })
@@ -124,8 +129,13 @@ Core.Target = {
 
 
   AddGlobalPed = function(data)
-    if Config.TargetSystem == "qb-target" or Config.TargetSystem == "qtarget" then
+    if Config.TargetSystem == "qb-target" then
       exports[Config.TargetSystem]:AddGlobalPed({
+        distance = (data.Distance or 1.5),
+        options  = data.Options,
+      })
+    elseif Config.TargetSystem == "qtarget" then 
+      exports[Config.TargetSystem]:Ped({
         distance = (data.Distance or 1.5),
         options  = data.Options,
       })
