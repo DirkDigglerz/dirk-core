@@ -113,7 +113,7 @@ Core.Target = {
         options  = data.Options,
       })
     elseif Config.TargetSystem == "qtarget" then 
-      exports[Config.TargetSystem]:Veh({
+      exports[Config.TargetSystem]:Vehicle({
         distance = (data.Distance or 1.5),
         options  = data.Options,
       })
