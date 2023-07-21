@@ -126,8 +126,6 @@ Core.Target = {
     end
   end,
 
-
-
   AddGlobalPed = function(data)
     if Config.TargetSystem == "qb-target" then
       exports[Config.TargetSystem]:AddGlobalPed({
@@ -145,6 +143,26 @@ Core.Target = {
        -- data.Options[k].distance = (data.Distance or 1.5)
       end
       return exports.ox_target:addGlobalPed(data.Options)
+    end
+  end,
+
+  AddModels    = function(data)
+    if Config.TargetSystem == "qb-target" then
+      exports[Config.TargetSystem]:AddGlobalPed({
+        distance = (data.Distance or 1.5),
+        options  = data.Options,
+      })
+    elseif Config.TargetSystem == "qtarget" then 
+      exports[Config.TargetSystem]:Ped({
+        distance = (data.Distance or 1.5),
+        options  = data.Options,
+      })
+    elseif Config.TargetSystem == "ox_target" then
+      for k,v in pairs(data.Options) do
+        data.Options[k].onSelect = v.action
+       -- data.Options[k].distance = (data.Distance or 1.5)
+      end
+      return exports.ox_target:addModel(data.Models, data.Options)
     end
   end,
 

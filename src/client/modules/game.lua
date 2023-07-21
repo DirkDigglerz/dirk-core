@@ -158,7 +158,7 @@ Core.Game = {
   end, 
 
   GetClosestPed = function(pos, ignoreMe)
-    local pool, ply, coords, closestPed, closestDistance = Core.Game.GetEntityPool({'CPed'}), PlayerPedId(), GetEntityCoords(ply), 99999999, 99999999
+    local pool, coords, closestPed, closestDistance = Core.Game.GetEntityPool({'CPed'}), GetEntityCoords(PlayerPedId()), 99999999, 99999999
     for k,v in pairs(pool) do
       local pedCoords = GetEntityCoords(v)
       local distance  = #(pedCoords - coords)
@@ -171,7 +171,7 @@ Core.Game = {
   end,
 
   GetClosestObject = function(model,rad)
-    local pool, ply, coords, closestObject, closestDistance = Core.Game.GetEntityPool({'CObject'}), PlayerPedId(), GetEntityCoords(ply), 99999999, 99999999
+    local pool, coords, closestObject, closestDistance = Core.Game.GetEntityPool({'CObject'}), GetEntityCoords(PlayerPedId()), 99999999, 99999999
     for k,v in pairs(pool) do
       local pedCoords = GetEntityCoords(v)
       local distance  = #(pedCoords - coords)
@@ -186,11 +186,12 @@ Core.Game = {
   end,
 
   GetClosestVehicle = function(cs)
-    local pool, ply, coords, closestVehicle, closestDistance = Core.Game.GetEntityPool({'CVehicle'}), PlayerPedId(), GetEntityCoords(ply), 99999999, 99999999
+    local pool, coords, closestVehicle, closestDistance = Core.Game.GetEntityPool({'CVehicle'}), GetEntityCoords(PlayerPedId()), 99999999, 99999999
     for k,v in pairs(pool) do
-      local pedCoords = GetEntityCoords(v)
-      local distance  = #(pedCoords - coords)
+      local vehCoords = GetEntityCoords(v)
+      local distance  = #(vehCoords - coords)
       if distance <= closestDistance then 
+        
         closestVehicle = v
         closestDistance = distance
       end 
