@@ -129,18 +129,8 @@ Core.Player = {
 
   AddItem = function(p,i,a,md)
     local ply = Core.Player.Get(p)
-    if Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" then
-      ply.Functions.AddItem(i, a, false, md)
-      TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "add")
-    elseif Config.Inventory == "mf-inventory" then
-      ply.addInventoryItem(i, a, 100.0, md)
-    elseif Config.Inventory == "qs-inventory" then
-      if Config.NewQSInventory then 
-        exports['qs-inventory']:AddItem(tonumber(p),i,a,false,md)
-      else
-        TriggerEvent('qs-inventory:addItem', tonumber(p), i, a, false, md)
-      end
-
+    if Config.Inventory == "qs-inventory" and Config.NewQSInventory then
+      exports['qs-inventory']:AddItem(tonumber(p),i,a,false,md)
     elseif Config.Inventory == "ox_inventory" then
       exports['ox_inventory']:AddItem(p, i, a, md, nil, function(success, reason)
         if not success then
@@ -149,6 +139,11 @@ Core.Player = {
         end
       end)
     else
+      --## FALL BACK FOR MOST INVENTORIES
+      -- OLD QS
+      -- QB-INVENTORY
+      -- LJ-INVENTORY
+      -- ESX-INVENTORY
       if Config.Framework == "es_extended" then
         ply.addInventoryItem(i,a)
       elseif Config.Framework == "qb-core" then
@@ -156,7 +151,6 @@ Core.Player = {
         TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "add")
       end
     end
-
   end,
 
   RemoveItem = function(p,i,a)
@@ -168,9 +162,10 @@ Core.Player = {
       ply.removeInventoryItem(i,a)
       return true
     elseif Config.Framework == "qb-core" then
-      ply.Functions.RemoveItem(i,a)
-      TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "remove")
-      return true
+      if ply.Functions.RemoveItem(i,a) then 
+        TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "remove")
+        return true
+      end
     elseif Config.Framework == "vrp" then
       vRP.tryGetInventoryItem(ply, i, a)
       return true
