@@ -5,10 +5,18 @@ Core.Inventory = {
   UseableItem = function(name, cb)
     if Config.Framework == "es_extended" then
       ESX.RegisterUsableItem(name, function(source,item,extra)
+        -- print("ITEM")
+        -- print(json.encode(item, {indent = true}))
+        -- print("EXTRA")
+        -- print(json.encode(extra, {indent = true}))
         cb(source,item,extra)
       end)
     elseif Config.Framework == "qb-core" then
       QBCore.Functions.CreateUseableItem(name, function(source, item, extra)
+        -- print("ITEM")
+        -- print(json.encode(item, {indent = true}))
+        -- print("EXTRA")
+        -- print(json.encode(extra, {indent = true}))
         cb(source,item, extra)
       end)
     end

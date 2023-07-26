@@ -8,8 +8,8 @@ Core.Player = {
       while not ESX.IsPlayerLoaded() do print('Hung at PLAYER LOADED') Wait(500); end
       return true
     elseif Config.Framework == "qb-core" then
-      while not QBCore do Wait(500); end
-      while not QBCore.Functions.GetPlayerData().job do Wait(500); end
+      while not QBCore do print('AWAITING QBCORE OBJECT') Wait(500); end
+      while not QBCore.Functions.GetPlayerData().job do print('AWAITING PLAYER READY') Wait(500); end
       return true
     end
     return true

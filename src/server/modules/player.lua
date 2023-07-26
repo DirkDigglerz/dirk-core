@@ -145,9 +145,9 @@ Core.Player = {
       -- LJ-INVENTORY
       -- ESX-INVENTORY
       if Config.Framework == "es_extended" then
-        ply.addInventoryItem(i,a)
+        ply.addInventoryItem(i,a, md or nil)
       elseif Config.Framework == "qb-core" then
-        ply.Functions.AddItem(i,a, md or nil)
+        ply.Functions.AddItem(i,a, nil, md or nil)
         TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "add")
       end
     end
