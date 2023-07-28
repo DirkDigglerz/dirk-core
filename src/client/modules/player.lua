@@ -2,15 +2,23 @@ Core.Player = {
   CurJob = {},
 
   Ready = function()
+    local start_time = GetGameTimer()
     if Config.Framework == "es_extended" then
       
-      while not ESX do print('Hung at ESX') Wait(5000); end
-      while not ESX.IsPlayerLoaded() do print('Hung at PLAYER LOADED') Wait(500); end
-      return true
+      while not ESX do Wait(5000); end
+      while not ESX.IsPlayerLoaded() do 
+        print('Hung at PLAYER LOADED') 
+        local now = GetGameTimer()
+        if now - start_time >= Config.WaitForPlayerReady * 1000 then print('SKIPPED WAITING FOR PLAYER LOADED AS TOOK TOO LONG') return true; end
+        Wait(500) 
+      end
     elseif Config.Framework == "qb-core" then
       while not QBCore do print('AWAITING QBCORE OBJECT') Wait(500); end
-      while not QBCore.Functions.GetPlayerData().job do print('AWAITING PLAYER READY') Wait(500); end
-      return true
+      while not QBCore.Functions.GetPlayerData().job do   
+        local now = GetGameTimer()
+        if now - start_time >= Config.WaitForPlayerReady * 1000 then print('SKIPPED WAITING FOR PLAYER LOADED AS TOOK TOO LONG') return true; end 
+        Wait(500)
+      end
     end
     return true
   end,
