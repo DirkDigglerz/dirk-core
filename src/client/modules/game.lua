@@ -143,18 +143,14 @@ Core.Game = {
   end,
 
   GetClosestPlayer = function(ignoreMe)
-    local pool, ply, coords, closestPlayer, closestDistance = Core.Game.GetEntityPool({'CPed'}), PlayerPedId(), GetEntityCoords(ply), 99999999, 99999999
-    for k,v in pairs(pool) do
-      if IsPedAPlayer(v) then 
-        local pedCoords = GetEntityCoords(v)
-        local distance  = #(pedCoords - coords)
-        if distance <= closestDistance then 
-          closestPlayer = v
-          closestDistance = distance
-        end 
-      end
+    if Config.Framework == "qb-core" then
+      local closestPlayer, closestDistance = QBCore.Functions.GetClosestPlayer(ignoreMe)
+      return closestPlayer, closestDistance
+    elseif Config.Framework == "es_extended" then
+      local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer(ignoreMe)
+      return closestPlayer, closestDistance
     end
-    return closestPlayer, closestDistance
+    return print('FRAMEWORK NOT SUPPORTED')
   end, 
 
   GetClosestPed = function(pos, ignoreMe)

@@ -69,8 +69,10 @@ Core.Player = {
   CheckOnline = function(id)
     local plys = GetPlayers()
     for k,v in pairs(plys) do
-      if Core.Player.Id(tonumber(v)) == id then
-        return v
+      if Core.Player.Get(tonumber(v)) then
+        if Core.Player.Id(tonumber(v)) == id then
+          return v
+        end
       end
     end
     return false

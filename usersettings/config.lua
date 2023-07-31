@@ -16,6 +16,11 @@ Config = {
   StashSystem         = "default", --## If default then will use ox,qs,mf and qb-core inventories. if "dirk" then will use my stash system (ESX Default Inv will need to use mine)
   --## DEBUG FOR TARGET ZONES
   DrawDebug           = false,
+  --## FRAMEWORK ACCOUNT SETTINGS
+  FrameworkAccounts = {
+    'cash',
+    'bank',
+  },
   ------------------------------------------------------------------------------------------------------------------------------------------------------------
   UsingClassicCommand = false, --## If you want to use the old command /target
   NewQSInventory      = false, --## Had to add this because the name of the inventoryt is the same from v1-v2
