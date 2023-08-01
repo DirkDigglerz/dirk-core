@@ -1,4 +1,6 @@
 Core = {
+
+
   States = {},
 
   ChangeState = function(name,data)

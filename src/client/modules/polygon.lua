@@ -3,17 +3,11 @@ local glm = require 'glm'
 
 Core.Polygon = {
   IsPointInside = function(point, polygon)
-    local oddNodes = false
-    local j = #polygon
-    for i = 1, #polygon do
-      if (polygon[i].y < point.y and polygon[j].y >= point.y or polygon[j].y < point.y and polygon[i].y >= point.y) then
-        if (polygon[i].x + ( point.y - polygon[i].y ) / (polygon[j].y - polygon[i].y) * (polygon[j].x - polygon[i].x) < point.x) then
-            oddNodes = not oddNodes;
-        end
-      end
-      j = i;
+    for k,v in pairs(polygon) do 
+      polygon[k] = vector3(v.x,v.y, point.z) 
     end
-    return oddNodes 
+    local polygon = glm.polygon.new(polygon)
+    return polygon:contains(point)
   end,
 
   getMinMax = function(points)

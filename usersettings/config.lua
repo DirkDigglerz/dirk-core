@@ -108,5 +108,6 @@ Config = {
 }
 
 getCore = function()
+  while not Core.DataLoaded do Wait(500); end
   return Core, Config
 end
