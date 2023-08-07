@@ -306,4 +306,10 @@ Citizen.CreateThread(function()
     end
   end)
 
+
+  while not Core.Player do Wait(500); end
+  Core.Callback("Dirk-Core:HasItem", function(src,cb,item,a, md)
+    cb(Core.Player.HasItem(src, item,a, md))
+  end)
+
 end)

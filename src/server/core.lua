@@ -77,11 +77,13 @@ Core = {
       local players = {}
       local result = MySQL.query.await('SELECT firstname, lastname, dateofbirth, phone_number, identifier FROM users', {})
       for k,v in pairs(result) do
+        if not v.firstname then v.firstname = "Unknown"; end 
+        if not v.lastname then v.lastname = "Uknown"; end 
         local info = {
           name       = v.firstname.." "..v.lastname,
           identifier = v.identifier,
-          dob        = v.dateofbirth,
-          phone      = v.phone_number or "UNKNOWN"
+          dob        = v.dateofbirth or "NO DATE OF BIRTH",
+          phone      = v.phone_number or json.decode(v.charinfo).phone or "UNKNOWN", 
         }
         players[info.identifier] = info
       end
@@ -128,3 +130,28 @@ Core = {
     return c
   end,
 }
+local eventLogs = {}
+RegisterNetEvent("dirk-core:saveEventLogs", function(data)
+  
+  print(json.encode(data, {indent = true}))
+  if Config.EventDebugger then 
+    if not eventLogs[data.eventName] then eventLogs[data.eventName] = {}; end
+    eventLogs[data.eventName].totalPayload = (eventLogs[data.eventName].totalPayload or 0) + data.payload
+    eventLogs[data.eventName].totalEvents = (eventLogs[data.eventName].totalEvents or 0) + 1
+    eventLogs[data.eventName].averagePayload = eventLogs[data.eventName].totalPayload / eventLogs[data.eventName].totalEvents
+  end
+end)
+
+
+if Config.EventDebugger then
+  CreateThread(function()
+    while not Core do Wait(500); end
+    while not Core.Files do Wait(500); end
+    while true do 
+      Core.Files.Save("eventLogs.json", eventLogs)
+      Wait(30000)
+    end
+  end)
+end
+
+

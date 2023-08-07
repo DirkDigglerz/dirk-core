@@ -23,6 +23,15 @@ Core.Player = {
     return true
   end,
 
+  HasItem = function(item,amount, md) 
+    local ret = nil 
+    Core.Callback("Dirk-Core:HasItem", function(hasItem)
+      ret = hasItem
+    end, item, amount, md)
+    while ret == nil do Wait(0); end
+    return ret
+  end,
+
   Job = function()
     return Core.Player.CurJob
   end,

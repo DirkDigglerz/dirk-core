@@ -1,13 +1,13 @@
 Core.Files = {
   Save = function(filename, data)
     local resource = GetInvokingResource()
-    print(string.format("^2Dirk-Core^7 | %s is saving ^3: %s^7", resource, filename))
+    print(string.format("^2Dirk-Core^7 | %s is saving ^3: %s^7", resource or "dirk-core", filename))
     SaveResourceFile(GetCurrentResourceName(), string.format('saveddata/%s', filename), json.encode(data, {indent = true}))
   end,
 
   Load = function(filename)
     local resource = GetInvokingResource()
-    print(string.format("^2Dirk-Core^7 | %s is loading ^3: %s^7", resource, filename))
+    print(string.format("^2Dirk-Core^7 | %s is loading ^3: %s^7", resource or "dirk-core", filename))
     local data = json.decode(LoadResourceFile(GetCurrentResourceName(), string.format('saveddata/%s', filename)))
     return data
   end,

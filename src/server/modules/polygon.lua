@@ -1,8 +1,6 @@
 local glm = require 'glm'
 
 Core.Polygon = {
-
-
   GetRandomPoint = function(points)
     local minX, maxX, minY, maxY, minZ, maxZ = Core.Polygon.getMinMax(points)
     -- Find the minimum and maximum values for x and y coordinates
@@ -31,19 +29,11 @@ Core.Polygon = {
 
  
   IsPointInPolygon = function(point, polygon)
-    local isInside = false
-    local j = #polygon
-
-    for i = 1, #polygon do
-      if ((polygon[i].y > point.y) ~= (polygon[j].y > point.y)) and
-        (point.x < (polygon[j].x - polygon[i].x) * (point.y - polygon[i].y) /
-          (polygon[j].y - polygon[i].y) + polygon[i].x) then
-        isInside = not isInside
-      end
-      j = i
+    for k,v in pairs(polygon) do 
+      polygon[k] = vector3(v.x,v.y, point.z) 
     end
-
-    return isInside
+    local polygon = glm.polygon.new(polygon)
+    return polygon:contains(point)
   end,
 
   getMinMax = function(points)

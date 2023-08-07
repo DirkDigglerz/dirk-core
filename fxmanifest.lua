@@ -55,6 +55,7 @@ files{
   'src/nui/main/*.*',
   'src/nui/prompts/*.*',
   'src/nui/keycode/*.*',
+  'src/nui/licenses/*.*',
 
 }
 
