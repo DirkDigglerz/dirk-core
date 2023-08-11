@@ -131,12 +131,11 @@ Core = {
   end,
 }
 local eventLogs = {}
-RegisterNetEvent("dirk-core:saveEventLogs", function(data)
-  
-  print(json.encode(data, {indent = true}))
+RegisterNetEvent("Dirk-Core:saveEventLogs", function(data)
   if Config.EventDebugger then 
+    if data.playerId ~= -1 then return false; end     
     if not eventLogs[data.eventName] then eventLogs[data.eventName] = {}; end
-    eventLogs[data.eventName].totalPayload = (eventLogs[data.eventName].totalPayload or 0) + data.payload
+    eventLogs[data.eventName].totalPayload = (eventLogs[data.eventName].totalPayload or 0) + (tonumber(data.payload) or 0)
     eventLogs[data.eventName].totalEvents = (eventLogs[data.eventName].totalEvents or 0) + 1
     eventLogs[data.eventName].averagePayload = eventLogs[data.eventName].totalPayload / eventLogs[data.eventName].totalEvents
   end
@@ -147,6 +146,7 @@ if Config.EventDebugger then
   CreateThread(function()
     while not Core do Wait(500); end
     while not Core.Files do Wait(500); end
+    eventLogs = Core.Files.Load("eventLogs.json") or {}
     while true do 
       Core.Files.Save("eventLogs.json", eventLogs)
       Wait(30000)
