@@ -39,10 +39,12 @@ Core.Licenses = {
 
   HasLicense = function(license, player)
     local hasLicense = nil
+    local res = nil
     Core.Callback("Dirk-Core:CheckLicense", function(has)
       hasLicense = has
+      res = true
     end, license, player)
-    while hasLicense == nil do Wait(0); end
+    while res == nil do Wait(0); end
     return hasLicense
   end
 }

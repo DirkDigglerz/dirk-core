@@ -31,7 +31,8 @@ CreateThread(function()
   while not Core do Wait(0); end
   while not Core.Callback do Wait(0); end
   Core.Callback("Dirk-Core:CheckLicense", function(src, cb, license, player)
-    cb(Core.Licenses.HasLicense((player or src), license))
+    local outcome = Core.Licenses.HasLicense((player or src), license)
+    cb(outcome)
   end)
 
   Core.Callback("Dirk-Core:GetTestInfo", function(src,cb, license)
@@ -41,14 +42,14 @@ CreateThread(function()
   while not Core.Files do Wait(500); end 
   Core.Licenses.Players = Core.Files.Load("licenses.json") or {}
 
-  RegisterCommand("DirkCore:GiveLicense", function(source,args)
+  RegisterCommand("Dirk-Core:GiveLicense", function(source,args)
     local to = tonumber(args[1])
     local license = args[2]
     if not to or not license then return; end
     Core.Licenses.State(to, license, true)
   end, true)
 
-  RegisterCommand("DirkCore:RevokeLicense", function(source,args)
+  RegisterCommand("Dirk-Core:RevokeLicense", function(source,args)
     local to = tonumber(args[1])
     local license = args[2]
     if not to or not license then return; end

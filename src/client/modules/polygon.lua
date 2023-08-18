@@ -67,7 +67,7 @@ Core.Polygon = {
 
     return plot
   end,
-
+  
   DrawWall = function(pos1,pos2,height)
     local r,g,b,a = 0,255,0,54
     local topLeft     = vector3(pos1.x, pos1.y, pos1.z + height)

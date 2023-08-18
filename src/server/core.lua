@@ -1,10 +1,5 @@
 Core = {
-  States = {},
 
-  ChangeState = function(name,data)
-    Core.States = data
-    TriggerClientEvent("Dirk-Core:States:Update", -1, name, data)
-  end,
 
   Callback = function(name,route)
     if Config.Framework == "es_extended" then
@@ -14,8 +9,8 @@ Core = {
     end
   end,
 
-  CheckScriptVersion = function()
-        
+  CheckScriptVersion = function(script, myVersion)
+    
   end,
 
   AddCommand = function(name,desc,func)
@@ -70,6 +65,10 @@ Core = {
       end
 
     end
+  end,
+
+  Webhook = function(channel, name, embed)
+    PerformHttpRequest(channel, function(err, text, headers) end, 'POST', json.encode({username = name, embeds = embed}), { ['Content-Type'] = 'application/json' })
   end,
 
   GetAllPlayers = function()
@@ -130,6 +129,18 @@ Core = {
     return c
   end,
 }
+
+
+
+
+
+
+
+
+
+
+
+
 local eventLogs = {}
 RegisterNetEvent("Dirk-Core:saveEventLogs", function(data)
   if Config.EventDebugger then 
@@ -155,3 +166,6 @@ if Config.EventDebugger then
 end
 
 
+getCore = function()
+  return Core, Config
+end

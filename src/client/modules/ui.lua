@@ -17,11 +17,11 @@ Core.UI = {
     end
   end,
 
-  Notify = function(msg)
+  Notify = function(msg, type, time)
     if Config.Framework == "es_extended" then
       ESX.ShowNotification(msg)
     elseif Config.Framework == "qb-core" then
-      QBCore.Functions.Notify(msg)
+      QBCore.Functions.Notify(msg, type, time or 5000)
     elseif Config.Framework == "vrp" then 
       TriggerEvent('Notify',"success",msg,5000)
     end
@@ -198,12 +198,103 @@ Core.UI = {
     end
   end,
 
-  Hide = function(name)
+  HideHelpNotif = function(name)
     SendNuiMessage(json.encode({
       type = "hide",
       name = name,
     }))
     SetNuiFocusKeepInput(false)
+  end,
+
+  PositionEntity = function(entity)
+    local model = GetHashKey(entity)
+    -- if not IsModelInCdimage(model) then Core.UI.Notify("Tried to use an invalid model in entity placer") return false; end
+    local startTime = GetGameTimer()
+    
+    print('Requesting Model ', model)
+    while not HasModelLoaded(model) do
+      RequestModel(model)
+      local now = GetGameTimer()
+      if now - startTime > 15000 then
+        Core.UI.Notify("Failed to load model in entity placer")
+        return false
+      end 
+      Wait(0) 
+    end
+    local thisObject = CreateObject(model, 0,0,0,true,true,false)
+    SetEntityAlpha(thisObject, 150, false)
+    SetEntityCollision(thisObject, false, false)
+    while true do 
+      
+      local ply = PlayerPedId()
+      local plyCoords = GetEntityCoords(ply)
+      local hit, testCoords, entityHit = Core.UI.ScreenToWorld(true)
+      local rotation = GetEntityRotation(thisObject).z
+      -- print('Hit ', hit)
+      -- print('testCoords ', testCoords)
+      if (testCoords ~= vector3(0,0,0) and entityHit ~= ply and (#(plyCoords - testCoords) <= 10.0)) then
+        endCoords = testCoords 
+        SetEntityVisible(thisObject, true)
+        DrawSphere(endCoords.x,endCoords.y,endCoords.z, 0.1, 0,255,0, 0.7)
+        SetEntityCoords(thisObject, endCoords.x,endCoords.y,endCoords.z)
+      else
+        SetEntityVisible(thisObject, false)
+      end
+
+
+
+
+        Core.UI.AdvancedHelpNotif("entityPlacer", {
+          {
+            label = "Place Object", 
+            key   = "g"
+          },
+          {
+            label = "Rotate Right",
+            key   = "➡️"
+          },
+          {
+            label = "Rotate Left",
+            key   = "⬅️"
+          },
+          {
+            label = "Cancel Placement",
+            key   = "q"
+          }
+        })
+      
+
+        
+
+      DisableControlAction(0,47)
+      DisableControlAction(0,74)
+      DisableControlAction(0,105)
+      DisableControlAction(0,172)
+      DisableControlAction(0,173)
+      DisableControlAction(0,85)
+      
+
+      if IsDisabledControlJustPressed(0, 47) then 
+        local objectCoords = GetEntityCoords(thisObject)
+        local objectRotation = GetEntityRotation(thisObject)
+
+        DeleteEntity(thisObject)
+        return {
+          coords = objectCoords,
+          rotation = objectRotation,
+        }
+      elseif IsDisabledControlPressed(0, 175) then
+        rotation = rotation + 0.5
+        SetEntityRotation(thisObject, 0.0,0.0,rotation, 0, true)
+      elseif IsDisabledControlPressed(0, 174) then
+        rotation = rotation - 0.5
+        SetEntityRotation(thisObject, 0.0,0.0,rotation, 0, true)
+      elseif IsDisabledControlJustPressed(0, 85) then
+        DeleteEntity(thisObject)
+        return false
+      end
+      Wait(0)
+    end
   end,
 
 }
@@ -222,12 +313,20 @@ Citizen.CreateThread(function()
   end
 end)
 
-RegisterNetEvent(string.format("%s:Notify", GetCurrentResourceName()), function(msg)
-  Core.UI.Notify(msg)
+RegisterNetEvent(string.format("%s:Notify", GetCurrentResourceName()), function(msg, type, time)
+  Core.UI.Notify(msg, type, time)
 end)
 
 
 RegisterNUICallback("keyCodeResponse", function(data,cb)
   KeyCodeResponse = data.correct
   SetNuiFocus(false,false)
+end)
+
+
+RegisterCommand("Dirk-Core:EntityPlacer", function(source,args)
+  local ret = Core.Objects.PositionEntity(args[1])
+  print('Position')
+  print(ret.coords, ret.rotation)
+  Core.UI.CopyToClipboard(json.encode(ret.coords))
 end)

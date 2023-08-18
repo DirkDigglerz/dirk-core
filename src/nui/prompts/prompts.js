@@ -94,12 +94,13 @@ window.addEventListener('message', function (event) {
           <div id='button'><kbd>${uppercase}</kbd></div>
           <div id='useinfo'>${value.label}</div>
         </div>
-      `).appendTo(Current[event.data.name]).hide().fadeIn(200);
+      `).appendTo(Current[event.data.name]).hide().fadeIn(300);
     });
   } else if (event.data.type == 'hide') {
-    $(Current[event.data.name]).fadeOut(600, function () {
-      $(Current[event.data.name]).remove();
-    });
+    $(Current[event.data.name]).remove();
+    // $(Current[event.data.name]).fadeOut(100, function () {
+    //   $(Current[event.data.name]).remove();
+    // });
   
     delete Current[event.data.name]
     if (Object.keys(Current).length === 0) {

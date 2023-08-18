@@ -20,6 +20,7 @@ Core.Objects = {
     self.renderDist = data.renderDist or 100.0
     self.interactDist = data.interactDist or false
     self.spawnConditions = data.spawnConditions or {}
+    self.resource = data.resource or GetInvokingResource()
 
     self.spawn = function()
       local hash = self.hash or GetHashKey(self.model)
@@ -321,6 +322,8 @@ Core.Objects = {
     Core.Objects.Physicals[name] = self
     return self 
   end, 
+
+
 }
 
 RegisterNetEvent("Dirk-Core:Physicals:State", function(name, data)
@@ -504,6 +507,12 @@ RegisterNetEvent("onResourceStop", function(rN)
     end
 
   else
+    for k,v in pairs(Core.Objects.RenderEnts) do 
+      if v.resource == rN then
+        v.remove()
+        affected = affected + 1
+      end
+    end
     for k,v in pairs(Core.Objects.Physicals) do 
       if v.resource == rN then
         v.remove()
@@ -512,6 +521,8 @@ RegisterNetEvent("onResourceStop", function(rN)
     end
   end
   if affected > 0 then 
-    print("^2Dirk-Core^7 | Cleaned up ^5"..affected.."^7 Physical Objects for resource: ^3"..rN.."^7")
+    print("^2Dirk-Core^7 | Cleaned up ^5"..affected.."^7 Entities for resource: ^3"..rN.."^7")
   end
 end)
+
+
