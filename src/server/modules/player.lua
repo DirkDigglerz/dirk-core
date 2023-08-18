@@ -78,9 +78,10 @@ Core.Player = {
     return false
   end,
 
-  Jail = function(id,time)
+  Jail = function(id,time, source)
     if Config.JailSystem == "esx_jail" then 
-      TriggerEvent('esx_jail:sendToJail', id, time * 60)
+      
+      TriggerEvent('esx_jail:sendToJail', id, time * 60, true)
     elseif Config.JailSystem == "qb-prison" then
       local OtherPlayer = Core.Player.Get(id)
       if not OtherPlayer then return; end
@@ -96,6 +97,17 @@ Core.Player = {
           ["date"] = currentDate
       })
       TriggerClientEvent("police:client:SendToJail", OtherPlayer.PlayerData.source, time)
+    elseif Config.JailSystem == "rcore_prison" then 
+      TriggerEvent('rcore_prison:startSentence', {
+        issuedBy = {
+          serverId = source
+        },
+        target = {
+          serverId = id,
+          time = time * 60,
+          state = "jailed",
+        }
+      })
     end
   end,
 
@@ -140,6 +152,8 @@ Core.Player = {
           if reason ~= "invalid_item" then print(reason) print('Some sort of issue with ox_inventory make a ticket on DirkScripts Discord!') return false; end
         end
       end)
+    elseif Config.Inventory == "mf-inventory" then
+      exports["mf-inventory"]:addInventoryItem(Core.Player.Id(p), i, a, p, 100, md)
     else
       --## FALL BACK FOR MOST INVENTORIES
       -- OLD QS
