@@ -1,145 +1,64 @@
-.promptList {
-  font-family: 'IBM Plex Sans Condensed', sans-serif;
-  font-family: 'Koulen', cursive;
-  font-weight: 500;
-  font-size: large;
-  display: flex;
-  flex-direction: column;
-  transition: opacity 1s;
+prompt > *{
+  box-sizing: border-box;
+  font-family:'Akshar', sans-serif;
+}
+
+prompt{
+  box-sizing: border-box;
+  font-family:'Akshar', sans-serif;
   user-select: none;
-  position: absolute;
-  /* left: 35%;
-  top: 35%; */
-  transform: translate(-50%, -50%);
-  overflow: hidden;
-  transition: width 1.5s ease;
-  transition: height 1.5s ease;
-
-}
-
-.Prompt {
-  /* Chrome 10-25, Safari 5.1-6 */
-
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  display: flex;
-  flex-direction: row;
-  width: fit-content;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  align-content: center;
-  gap: 2px;
-  padding: 2.5px;
-  margin-top:5px;
-}
-
-
-
-
-
-.icon {
-  width: 25px;
-  height: 25px;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.26));
-  display: flex;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  align-content: center;
-  border-radius: 2px;
-  border: 1px solid black;
-  font-size: smaller;
-}
-
-.icon:hover {
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.56));
-}
-
-.promptButton {
-  font-weight: bolder;
-  width: 25px;
-  height: 25px;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.26));
-  display: flex;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  align-content: center;
-  border-radius: 2px;
-  border: 1px solid black;
-}
-
-.promptText {
+  /* background-color: red; */
   color: white;
-}
-
-.HelpOuter{
-  user-select: none;
-  font-family: 'Bebas Neue';
   position: absolute;
-  top: 60%;
-  left: 60%;
-  transform: translate(-50%, -50%);
-  width: auto;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-}
+  right:0;
+  top:50%;
+  width:25vw;
+  height:25vh;
 
-#HelpContainer {
-  display: flex;
-  flex-direction: column;
-  /*      box-shadow: 10px 10px 10px black;*/
-  border-radius: 5px;
-}
-
-#row {
-  gap:5px;
-  margin-top: 1.5%;
-  width: auto;
-  display: flex;
-  align-content: center;
-  Justify-content: center;
-  align-items: center;
-  Justify-items: center;
-  flex-direction: row;
-}
-
-#button {
-  border: 1px solid rgba(255, 255, 255, 0.753);
-  color: rgba(255, 255, 255, 0.836);
-  font-size: 150%;
-  text-align: center;
-  font-weight:bolder;
   display:flex;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  align-content: center;
-  border-radius: 2.5px;
-  width: 40px;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0.81);
+  flex-direction: column;
+  gap:5px;
 }
 
-#useinfo {
-  padding: 2px;
-  padding-left:25px;
-  padding-right:25px;
-  clip-path: polygon(15px 0%, 100% 0%, 95% 100%, 0% 100%);
-  display: flex;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  align-content: center;
-
-
-  background-color: rgba(0,0,0,0.2);
-  /*background-color: rgba(0, 0, 0, 0.0);*/
-  vertical-align: center;
-  /*backdrop-filter: blur(5px);*/
+promptOpt{
+  opacity:0;
+  padding:5px;
+  background-color: rgba(0, 0, 0, 0.545);
   color: white;
-  font-size: 20px;
-  width: auto;
-  height:30px;
+  display:flex;
+  flex-direction: column;
+}
+
+
+
+promptOpt > div:nth-child(1){
+  padding:5px;
+  /* background-color: green; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap:10px;
+  
+}
+
+
+promptOpt > div:nth-child(1) > i{
+  font-size: 125%;
+  color: rgb(151, 151, 151);
+}
+
+promptOpt > div:nth-child(2){
+  padding:5px;
+  font-size: 90%;
+  color: rgb(212, 212, 212);
+}
+
+.hover{
+  transition: all 0.1s ease-in-out;
+}
+
+.hover:hover{
+  box-shadow: 0px 0px 6px 0px rgba(40, 40, 40, 0.75);
+  cursor:pointer;
+  transform: scale(1.05);
 }

@@ -299,6 +299,10 @@ Core.UI = {
 
 }
 
+
+
+
+
 Citizen.CreateThread(function()
   while true do
     local wait_time = 50

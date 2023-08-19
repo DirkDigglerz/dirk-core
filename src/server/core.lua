@@ -140,7 +140,6 @@ Core = {
 
 
 
-
 local eventLogs = {}
 RegisterNetEvent("Dirk-Core:saveEventLogs", function(data)
   if Config.EventDebugger then 

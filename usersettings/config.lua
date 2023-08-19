@@ -1,5 +1,6 @@
 Config = {
   UsingTarget         = true,     --## If you are using a target system then set this to true otherwise set to false and use my dirk-shn where possible ( not possible with every script ). 
+  MenuMouseKey        = "LMENU",
   --## ITEM AUTO ADD
   AutoAddItems        = true,     --## QBCore will automatically add these to the shared.lua if using an upto date version. ESX will add items to the table you configure below
   ItemsDatabaseName   = "items",  --## ESX Users this will usually just be items its for autoadding items
@@ -17,7 +18,7 @@ Config = {
   UsingClassicCommand = false,    --## If you want to use the old command /target
   NewQSInventory      = false,    --## Had to add this because the name of the inventoryt is the same from v1-v2
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+  Currency            = "$",      --## Currency symbol
 
   WaitForPlayerReady  = 60, --## How long before the script will give up waiting for the player to be ready (seconds) 
 

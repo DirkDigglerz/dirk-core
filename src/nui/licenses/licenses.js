@@ -68,9 +68,6 @@ openLicenseTest = function (licenseName, minPass, questions) {
   }
 }
 
-Post = function(type, data){
-  $.post(`http://dirk-core/${type}`, JSON.stringify(data))
-}
 
 
 
