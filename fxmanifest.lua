@@ -56,6 +56,7 @@ files{
   'src/nui/prompts/*.*',
   'src/nui/keycode/*.*',
   'src/nui/licenses/*.*',
+  'src/nui/simpleUI/*.*',
 
 }
 

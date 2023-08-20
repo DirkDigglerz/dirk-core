@@ -198,7 +198,7 @@ Core.UI = {
     end
   end,
 
-  HideHelpNotif = function(name)
+  Hide = function(name)
     SendNuiMessage(json.encode({
       type = "hide",
       name = name,
@@ -297,6 +297,8 @@ Core.UI = {
     end
   end,
 
+
+
 }
 
 
@@ -329,7 +331,7 @@ end)
 
 
 RegisterCommand("Dirk-Core:EntityPlacer", function(source,args)
-  local ret = Core.Objects.PositionEntity(args[1])
+  local ret = Core.UI.PositionEntity(args[1])
   print('Position')
   print(ret.coords, ret.rotation)
   Core.UI.CopyToClipboard(json.encode(ret.coords))
