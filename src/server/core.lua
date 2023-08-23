@@ -130,16 +130,6 @@ Core = {
   end,
 }
 
-
-
-
-
-
-
-
-
-
-
 local eventLogs = {}
 RegisterNetEvent("Dirk-Core:saveEventLogs", function(data)
   if Config.EventDebugger then 
@@ -150,7 +140,6 @@ RegisterNetEvent("Dirk-Core:saveEventLogs", function(data)
     eventLogs[data.eventName].averagePayload = eventLogs[data.eventName].totalPayload / eventLogs[data.eventName].totalEvents
   end
 end)
-
 
 if Config.EventDebugger then
   CreateThread(function()
@@ -163,7 +152,6 @@ if Config.EventDebugger then
     end
   end)
 end
-
 
 getCore = function()
   return Core, Config

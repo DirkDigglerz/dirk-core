@@ -1,4 +1,3 @@
-
 local glm = require 'glm'
 
 Core.Polygon = {

@@ -10,7 +10,6 @@ Core = {
 
   deepCloneTable = function(original)
     local cloned = {}
-    
     for key, value in pairs(original) do
         if type(value) == "table" then
             cloned[key] = Core.deepCloneTable(value)  -- Recursive call for nested tables

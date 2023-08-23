@@ -124,13 +124,11 @@ CreateThread(function()
   while not Config.Framework do Wait(500); end
   if Config.Framework == "es_extended" then
     RegisterNetEvent("esx:setJob", function(job)
-      Core.Player.GetJob()
-      TriggerEvent("Dirk-Core:JobChange", Core.Player.CurJob)
+      TriggerEvent("Dirk-Core:JobChange", Core.Player.GetJob())
     end)
   elseif Config.Framework == "qb-core" then
     RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
-      Core.Player.GetJob()
-      TriggerEvent("Dirk-Core:JobChange", Core.Player.CurJob)
+      TriggerEvent("Dirk-Core:JobChange", Core.Player.GetJob())
     end)
   end
 end)
