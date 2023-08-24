@@ -34,7 +34,7 @@ OpenPrompt = function (id, options, x, y) {
 
     $(Clickable).click(function () {
       console.log('Clicked')
-      $.post(`http://dirk-core/optionChosen`, JSON.stringify({
+      $.post(`https://dirk-core/optionChosen`, JSON.stringify({
         id: id,
         type: "ClickOptions",
         typeid: typeid,
@@ -65,7 +65,7 @@ $(document).on('keydown', function (event) {
     if (!Prompt) { return false; }
     // Probably close any sub menu
     Prompt = false;
-    $.post(`http://dirk-core/LoseFocus`)
+    $.post(`https://dirk-core/LoseFocus`)
   }
 });
 
@@ -74,7 +74,7 @@ $(document).mousedown(function (event) {
   if (event.which == 3) {
     if (!Prompt) { return false; }
     Prompt = false;
-    $.post(`http://dirk-core/LoseFocus`)
+    $.post(`https://dirk-core/LoseFocus`)
   }
 });
 

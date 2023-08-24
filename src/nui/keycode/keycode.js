@@ -74,7 +74,7 @@ ClosePanel = function(s){
   $('.Panel').css("opacity", "0");
   setTimeout(() => {
     $('body').empty();
-    $.post(`http://dirk-core/keyCodeResponse`, JSON.stringify({
+    $.post(`https://dirk-core/keyCodeResponse`, JSON.stringify({
       correct: s,
     }))
 

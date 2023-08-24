@@ -21,5 +21,5 @@ window.addEventListener("message", function (event) {
 });
 
 Post = function(type, data){
-  $.post(`http://dirk-core/${type}`, JSON.stringify(data))
+  $.post(`https://dirk-core/${type}`, JSON.stringify(data))
 }
