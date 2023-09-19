@@ -152,7 +152,3 @@ if Config.EventDebugger then
     end
   end)
 end
-
-getCore = function()
-  return Core, Config
-end

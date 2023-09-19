@@ -63,6 +63,3 @@ Core = {
   end
 }
 
-getCore = function()
-  return Core, Config
-end

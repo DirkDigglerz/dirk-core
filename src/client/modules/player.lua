@@ -85,6 +85,21 @@ Core.Player = {
     return false
   end,
 
+  GetGang = function()
+    local gt = {}
+
+    if Config.Framework == "qb-core" then 
+      if not Config.GangSystem then 
+        local rawGang = QBCore.Functions.GetPlayerData().gang
+        gt.name  = rawGang.name
+        gt.label = rawGang.label
+        gt.rank  = rawGang.grade.level
+        gt.rankL = rawGang.grade.name
+      end
+    end
+    return gt
+  end,
+
   GetJob = function()
     local jt = {}
     if Config.Framework == "es_extended" then
@@ -98,6 +113,7 @@ Core.Player = {
       jt.isCop =  Config.PoliceJobs[data.job.name]
     elseif Config.Framework == "qb-core" then
       local data = QBCore.Functions.GetPlayerData()
+      while not data.job do data = QBCore.Functions.GetPlayerData() Wait(500); end 
       jt.name   = data.job.name
       jt.label  = data.job.label
       jt.rank   = data.job.grade.level
@@ -127,6 +143,12 @@ CreateThread(function()
       TriggerEvent("Dirk-Core:JobChange", Core.Player.GetJob())
     end)
   elseif Config.Framework == "qb-core" then
+    if not Config.GangSystem then 
+      RegisterNetEvent('QBCore:Client:OnGangUpdate', function(InfoGang)
+        TriggerEvent("Dirk-Core:GangChange", Core.Player.GetGang())
+      end)
+    end
+
     RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
       TriggerEvent("Dirk-Core:JobChange", Core.Player.GetJob())
     end)

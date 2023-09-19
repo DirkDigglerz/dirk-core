@@ -3,8 +3,6 @@
 
 
 Core.UI = {
-
-
   ShowHelpNotification = function(msg)
     AddTextEntry(GetCurrentResourceName(), msg)
 
@@ -26,7 +24,6 @@ Core.UI = {
       TriggerEvent('Notify',"success",msg,5000)
     end
   end,
-
 
   OpenLink = function(link)
     SendNUIMessage({
@@ -76,18 +73,6 @@ Core.UI = {
     return hit, endCoords, entityHit
   end,
 
-  AddPrompt = function(id, opts)
-    Prompts[id] = opts
-  end,
-
-  RemovePrompt = function(id)
-    if currentPrompts[id] then
-      ClosePrompt(id)
-      currentPrompts[id] = nil
-    end
-    Prompts[id] = nil
-  end,
-
   ScreenRelToWorld = function(camPos, camRot, cursor)
     local camForward = Core.UI.RotationToDirection(camRot)
     local rotUp = vector3(camRot.x + 1.0, camRot.y, camRot.z)
@@ -121,7 +106,6 @@ Core.UI = {
     local _, sX, sY = GetScreenCoordFromWorldCoord(pos.x, pos.y, pos.z)
     return vector2(sX, sY)
   end,
-
 
   -- Keycode UI
   Keycode     = function(code, params)
@@ -180,6 +164,27 @@ Core.UI = {
       })
       while not finished do Wait(0); end 
     end
+  end,
+  
+  SimpleNotification = function(data)
+    SendNUIMessage({
+      type = "DisplayNotification",
+      data = {
+        ID      = data.ID or string.format("%s:%s", GetCurrentResourceName(), GetGameTimer()),
+        Title   = data.Title or "Notification",
+        Message = data.Message or "No Message",
+        Icon    = data.Icon or "fas fa-info-circle",
+        Time    = data.Time or 5,
+        NoTimer = data.NoTimer or false,
+      },
+    })
+  end,
+
+  DeleteSimpleNotification = function(id)
+    SendNUIMessage({
+      type = "RemoveNotification",
+      ID = id,
+    })
   end,
 
   Current   = {},
@@ -297,8 +302,6 @@ Core.UI = {
     end
   end,
 
-
-
 }
 
 
@@ -323,6 +326,13 @@ RegisterNetEvent(string.format("%s:Notify", GetCurrentResourceName()), function(
   Core.UI.Notify(msg, type, time)
 end)
 
+RegisterNetEvent("Dirk-Core:UI:SimpleNotify", function(data)
+  Core.UI.SimpleNotification(data)
+end)
+
+RegisterNetEvent("Dirk-Core:UI:RemoveSimpleNotify", function(id)
+  Core.UI.DeleteSimpleNotification(id)
+end)
 
 RegisterNUICallback("keyCodeResponse", function(data,cb)
   KeyCodeResponse = data.correct

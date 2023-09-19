@@ -21,21 +21,24 @@ local SupportedResources = {
   PhoneSystem    = {'qs-smartphone', 'gksphone', 'lb-phone', 'npwd', 'qb-phone'},
 }
 
+local datatype = type
+
 local FoundResources = {}
 Citizen.CreateThread(function()
+
   for type,resources in pairs(SupportedResources) do 
     for index,resource in pairs(resources) do 
-      if type == "Inventory" then 
-        if Config.AlternativeResourceNames[type][index] then 
-          print("^2Dirk-Core^7 | You are using ^5"..Config.AlternativeResourceNames[type][index].."^7 as an alternative name for ^3"..index.."^7")
-          SupportedResources[type][Config.AlternativeResourceNames[type][index]] = resource
+      local altName = Config.AlternativeResourceNames[type][(type == "Inventory" and index or resource)]
+      if altName and datatype(altName) == "string" then 
+        if type == "Inventory" then 
+          SupportedResources[type][altName] = resource
           SupportedResources[type][index] = nil
+        else
+          SupportedResources[type][index] = altName
         end
-      else
-        if Config.AlternativeResourceNames[type][resource] then 
-          print("^2Dirk-Core^7 | You are using ^5"..Config.AlternativeResourceNames[type][resource].."^7 as an alternative name for ^3"..SupportedResources[type][index].."^7")
-          SupportedResources[type][index] = Config.AlternativeResourceNames[type][resource]
-        end  
+        print("^2Dirk-Core^7 | You are using ^5"..altName.."^7 as an alternative name for ^3"..(type == "Inventory" and index or resource).."^7")
+      elseif datatype(altName) == "boolean" and altName ~= false then
+        print('^2Dirk-Core^7 | ^1 You have not followed the instructions for the alternative resource names for the ^3'..type..'^1 section of dirk-cores config.lua.\n^1Please check the config.lua file and dont change them unless you have renamed this resource.^7')
       end
     end
   end
@@ -111,4 +114,9 @@ Citizen.CreateThread(function()
     end
   end
   Core.DataLoaded = true
+
 end)
+
+getCore = function()
+  return Core, Config
+end

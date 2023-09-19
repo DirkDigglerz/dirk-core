@@ -154,6 +154,8 @@ Core.Player = {
       end)
     elseif Config.Inventory == "mf-inventory" then
       exports["mf-inventory"]:addInventoryItem(Core.Player.Id(p), i, a, p, 100, md)
+    elseif Config.Inventory == "core_inventory" then 
+      exports['core_inventory']:addItem('primary-'..Core.Player.Id(p), i, a, md)
     else
       --## FALL BACK FOR MOST INVENTORIES
       -- OLD QS
@@ -174,18 +176,22 @@ Core.Player = {
     if Config.NewQSInventory then 
       exports['qs-inventory']:RemoveItem(p, i, a)
       return true
-    elseif Config.Framework == "es_extended" then
-      ply.removeInventoryItem(i,a)
-      return true
-    elseif Config.Framework == "qb-core" then
-      if ply.Functions.RemoveItem(i,a) then 
-        TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "remove")
+    else
+      --## Framework Fallback
+      if Config.Framework == "es_extended" then
+        ply.removeInventoryItem(i,a)
+        return true
+      elseif Config.Framework == "qb-core" then
+        if ply.Functions.RemoveItem(i,a) then 
+          TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "remove")
+          return true
+        end
+      elseif Config.Framework == "vrp" then
+        vRP.tryGetInventoryItem(ply, i, a)
         return true
       end
-    elseif Config.Framework == "vrp" then
-      vRP.tryGetInventoryItem(ply, i, a)
-      return true
     end
+    
   end,
 
   HasItem = function(p,i,a,md)
@@ -227,6 +233,21 @@ Core.Player = {
       return vRP.getUserGroupByType(ply, "job")
     end
     return jt
+  end,
+
+  GetGang = function(p)
+    local gt = {}
+    local ply = Core.Player.Get(tonumber(p))
+    if Config.Framework == "qb-core" then 
+      if not Config.GangSystem then 
+        local rawGang = ply.gang
+        gt.name  = rawGang.name
+        gt.label = rawGang.label
+        gt.rank  = rawGang.grade.level
+        gt.rankL = rawGang.grade.name
+      end
+    end
+    return gt
   end,
 
   SetJob = function(p,j,r)

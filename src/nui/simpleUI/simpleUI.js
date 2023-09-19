@@ -134,3 +134,76 @@ window.addEventListener("message", function (event) {
     Prompt = true;
   }
 });
+
+
+let curNotifications = {
+
+}
+
+let hasContainer = false;
+
+DisplayNotification = function(data){
+  if(!hasContainer){
+    hasContainer = $(`<notifications></notifications>`).appendTo('body');
+  }
+  console.log("HERE")
+  let initFormat = formatTime(data.Time);
+  let newNotification = $(`
+  <notification style="opacity:0;">
+    <div>
+      <i class="${data.Icon || "fas fa-exclamation-triangle"}"></i>
+      <div>${data.Title || "Nothing"}</div>
+    </div>
+    <div>${data.Message}</div>
+    ${!data.NoTimer?`
+    <div>
+      <div>${initFormat}</div>
+    </div>
+    `:""}
+  </notification>`).appendTo('notifications');
+
+
+  newNotification.animate({ opacity: 1 }, 500);
+  curNotifications[data.ID] = newNotification;
+
+  if (data.NoTimer) return;
+  let progBarinner = newNotification.find('div:nth-child(3) div');
+  progBarinner.css('width', '100%');
+  progBarinner.animate({
+    width: '0%',
+  },  data.Time * 1000, 'linear', function(){
+    newNotification.animate({ opacity: 0 }, 500, function(){
+      newNotification.remove();
+      delete curNotifications[data.ID];
+    });
+   
+  })
+
+
+  let thisTimer = setInterval(function(){
+    if (!curNotifications[data.ID]) return clearInterval(thisTimer);
+   
+
+    data.Time = data.Time - 1;
+    progBarinner.text(formatTime(data.Time));
+    if (data.Time == 0) return clearInterval(thisTimer);
+  }, 1000)
+
+
+}
+
+
+
+window.addEventListener('message', function(event){
+  if (event.data.type == "DisplayNotification"){
+    DisplayNotification(event.data.data);
+  } else if (event.data.type == "RemoveNotification"){
+    let thisNotification = curNotifications[event.data.ID]
+    if (thisNotification){
+      thisNotification.animate({ opacity: 0 }, 500, function(){
+        thisNotification.remove();
+        delete curNotifications[event.data.ID];
+      });
+    }
+  }
+})

@@ -143,3 +143,93 @@
   width: auto;
   height:30px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+notifications{
+  font-family:'Akshar', sans-serif;
+  padding:5px;
+  position: absolute;
+  top:2%;
+  right:2%;
+  height: auto;
+  width:  25%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap:5px;
+}
+
+notification{
+  user-select: none;
+  font-size: 120%;
+  height: auto;
+  width:  90%;
+  background-color: rgba(0,0,0,0.5);
+  padding:5px;
+}
+
+notification > div:nth-child(2){
+  color:rgb(209, 209, 209);
+  font-size: 90%;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  gap:5px;
+}
+
+notification > div:first-child{
+  color:white;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  gap:5px;
+  border-bottom: solid rgb(209, 209, 209) 1px;
+}
+
+notification > div:first-child > i{
+  color:rgb(209, 209, 209);
+}
+
+
+notification > div:nth-child(3){
+  display: flex;
+  width:100%;
+
+  background-color: rgb(145, 145, 145);
+}
+
+
+notification > div:nth-child(3) > div{
+  font-size: 80%;
+  background-color: rgb(255, 255, 255);
+  width:50%;
+  height:100%;
+  text-align: right;
+  padding-right:6px;
+}

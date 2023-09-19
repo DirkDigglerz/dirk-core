@@ -51,16 +51,98 @@ Core.Inventory = {
     self.id = id
 
     self.addItem = function(item,amount,info)
+      print('Adding item ', item)
       if Config.Inventory == "ox_inventory" then
         local success, response = exports.ox_inventory:AddItem(self.id, item, amount, info or nil)
         return success,response
+      elseif Config.Inventory == "ps-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or (Config.Inventory == "qs-inventory" and not Config.NewQSInventory) then 
+        local itemsCurrent = self.getItems()
+        print('Current Items')
+        print(json.encode(itemsCurrent, {indent = true}))
+        local takenSlots = {}
+        for k,thisItem in pairs(itemsCurrent) do 
+          takenSlots[tonumber(thisItem.slot)] = true
+          if thisItem.name == item then 
+            itemsCurrent[k].count = thisItem.count + amount
+            self.updateDB(itemsCurrent)
+            return true
+          end
+        end
+
+        for i=1,32 do 
+          if not takenSlots[tonumber(i)] then 
+           
+            if type(item) == "string" and QBCore.Shared.Items[item] then 
+              print('Adding to slot ', i)
+              itemsCurrent[#itemsCurrent+1] = {
+                name = item, 
+                label = QBCore.Shared.Items[item].label,
+                count = amount, 
+                info = info,
+                slot = i, 
+              }
+              self.updateDB(itemsCurrent)
+              return true
+            end
+          end
+        end
+        return false
       end
+    end
+
+    self.sanatize = function(items)
+      local ret = {}
+      for _,item in pairs(items) do 
+        local itemInfo = QBCore.Shared.Items[item.name]
+        if itemInfo then 
+          ret[#ret + 1] = {
+            name = itemInfo["name"],
+            amount = tonumber(item.count),
+            info = item.info or {},
+            label = itemInfo["label"],
+            -- description = itemInfo["description"] or "",
+            weight = itemInfo["weight"],
+            type = itemInfo["type"],
+            unique = itemInfo["unique"],
+            useable = itemInfo["useable"],
+            image = itemInfo["image"],
+            slot = item.slot,
+          }
+        end
+      end
+      print('SANATIZED')
+      print(json.encode(ret, {indent = true}))
+      return ret
+    end
+
+    self.updateDB = function(items)
+      local sanitized = self.sanatize(items)
+      print('UPDATING TO DB')
+      print(json.encode(sanitized, {indent = true}))
+      MySQL.insert('INSERT INTO stashitems (stash, items) VALUES (:stash, :items) ON DUPLICATE KEY UPDATE items = :items', {
+        ['stash'] = "Stash_"..self.id,
+        ['items'] = json.encode(sanitized)
+      })
     end
     
     self.removeItem = function(item,amount,info)
       if Config.Inventory == "ox_inventory" then
         local success, response = exports.ox_inventory:RemoveItem(self.id, item, amount, info or nil)
         return success,response
+      elseif Config.Inventory == "ps-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or (Config.Inventory == "qs-inventory" and not Config.NewQSInventory) then 
+        if not self.hasItem(item,amount,info) then return false; end 
+        local itemsCurrent = self.getItems()
+        for k,v in pairs(itemsCurrent) do 
+          if v.name == item then 
+            local thisAmount = itemsCurrent[k].count
+            if thisAmount <= amount then 
+              itemsCurrent[k] = nil
+            else
+              itemsCurrent[k].count = thisAmount - amount
+            end
+          end
+        end
+        self.updateDB(itemsCurrent)
       end      
     end
     
@@ -69,7 +151,56 @@ Core.Inventory = {
         local count = exports.ox_inventory:GetItemCount(self.id, item, info, true)
         if count <= amount then return false; end
         return true 
+      elseif Config.Inventory == "ps-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or (Config.Inventory == "qs-inventory" and not Config.NewQSInventory) then 
+        local itemsCurrent = self.getItems()
+        for slot,thisItem in pairs(itemsCurrent) do 
+          if thisItem.name == item and thisItem.count >= amount and (not info or Core.Inventory.CheckMatch(thisItem.info, info)) then return true; end 
+        end
+        return false
       end
+    end
+
+    self.getItems = function()
+      local ret = {}
+      if Config.Inventory == "ox_inventory" then 
+        local inv = exports.ox_inventory:GetInventory(self.id, false)
+        if not inv then return ret, print('NO INVENTORY FOUND, ERROR?'); end
+        local items =  inv.items
+        for k,v in pairs(items) do 
+          ret[#ret+1] = {
+            name  = v.name,
+            label = v.label,
+            count = (v.amount or v.count),
+            info  = (v.info or v.metadata or false),
+          }
+        end
+        return ret
+      elseif Config.Inventory == "ps-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or (Config.Inventory == "qs-inventory" and not Config.NewQSInventory) then 
+        local ret = {}
+        local result = MySQL.scalar.await('SELECT items FROM stashitems WHERE stash = ?', {"Stash_"..self.id})
+        if not result then print('CANNOT FIND OR NEW?') return ret end
+      
+        local stashItems = json.decode(result)
+        if not stashItems then return ret end
+        print('GET ITEMS RAW')
+        print(json.encode(stashItems, {indent = true}))
+        for _, item in pairs(stashItems) do
+          local itemInfo = QBCore.Shared.Items[item.name:lower()]
+          if itemInfo then
+            ret[#ret+1] = {
+              name  = itemInfo["name"],
+              label = itemInfo["label"],
+              count = tonumber(item.amount),
+              info  = item.info or "",
+              slot  = item.slot, 
+            }
+          
+          end
+        end
+
+        return ret
+      end
+      return ret
     end
     
     self.canHold = function(item,amount,info)
@@ -79,9 +210,13 @@ Core.Inventory = {
     self.clearInventory = function()
       if Config.Inventory == "ox_inventory" then
         exports.ox_inventory:ClearInventory(self.id)
+      elseif Config.Inventory == "ps-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or (Config.Inventory == "qs-inventory" and not Config.NewQSInventory) then 
+        self.updateDB({})
       end
     end
 
+    
+    Core.Inventories[id] = self
     return self
   end,
 
@@ -100,4 +235,3 @@ RegisterNetEvent("Dirk:Inventory:RegisterStash", function(id, data)
 
   end
 end)
-

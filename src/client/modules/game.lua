@@ -171,8 +171,8 @@ Core.Game = {
     for k,v in pairs(pool) do
       local pedCoords = GetEntityCoords(v)
       local distance  = #(pedCoords - coords)
-      if distance <= rad and distance <= closestDistance then 
-        if GetEntityModel(v) == tonumber(model) then
+      if (rad and distance <= rad) or not rad and distance <= closestDistance then 
+        if GetEntityModel(v) == tonumber(model) or not model then
           closestObject = v
           closestDistance = distance
         end
@@ -195,5 +195,4 @@ Core.Game = {
     return closestVehicle, closestDistance
   end
 }
-
 

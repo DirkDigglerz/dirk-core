@@ -1,5 +1,4 @@
 fx_version 'cerulean'
-use_experimental_fxv2_oal 'yes'
 games { 'rdr3', 'gta5' }
 rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
 lua54 'yes'
@@ -9,6 +8,7 @@ version '1.0.0'
 
 client_script {
   -- "@vrp/lib/utils.lua", --## Uncomment this if you are using vRP
+  
   'usersettings/config.lua',
   'usersettings/labels.lua',
   'usersettings/init.lua',
@@ -31,7 +31,7 @@ server_script {
 }
 
 ---## IF YOU ARE NOT USING OX_LIB YOU NEED TO COMMENT THE BELOW OUT OR NONE OF YOUR DIRKSCRIPTS WILL WORK ##---
-shared_script '@ox_lib/init.lua' -- Unomment this out if using ox_lib
+shared_script '@ox_lib/init.lua' -- Uncomment this out if using ox_lib
 
 dependencies{
   'oxmysql', -- Comment out if not using oxmysql
@@ -41,8 +41,6 @@ dependencies{
 exports{
   'getCore',
 }
-
-
 
 server_exports{
   'getCore',
@@ -58,6 +56,8 @@ files{
   'src/nui/keycode/*.*',
   'src/nui/licenses/*.*',
   'src/nui/simpleUI/*.*',
+  'src/nui/stores/*.*',
+  'usersettings/ui-language.json',
 
 }
 
