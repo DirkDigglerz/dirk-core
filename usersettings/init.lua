@@ -7,6 +7,7 @@ local SupportedResources = {
     ['qb-inventory']   = "qb-inventory/html/images/",
     ['lj-inventory']   = "lj-inventory/html/images/",
     ['qs-inventory']   = "qs-inventory/html/images/",
+    ['ps-inventory']   = "ps-inventory/html/images/",
     ['mf-inventory']   = "mf-inventory/nui/items/",
     ['ox_inventory']   = "ox_inventory/web/images/",
     ['core_inventory'] = "ox_inventory/web/images/",

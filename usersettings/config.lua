@@ -28,6 +28,7 @@ Config = {
   AlternativeResourceNames = { --## Replace false with the alternative name you have used for that resource if you are renaming resources.
     Inventory = {
       ['qb-inventory'] = false,
+      ['ps-inventory'] = false,
       ['ox_inventory'] = false,
       ['mf-inventory'] = false,
       ['lj-inventory'] = false,
