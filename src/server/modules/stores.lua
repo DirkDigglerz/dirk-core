@@ -39,13 +39,13 @@ Core.Stores = {
           end
         end
 
-        if self.Currency == "item" then
+        if self.Currency.Type == "item" then
           print('Checking if has ', self.Currency.Value)
           print('Needs to have x ', item.Price)
           local hasItem = Core.Player.HasItem(ply, self.Currency.Value, item.Price)
           if not hasItem then return "CannotAfford", print('EXPLOITER?'); end
           Core.Player.RemoveItem(ply, self.Currency.Value, item.Price)
-        elseif self.Currency == "account" then
+        elseif self.Currency.Type == "account" then
           if self.Currency.Value == "any" then 
             local account = Core.Player.HasMoney(ply, item.Price)
             if not account then
