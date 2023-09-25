@@ -240,7 +240,7 @@ Core.Player = {
     local ply = Core.Player.Get(tonumber(p))
     if Config.Framework == "qb-core" then 
       if not Config.GangSystem then 
-        local rawGang = ply.gang
+        local rawGang = ply.PlayerData.gang
         gt.name  = rawGang.name
         gt.label = rawGang.label
         gt.rank  = rawGang.grade.level
