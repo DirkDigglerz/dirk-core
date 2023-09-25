@@ -51,14 +51,11 @@ Core.Inventory = {
     self.id = id
 
     self.addItem = function(item,amount,info)
-      print('Adding item ', item)
       if Config.Inventory == "ox_inventory" then
         local success, response = exports.ox_inventory:AddItem(self.id, item, amount, info or nil)
         return success,response
       elseif Config.Inventory == "ps-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or (Config.Inventory == "qs-inventory" and not Config.NewQSInventory) then 
         local itemsCurrent = self.getItems()
-        print('Current Items')
-        print(json.encode(itemsCurrent, {indent = true}))
         local takenSlots = {}
         for k,thisItem in pairs(itemsCurrent) do 
           takenSlots[tonumber(thisItem.slot)] = true
@@ -73,7 +70,6 @@ Core.Inventory = {
           if not takenSlots[tonumber(i)] then 
            
             if type(item) == "string" and QBCore.Shared.Items[item] then 
-              print('Adding to slot ', i)
               itemsCurrent[#itemsCurrent+1] = {
                 name = item, 
                 label = QBCore.Shared.Items[item].label,
@@ -110,15 +106,11 @@ Core.Inventory = {
           }
         end
       end
-      print('SANATIZED')
-      print(json.encode(ret, {indent = true}))
       return ret
     end
 
     self.updateDB = function(items)
       local sanitized = self.sanatize(items)
-      print('UPDATING TO DB')
-      print(json.encode(sanitized, {indent = true}))
       MySQL.insert('INSERT INTO stashitems (stash, items) VALUES (:stash, :items) ON DUPLICATE KEY UPDATE items = :items', {
         ['stash'] = "Stash_"..self.id,
         ['items'] = json.encode(sanitized)
@@ -182,8 +174,6 @@ Core.Inventory = {
       
         local stashItems = json.decode(result)
         if not stashItems then return ret end
-        print('GET ITEMS RAW')
-        print(json.encode(stashItems, {indent = true}))
         for _, item in pairs(stashItems) do
           local itemInfo = QBCore.Shared.Items[item.name:lower()]
           if itemInfo then

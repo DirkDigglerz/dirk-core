@@ -60,7 +60,7 @@ Core.Stores = {
 
         end
 
-        Core.Player.AddItem(item.Name, item.Amount)
+        Core.Player.AddItem(ply, item.Name, item.Amount)
         return "Purchased", print('COMPLETE')
       end
     end
@@ -76,7 +76,6 @@ Core.Stores = {
     end)
 
     Core.Callback("Dirk-Core:Stores:Open", function(src,cb, store)
-      print('Open Store')
       local store = Core.Stores[store]
       assert(store, string.format("%s is trying to open a store that's not been registered", GetInvokingResource()))
       cb({
@@ -89,7 +88,7 @@ Core.Stores = {
   end
 }
 
-print('Loaded Stores')
+
 
 CreateThread(function()
   while not Config.Framework do Wait(500); end 

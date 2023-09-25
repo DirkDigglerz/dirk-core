@@ -47,8 +47,6 @@ UpdateBasketTotal = function(){
 }
 
 AddToBasket = function(item, amount){
-  console.log("ADDING")
-  console.log(JSON.stringify(item, null, 2))
   if (myBasket.Items[item.Name]){
     myBasket.Items[item.Name].Amount += amount;
     myBasket.Items[item.Name].Price = item.Price * myBasket.Items[item.Name].Amount;
@@ -242,8 +240,6 @@ storeFront = function(){
   }
 
   $('#checkOutButton').click(function(){
-    console.log("CHECKOUT")
-    console.log(JSON.stringify(myBasket, null, 2))
     Post("checkOut", myBasket, function(hasMoney){
       if (hasMoney){
         myBasket = {
