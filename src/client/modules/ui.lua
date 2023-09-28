@@ -229,6 +229,7 @@ Core.UI = {
     local thisObject = CreateObject(model, 0,0,0,true,true,false)
     SetEntityAlpha(thisObject, 150, false)
     SetEntityCollision(thisObject, false, false)
+
     while true do 
       
       local ply = PlayerPedId()
@@ -245,10 +246,6 @@ Core.UI = {
       else
         SetEntityVisible(thisObject, false)
       end
-
-
-
-
         Core.UI.AdvancedHelpNotif("entityPlacer", {
           {
             label = "Place Object", 
@@ -282,11 +279,13 @@ Core.UI = {
       if IsDisabledControlJustPressed(0, 47) then 
         local objectCoords = GetEntityCoords(thisObject)
         local objectRotation = GetEntityRotation(thisObject)
+        local heading        = GetEntityHeading(thisObject)
 
         DeleteEntity(thisObject)
         return {
           coords = objectCoords,
           rotation = objectRotation,
+          heading   = heading, 
         }
       elseif IsDisabledControlPressed(0, 175) then
         rotation = rotation + 0.5
@@ -303,9 +302,6 @@ Core.UI = {
   end,
 
 }
-
-
-
 
 
 Citizen.CreateThread(function()
@@ -339,10 +335,10 @@ RegisterNUICallback("keyCodeResponse", function(data,cb)
   SetNuiFocus(false,false)
 end)
 
-
 RegisterCommand("Dirk-Core:EntityPlacer", function(source,args)
   local ret = Core.UI.PositionEntity(args[1])
   print('Position')
   print(ret.coords, ret.rotation)
-  Core.UI.CopyToClipboard(json.encode(ret.coords))
-end)
+  local vec = string.format("vector4(%s, %s, %s, %s)", ret.coords.x,ret.coords.y,ret.coords.z,ret.heading)
+  Core.UI.CopyToClipboard(vec)
+end, true)

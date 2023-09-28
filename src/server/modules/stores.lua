@@ -27,7 +27,6 @@ Core.Stores = {
     end
 
     self.Checkout = function(ply, basket) 
-      print(json.encode(basket, {indent = true}))
       --## Check this store sells all these items     
       local parsedItems = self.ParsedItems()
       for _,item in pairs(basket) do
@@ -40,8 +39,6 @@ Core.Stores = {
         end
 
         if self.Currency.Type == "item" then
-          print('Checking if has ', self.Currency.Value)
-          print('Needs to have x ', item.Price)
           local hasItem = Core.Player.HasItem(ply, self.Currency.Value, item.Price)
           if not hasItem then return "CannotAfford", print('EXPLOITER?'); end
           Core.Player.RemoveItem(ply, self.Currency.Value, item.Price)
