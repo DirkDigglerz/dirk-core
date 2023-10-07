@@ -114,6 +114,10 @@ Core.Objects = {
     return true 
   end,
 
+  Get = function(ID)
+    return Core.Objects[ID]
+  end,
+
   Remove = function(ID)
     local render = Core.Objects[ID]
     if render then 
