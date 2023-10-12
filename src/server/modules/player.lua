@@ -10,10 +10,12 @@ Core.Player = {
   end,
 
   Id = function(p)
+    local player = Core.Player.Get(p)
+    if not player or type(player) ~= "table" then return; end
     if Config.Framework == "es_extended" then
-      return ESX.GetPlayerFromId(p).identifier
+      return player.identifier
     elseif Config.Framework == "qb-core" then
-      return QBCore.Functions.GetPlayer(p).PlayerData.citizenid
+      return player.PlayerData.citizenid
     elseif Config.Framework == "vrp" then 
       return vRP.getUserId(p);
     end
