@@ -24,6 +24,7 @@ Core.Player = {
   Name = function(p)
     local p = tonumber(p)
     local ply = Core.Player.Get(p)
+    if not ply then return; end
     if Config.Framework == "es_extended" then
       return ply.getName()
     elseif Config.Framework == "qb-core" then
@@ -37,6 +38,7 @@ Core.Player = {
   DOB = function(p)
     local p = tonumber(p)
     local ply = Core.Player.Get(p)
+    if not ply then return; end
     if Config.Framework == "es_extended" then
       return "Circa 1923"
     elseif Config.Framework == "qb-core" then
@@ -49,6 +51,7 @@ Core.Player = {
   PhoneNumber = function(p)
     local p = tonumber(p)
     local ply = Core.Player.Get(p)
+    if not ply then return; end
     if Config.Framework == "es_extended" then
       return ply.getPhoneNumber()
     elseif Config.Framework == "qb-core" then
@@ -305,7 +308,9 @@ Core.Player = {
   --## MONEY FUNCTIONS
 
   GetAccounts = function(p)
+    print('Tryting to get account for '..p)
     local ply = Core.Player.Get(tonumber(p))
+    if not ply then return false; end 
     if Config.Framework == "es_extended" then
       return ply.getAccounts()
     elseif Config.Framework == "qb-core" then
