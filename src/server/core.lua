@@ -1,5 +1,19 @@
 Core = {
+  Callbacks = {},
 
+  ClientCallback = function(name, id, cb, ...)
+    Core.Callbacks[name] = cb
+    TriggerClientEvent("Dirk-Core:TriggerClientCallback", id, name, ...)
+  end,
+
+  SyncClientCallback = function(name,id, ...)
+    local ret = nil 
+    Core.ClientCallback(name, id, function(...)
+      ret = {...}
+    end, table.unpack({...}))
+    while ret == nil do Wait(0); end
+    return table.unpack(ret)
+  end,
 
   Callback = function(name,route)
     if Config.Framework == "es_extended" then
@@ -130,6 +144,14 @@ Core = {
   end,
 }
 
+RegisterNetEvent("Dirk-Core:ClientReturnCallback", function(name,...)
+  local args = ...
+  if name == "error" then print(string.format("^2Dirk-Core^7\n^1ERROR^7\nResource: %s\nCallback: %s\n^1Error: %s^7", GetInvokingResource() or "dirk-core", args.cbName, args.error)); return; end
+  if Core.Callbacks[name] then
+    Core.Callbacks[name](...)
+  end
+end)
+
 local eventLogs = {}
 RegisterNetEvent("Dirk-Core:saveEventLogs", function(data)
   if Config.EventDebugger then 
@@ -152,3 +174,10 @@ if Config.EventDebugger then
     end
   end)
 end
+
+
+RegisterCommand("Dirk-Core:TestClientCB", function(source,args)
+  Core.ClientCallback("testCB", source, function(arg1, arg2)
+    print(arg1, arg2)
+  end, "hello World", "hello World 2")
+end)

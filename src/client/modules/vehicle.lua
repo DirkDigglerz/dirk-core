@@ -15,6 +15,38 @@ Core.Vehicle = {
     end
   end,
 
+  Properties = function(veh)
+    if Config.Framework == "es_extended" then
+      local props = ESX.Game.GetVehicleProperties(veh)
+      return props
+    elseif Config.Framework == "qb-core" then
+      local props = QBCore.Functions.GetVehicleProperties(veh)
+      return props
+    end
+  end,
+
+  Plate = function(veh, fw)
+    if fw and Config.Framework == "es_extended" then
+      local plate = ESX.Math.Trim(GetVehicleNumberPlateText(veh))
+      return plate
+    elseif fw and Config.Framework == "qb-core" then
+      local plate = QBCore.Functions.GetPlate(veh)
+      return plate
+    else
+      local plate = GetVehicleNumberPlateText(veh)
+      return plate
+    end
+  end, 
+
+  SetPlate = function(veh, plate, fw)
+    if fw and Config.Framework == "es_extended" then
+      plate = ESX.Math.Trim(plate)
+    elseif fw and Config.Framework == "qb-core" then
+      plate = QBCore.Shared.Trim(plate)
+    end
+    return SetVehicleNumberPlateText(veh, plate)
+  end,
+
   Fix = function()
     local p = PlayerPedId()
     local v = GetVehiclePedIsIn(p, false)

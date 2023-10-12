@@ -141,6 +141,7 @@ Core.Player = {
     return ret
   end,
 
+
   AddItem = function(p,i,a,md)
     local ply = Core.Player.Get(p)
     if Config.Inventory == "qs-inventory" and Config.NewQSInventory then
@@ -261,19 +262,19 @@ Core.Player = {
     end
   end,
 
-  UpdateInfo = function(p,type,info)
+  UpdateInfo = function(p,_type,info)
     local ply = Core.Player.Get(tonumber(p))
     if Config.Framework == "es_extended" then
 
     elseif Config.Framework == "qb-core" then
-      if type == "firstname" or type == "lastname" or type == "gender" or type == "birthdate" or type == "phone" then
+      if _type == "firstname" or _type == "lastname" or _type == "gender" or _type == "birthdate" or _type == "phone" then
         local charInfo = ply.PlayerData.charinfo
-        charInfo[type] = info
+        charInfo[_type] = info
         ply.Functions.SetPlayerData("charinfo", charInfo)
-      elseif type == "accounts" then 
-        for k,v in pairs(info) do 
-          Core.Player.SetMoney(k,v, "ADMIN MENU")
-        end
+      elseif _type == "accounts" then 
+        print('Trying to set money')
+        Core.Player.SetMoney(p, _type,info, "ADMIN MENU")
+        
       end
     end
   end,
@@ -312,6 +313,22 @@ Core.Player = {
         cash = vRP.getMoney(ply),
         bank = vRP.getBankMoney(ply)
       }
+    end
+  end,
+
+  SetMoney = function(p,acc,a)
+    local ply = Core.Player.Get(tonumber(p))
+    a = tonumber(a)
+    if Config.Framework == "es_extended" then
+      ply.setAccountMoney(acc,a)
+    elseif Config.Framework == "qb-core" then
+      ply.Functions.SetMoney(acc,a)
+    elseif Config.Framework == "vrp" then
+      if acc == "cash" then
+        vRP.setMoney(ply,a)
+      elseif acc == "bank" then
+        vRP.setBankMoney(ply,a)
+      end
     end
   end,
 

@@ -58,7 +58,10 @@ Core.Blips = {
       blip.Text = data.Text or blip.Text
       blip.Route = data.Route or blip.Route
       blip.Sprite = data.Sprite or blip.Sprite
+      blip.Pos = data.Pos or blip.Pos
+      blip.canSee = data.canSee or blip.canSee
     end
+    
     v.remove()
     v.render()
   end,

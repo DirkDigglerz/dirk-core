@@ -66,7 +66,7 @@ Core.Zones = {
 
   DrawWall = function(pos1,pos2,height, col)
     col = col or {}
-    local r,g,b,a = col.R or 0, col.G or 255, col.B or 0 , col.A or 0.5
+    local r,g,b,a = col.R or 0, col.G or 255, col.B or 0 , col.A or 80
     local topLeft     = vector3(pos1.x, pos1.y, pos1.z + height)
     local bottomLeft  = vector3(pos1.x,pos1.y,pos1.z)
     local topRight    = vector3(pos2.x,pos2.y,pos2.z + height)
@@ -156,15 +156,173 @@ Core.Zones = {
     end
   end, 
 
-  CreateCirlce = function()
+  -- CreateBox = function()
+  --   local boxPos = false
+  --   local boxH, boxW, boxL, boxHeading = 5.0, 5.0, 5.0, 0.0
+  --   while true do 
+  --     local wait_time = 0
+  --     local ply = PlayerPedId()
+  --     local hit, testCoords, entityHit = Core.UI.ScreenToWorld()
+  --     if (testCoords ~= vector3(0,0,0) and entityHit ~= ply) then
+  --       endCoords = testCoords 
+  --       DrawSphere(endCoords.x,endCoords.y,endCoords.z, 0.2, 255,0,0, 0.7)
+  --     end
+
+  --     if boxPos then 
+  --       local corners = calculateCorners3D(boxPos.x,boxPos.y, boxPos.z,boxW,boxL, boxHeading)
+  --       Core.DrawWall(corners[1],corners[2],boxH)
+  --       Core.DrawWall(corners[2],corners[3],boxH)
+  --       Core.DrawWall(corners[3],corners[4],boxH)
+  --       Core.DrawWall(corners[4],corners[1],boxH)
+  --     end
+
+  --     Core.UI.AdvancedHelpNotif("boxPlotter", {
+  --       {
+  --         label = "Set Box Pos",
+  --         key   = "g"
+  --       },
+  --       {
+  --         label = "Increase Height",", 
+  --         key   = "⬆️"
+  --       },
+  --       {
+  --         label = "Decrease Height", 
+  --         key   = "⬇️"
+  --       },
+  --       {
+  --         label = "Increase Width", 
+  --         key   = "A"
+  --       },
+  --       {
+  --         label = "Decrease Width", 
+  --         key   = "➡️"
+  --       },
+  --       {
+  --         label = "Increase Length", 
+  --         key   = "⬆️"
+  --       },
+  --       {
+  --         label = "Decrease Length", 
+  --         key   = "⬇️"
+  --       },
+  --       {
+  --         label = "Rotate Box", 
+  --         key   = "⬅️"
+  --       },
+  --       {
+  --         label = "Finish Box",
+  --         key   = "x"
+  --       },
+  --       {
+  --         label = "Finish Circle",
+  --         key   = "x"
+  --       },
+  --     })
+
+
+  --     if IsDisabledControlJustPressed(0, 47) then 
+  --       circlePos = endCoords
+  --     elseif IsDisabledControlPressed(0, 172) then
+  --       radius = radius + 0.05
+  --     elseif IsDisabledControlPressed(0, 173) then
+  --       radius = radius - 0.05
+  --     elseif IsDisabledControlJustPressed(0, 105) then
+  --       return circlePos, radius
+  --     end
+
+  --     Wait(wait_time)
+  --   end
+  -- end, 
+
+  CreateCircle = function()
     local type = "3d"
-    local pos  = GetEntityCoords(PlayerPedId())
+    local circlePos  = false
     local radius = 5.0
     while true do 
 
+      local wait_time = 0
+      local ply = PlayerPedId()
+      local hit, testCoords, entityHit = Core.UI.ScreenToWorld()
+      if (testCoords ~= vector3(0,0,0) and entityHit ~= ply) then
+        endCoords = testCoords 
+        DrawSphere(endCoords.x,endCoords.y,endCoords.z, 0.2, 255,0,0, 0.7)
+      end
 
+      if circlePos then 
+        DrawMarker(1, circlePos.x, circlePos.y, circlePos.z, 0, 0, 0, 0, 0, 0, radius, radius, 9999.9999, 255, 0, 0, 100, 0, 0, 0, 0)
+      end
+
+
+      Core.UI.AdvancedHelpNotif("circlePlotter", {
+        {
+          label = "Set Circle",
+          key   = "g"
+        },
+        {
+          label = "Increase Radius", 
+          key   = "⬆️"
+        },
+        {
+          label = "Decrease Radius", 
+          key   = "⬇️"
+        },
+        {
+          label = "Finish Circle",
+          key   = "x"
+        },
+      })
+
+
+      if IsDisabledControlJustPressed(0, 47) then 
+        circlePos = endCoords
+      elseif IsDisabledControlPressed(0, 172) then
+        radius = radius + 0.05
+      elseif IsDisabledControlPressed(0, 173) then
+        radius = radius - 0.05
+      elseif IsDisabledControlJustPressed(0, 105) then
+        return circlePos, radius
+      end
 
       Wait(0)
+    end
+  end,
+
+  PlotPoints = function()
+    local points = {}
+    while true do
+      local wait_time = 0
+      local ply = PlayerPedId()
+      local hit, testCoords, entityHit = Core.UI.ScreenToWorld()
+      if (testCoords ~= vector3(0,0,0) and entityHit ~= ply) then
+        endCoords = testCoords 
+        DrawSphere(endCoords.x,endCoords.y,endCoords.z, 0.2, 255,0,0, 0.7)
+      end
+
+      
+        
+      Core.UI.AdvancedHelpNotif("pointPlotter", {
+        {
+          label = "Add Point",
+          key   = "g"
+        },
+        {
+          label = "Delete Last Point",
+          key   = "h"
+        },
+        {
+          label = "Finish",
+          key   = "f"
+        },
+      })
+      if IsControlJustPressed(0,183) then
+        table.insert(points, endCoords)
+      elseif IsControlJustPressed(0,74) then
+        points[#points] = nil
+      elseif IsControlJustPressed(0,185) then
+        return points
+      end
+      
+      Wait(wait_time)
     end
   end,
 
@@ -356,3 +514,43 @@ AddEventHandler("onResourceStop", function(resource)
     print("^2Dirk-Core^7 | Cleaned up ^5"..count.."^7 zones for resource: ^3"..resource.."^7")
   end
 end)
+
+-- Function to rotate a point (x, y, z) around the origin
+function rotatePoint(x, y, z, heading)
+  local cosH = math.cos(heading)
+  local sinH = math.sin(heading)
+
+  local newX = x * cosH - y * sinH
+  local newY = x * sinH + y * cosH
+
+  return newX, newY, z
+end
+
+-- Function to calculate the bottom-most corners of a 3D box with heading
+function calculateCorners3D(centerX, centerY, centerZ, width, length, heading)
+  local halfWidth = width / 2
+  local halfLength = length / 2
+
+  local bottomCorners = {}
+
+  -- Calculate corners in the local (unrotated) space
+  local localCorners = {
+      { -halfWidth, -halfLength },
+      { halfWidth, -halfLength },
+      { -halfWidth, halfLength },
+      { halfWidth, halfLength }
+  }
+
+  -- Apply rotation to the corners
+  for i, localCorner in pairs(localCorners) do
+      local x, y = unpack(localCorner)
+      local rotatedX, rotatedY, _ = rotatePoint(x, y, 0, heading)
+      bottomCorners[i] = {
+          x = centerX + rotatedX,
+          y = centerY + rotatedY,
+          z = centerZ
+      }
+  end
+
+  return bottomCorners
+end

@@ -1,11 +1,25 @@
-Core = {
 
+Core = {
+  Callbacks = {},
   Callback = function(name,cb,...)
     if Config.Framework == "es_extended" then
       ESX.TriggerServerCallback(name,cb,...)
     elseif Config.Framework == "qb-core" then
       QBCore.Functions.TriggerCallback(name,cb,...)
     end
+  end,
+
+  ClientCallback = function(name,cb,...)
+    Core.Callbacks[name] = cb
+  end,
+
+  SyncCallback = function(name,...)
+    local ret = nil
+    Core.Callback(name, function(...)
+      ret = {...}
+    end, table.unpack({...}))
+    while ret == nil do Wait(0); end
+    return table.unpack(ret)
   end,
 
   deepCloneTable = function(original)
@@ -63,3 +77,21 @@ Core = {
   end
 }
 
+RegisterNetEvent("Dirk-Core:TriggerClientCallback", function(name, ...)
+  print('Server has triggered this callback')
+  print(json.encode({...}))
+  if Core.Callbacks[name] then
+    Core.Callbacks[name](function(...)
+      TriggerServerEvent("Dirk-Core:ClientReturnCallback", name, ...)
+    end, ...)
+  else
+    TriggerServerEvent("Dirk-Core:ClientReturnCallback", "error", {
+      cbName = name,
+      error  = "This client has not registered this callback yet, are you using this correctly?",
+    })
+  end
+end)
+
+Core.ClientCallback("testCB", function(cb, ret1,ret2)
+  cb("return Fire", "return Fire2")
+end)

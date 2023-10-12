@@ -23,6 +23,84 @@ Core.Player = {
     return true
   end,
 
+  GetData = function(specific)
+    local retFormat = {
+      gameName      = GetPlayerName(PlayerId()),
+      license       = "NIL",
+      characterID   = "UNKNOWN",
+      gang          = {
+        isBoss  = false, 
+        name    = "",
+        label   = "",
+        grade       = {
+          name  = "",
+          level = 0,
+        },
+      },
+      job           = {
+        isBoss  = false, 
+        name    = "",
+        label   = "",
+        grade       = {
+          name  = "",
+          level = 0,
+        },
+      },
+      inventory     = {},
+      charInfo = {
+        
+        firstName   = "",
+        lastName    = "",
+        nationality = "",
+        gender      = 0,  
+        birthdate   = "",
+        phone       = "",
+        
+        --## QB-CORE
+        backstory   = "",
+        account     = 0,
+        cid         = 0,
+      }
+    }
+    if Config.Framework == "es_extended" then
+      return ESX.GetPlayerData()
+    elseif Config.Framework == "qb-core" then
+      local fwData = QBCore.Functions.GetPlayerData() 
+      retFormat.characterID = fwData.citizenid
+      retFormat.license     = fwData.license
+      --## Job
+      retFormat.job.name        = fwData.job.name
+      retFormat.job.label       = fwData.job.label
+      retFormat.job.grade.name  = fwData.job.grade.name
+      retFormat.job.grade.level = fwData.job.grade.level
+      retFormat.job.isBoss      = fwData.job.isboss
+      --## Inventory 
+      for k,v in pairs(fwData.items) do 
+        table.insert(retFormat.inventory, {
+          slot  = v.slot,
+          name  = v.name,
+          label = v.label,
+          count = v.count or v.amount,
+          info  = v.metadata or v.info,
+        })
+      end
+      --## Char info
+      retFormat.charInfo.firstName   = fwData.charinfo.firstname
+      retFormat.charInfo.lastName    = fwData.charinfo.lastname
+      retFormat.charInfo.nationality = fwData.charinfo.nationality
+      retFormat.charInfo.gender      = fwData.charinfo.gender
+      retFormat.charInfo.birthdate   = fwData.charinfo.birthdate
+      retFormat.charInfo.phone       = fwData.charinfo.phone
+      retFormat.charInfo.backstory   = fwData.charinfo.backstory
+      retFormat.charInfo.account     = fwData.charinfo.account
+      retFormat.charInfo.cid         = fwData.charinfo.cid
+      --## Gang
+
+      return not specific and retFormat or retFormat[specific]
+    end
+    return {}
+  end,
+
   HasItem = function(item,amount, md) 
     local ret = nil 
     Core.Callback("Dirk-Core:HasItem", function(hasItem)

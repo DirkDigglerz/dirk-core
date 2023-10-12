@@ -113,6 +113,7 @@ RegisterCommand('dirkMouse', function()
     
   end
 end, false)
+
 RegisterKeyMapping("dirkMouse", "Enable Menu Mouse", "keyboard", Config.MenuMouseKey)
 TriggerEvent('chat:removeSuggestion', '/dirkMouse')
 

@@ -103,7 +103,8 @@ Citizen.CreateThread(function()
       end
     elseif Config.Framework == "qb-core" then 
       QBCore = exports['qb-core']:GetCoreObject()
-      RegisterNetEvent('QBCore:Client:UpdateObject', function() QBCore = exports['qb-core']:GetCoreObject(); end)
+      Core.Shared = QBCore.Shared
+      RegisterNetEvent('QBCore:Client:UpdateObject', function() QBCore = exports['qb-core']:GetCoreObject() Core.Shared = QBCore.Shared; end)
     elseif Config.Framework == "vrp" then 
       local serverSide = IsDuplicityVersion()
       Proxy  = module("vrp", "lib/Proxy")
