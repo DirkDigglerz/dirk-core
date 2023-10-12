@@ -1,5 +1,0 @@
-
-
-OpenMap = function(pickType){
-  
-}
