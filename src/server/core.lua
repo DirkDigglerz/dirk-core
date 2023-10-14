@@ -150,7 +150,7 @@ RegisterNetEvent("Dirk-Core:TriggerServerCallback", function(name, ...)
   else
     TriggerClientEvent("Dirk-Core:ReturnServerCallback", src, "error", {
       cbName = name,
-      error  = "This client has not registered this callback yet, are you using this correctly?",
+      error  = "This server has not registered this callback yet, are you using this correctly?",
     })
   end
 end)
@@ -185,13 +185,3 @@ if Config.EventDebugger then
     end
   end)
 end
-
-
-CreateThread(function()
-  while not Core do Wait(500); end
-  while not Core.Callback do Wait(500); end
-  Core.Callback("testCB", function(source,cb, param1, parma2)
-    cb("REturn 1", "return 2")
-  end)
-end)
-

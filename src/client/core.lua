@@ -96,8 +96,3 @@ RegisterNetEvent("Dirk-Core:ReturnServerCallback", function(name,...)
   end
 end)
 
-
-RegisterCommand("testServerCB", function(src,args)
-  local ret1, ret2 = Core.SyncCallback("testCB", "Fire", "Fire2")
-  print(ret1, ret2)
-end)
