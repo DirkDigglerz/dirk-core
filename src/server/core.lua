@@ -1,11 +1,15 @@
 Core = {
   Callbacks = {},
 
+  Callback = function(name,cb,...)
+    Core.Callbacks[name] = cb
+  end,
+
   ClientCallback = function(name, id, cb, ...)
     Core.Callbacks[name] = cb
     TriggerClientEvent("Dirk-Core:TriggerClientCallback", id, name, ...)
   end,
-
+  
   SyncClientCallback = function(name,id, ...)
     local ret = nil 
     Core.ClientCallback(name, id, function(...)
@@ -15,16 +19,9 @@ Core = {
     return table.unpack(ret)
   end,
 
-  Callback = function(name,route)
-    if Config.Framework == "es_extended" then
-      ESX.RegisterServerCallback(name,route)
-    elseif Config.Framework == "qb-core" then
-      QBCore.Functions.CreateCallback(name,route)
-    end
-  end,
-
   CheckScriptVersion = function(script, myVersion)
-    
+    local versions = json.decode(LoadResourceFile(GetCurrentResourceName(), "scriptChangelogs.json"))
+    if not versions[script] then return "This doesnt exist?"; end
   end,
 
   AddCommand = function(name,desc,func)
@@ -47,7 +44,6 @@ Core = {
   end,
 
   AddAllItems = function(toAdd)
-    print(string.format("^2Dirk-Core^7 RESOURCE: ^2%s^7 has automatically added items to your SQL/shared.lua", GetInvokingResource()))
     if Config.Framework == "es_extended" then
       if Config.AutoAddItems then
         local items = MySQL.query.await(string.format('SELECT * FROM %s',Config.ItemsDatabaseName), {})
@@ -144,6 +140,21 @@ Core = {
   end,
 }
 
+
+RegisterNetEvent("Dirk-Core:TriggerServerCallback", function(name, ...)
+  local src = source
+  if Core.Callbacks[name] then
+    Core.Callbacks[name](src, function(...)
+      TriggerClientEvent("Dirk-Core:ReturnServerCallback", src,  name, ...)
+    end, ...)
+  else
+    TriggerClientEvent("Dirk-Core:ReturnServerCallback", src, "error", {
+      cbName = name,
+      error  = "This client has not registered this callback yet, are you using this correctly?",
+    })
+  end
+end)
+
 RegisterNetEvent("Dirk-Core:ClientReturnCallback", function(name,...)
   local args = ...
   if name == "error" then print(string.format("^2Dirk-Core^7\n^1ERROR^7\nResource: %s\nCallback: %s\n^1Error: %s^7", GetInvokingResource() or "dirk-core", args.cbName, args.error)); return; end
@@ -176,8 +187,11 @@ if Config.EventDebugger then
 end
 
 
-RegisterCommand("Dirk-Core:TestClientCB", function(source,args)
-  Core.ClientCallback("testCB", source, function(arg1, arg2)
-    print(arg1, arg2)
-  end, "hello World", "hello World 2")
+CreateThread(function()
+  while not Core do Wait(500); end
+  while not Core.Callback do Wait(500); end
+  Core.Callback("testCB", function(source,cb, param1, parma2)
+    cb("REturn 1", "return 2")
+  end)
 end)
+

@@ -1,12 +1,10 @@
 
 Core = {
   Callbacks = {},
+
   Callback = function(name,cb,...)
-    if Config.Framework == "es_extended" then
-      ESX.TriggerServerCallback(name,cb,...)
-    elseif Config.Framework == "qb-core" then
-      QBCore.Functions.TriggerCallback(name,cb,...)
-    end
+    Core.Callbacks[name] = cb
+    TriggerServerEvent("Dirk-Core:TriggerServerCallback", name, ...)
   end,
 
   ClientCallback = function(name,cb,...)
@@ -25,11 +23,11 @@ Core = {
   deepCloneTable = function(original)
     local cloned = {}
     for key, value in pairs(original) do
-        if type(value) == "table" then
-            cloned[key] = Core.deepCloneTable(value)  -- Recursive call for nested tables
-        else
-            cloned[key] = value  -- Copy non-table values directly
-        end
+      if type(value) == "table" then
+        cloned[key] = Core.deepCloneTable(value)  -- Recursive call for nested tables
+      else
+        cloned[key] = value  -- Copy non-table values directly
+      end
     end
     
     return cloned
@@ -78,8 +76,6 @@ Core = {
 }
 
 RegisterNetEvent("Dirk-Core:TriggerClientCallback", function(name, ...)
-  print('Server has triggered this callback')
-  print(json.encode({...}))
   if Core.Callbacks[name] then
     Core.Callbacks[name](function(...)
       TriggerServerEvent("Dirk-Core:ClientReturnCallback", name, ...)
@@ -92,6 +88,16 @@ RegisterNetEvent("Dirk-Core:TriggerClientCallback", function(name, ...)
   end
 end)
 
-Core.ClientCallback("testCB", function(cb, ret1,ret2)
-  cb("return Fire", "return Fire2")
+RegisterNetEvent("Dirk-Core:ReturnServerCallback", function(name,...)
+  local args = ...
+  if name == "error" then print(string.format("^2Dirk-Core^7\n^1ERROR^7\nResource: %s\nCallback: %s\n^1Error: %s^7", GetInvokingResource() or "dirk-core", args.cbName, args.error)); return; end
+  if Core.Callbacks[name] then
+    Core.Callbacks[name](...)
+  end
+end)
+
+
+RegisterCommand("testServerCB", function(src,args)
+  local ret1, ret2 = Core.SyncCallback("testCB", "Fire", "Fire2")
+  print(ret1, ret2)
 end)
