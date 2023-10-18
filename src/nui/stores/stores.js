@@ -7,8 +7,501 @@ let fromGame = {
     Name: "Dirks Underground Dealer",
     ID: "dirk",
     Icon: "fas fa-store",
+    Type: "Buy", 
 
     Items: [
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
+      {
+        Name: "weapon_pistol",
+        Label: "Pistol",
+        Price: 100,
+        Img: "https://i.ibb.co/qCqcnH3/CIGAR-APE-IN-SPACE1111.png", 
+      },
       {
         Name: "weapon_pistol",
         Label: "Pistol",
@@ -34,7 +527,6 @@ let myBasket = {
 }
 
 
-
 UpdateBasketTotal = function(){
   // UPDATE BOTTOM BAR
   basketTotal = $('.currentTotal');
@@ -47,53 +539,72 @@ UpdateBasketTotal = function(){
 }
 
 AddToBasket = function(item, amount){
-  if (myBasket.Items[item.Name]){
-    myBasket.Items[item.Name].Amount += amount;
-    myBasket.Items[item.Name].Price = item.Price * myBasket.Items[item.Name].Amount;
-    let basketItem = $(`#basketItem_${item.Name}`);
-    basketItem.find('#amountText').text(myBasket.Items[item.Name].Amount);
-    basketItem.find('#prodPrice').text(`${fromGame.Currency} ${item.Price * myBasket.Items[item.Name].Amount}`);
-
-  } else {
-    myBasket.Items[item.Name] = {
-      Name: item.Name,
-      Label: item.Label,
-      Price: item.Price * amount,
-      Img: item.Img,
-      Amount: amount,
-    }
-
-    let basketCont = openStore.find('basketContent');
-    let itemEl = $(`
-      <storeItem id="basketItem_${item.Name}">
-        <div id="prodName">${item.Label}</div>
-        <div id="prodImg"></div>
-
-        <div id="amountGroup" class ="row">
-          <div id="amountText">${amount}</div>
-        </div>
-
-        <div id="removeButtonGroup" class ="row">
-          <div id="prodPrice">${fromGame.Currency} ${myBasket.Items[item.Name].Price}</div>
-
-          <div id="removeButton" class="row">
-            <i>${locales.Remove}</i>
-            <i  class="fas fa-minus"></i>
+  if (!item.Limit || amount <= item.Limit){
+    if (myBasket.Items[item.Name]){
+      if (!item.Limit || myBasket.Items[item.Name].Amount + amount <= item.Limit){
+        myBasket.Items[item.Name].Amount += amount;
+        myBasket.Items[item.Name].Price = item.Price * myBasket.Items[item.Name].Amount;
+        let basketItem = $(`#basketItem_${item.Name}`);
+        basketItem.find('#amountText').text(myBasket.Items[item.Name].Amount);
+        basketItem.find('#prodPrice').text(`${fromGame.Currency} ${item.Price * myBasket.Items[item.Name].Amount}`);
+      } else {
+          DisplayNotification({
+            ID: 1,
+            Title: locales.ItemLimit,
+            Message: fromGame.Store.Type == "Sell" && locales.NotEnoughItems || locales.StoreLimit,
+            Time: 5,  
+            Icon: "fas fa-exclamation-triangle"
+          })
+      }
+    } else {
+      myBasket.Items[item.Name] = {
+        Name: item.Name,
+        Label: item.Label,
+        Price: item.Price * amount,
+        Img: item.Img,
+        Amount: amount,
+      }
+  
+      let basketCont = openStore.find('basketContent');
+      let itemEl = $(`
+        <storeItem id="basketItem_${item.Name}">
+          <div id="prodName">${item.Label}</div>
+          <div id="prodImg"></div>
+  
+          <div id="amountGroup" class ="row">
+            <div id="amountText">${amount}</div>
           </div>
-        </div>
-      </storeItem>
-    `).appendTo(basketCont);
-    itemEl.find('#prodImg').css('background-image', `url('nui://${item.Img}')`);
-    itemEl.find('#removeButton').click(function(){
-      itemEl.fadeOut(200, function(){
-        itemEl.remove();
-        delete myBasket.Items[item.Name];
-        UpdateBasketTotal();
+  
+          <div id="removeButtonGroup" class ="row">
+            <div id="prodPrice">${fromGame.Currency} ${myBasket.Items[item.Name].Price}</div>
+  
+            <div id="removeButton" class="row">
+              <i>${locales.Remove}</i>
+              <i  class="fas fa-minus"></i>
+            </div>
+          </div>
+        </storeItem>
+      `).appendTo(basketCont);
+      itemEl.find('#prodImg').css('background-image', `url('nui://${item.Img}')`);
+      itemEl.find('#removeButton').click(function(){
+        itemEl.fadeOut(200, function(){
+          itemEl.remove();
+          delete myBasket.Items[item.Name];
+          UpdateBasketTotal();
+        });
+        
       });
-      
-    });
+    }
+    UpdateBasketTotal();
+  } else {
+    DisplayNotification({
+      ID: 1,
+      Title: locales.ItemLimit,
+      Message: fromGame.Store.Type == "Sell" && locales.NotEnoughItems || locales.StoreLimit,
+      Time: 5,  
+      Icon: "fas fa-exclamation-triangle"
+    })
   }
-  UpdateBasketTotal();
 }
 
 BuildBasket = function(){
@@ -151,17 +662,13 @@ storeFront = function(){
       <storeTitleBar class="row">
         <i class="rowIcon greyText ${fromGame.Store.Icon}"></i> 
         <div class="rowText">${fromGame.Store.Name}</div>
-
       </storeTitleBar>
-
-      <storeContent class="grid">
-      </storeContent>
-
+      <storeContent class="grid"></storeContent>
     </storeFront>
   
     <storeBasket>
       <div class="row basketTitle">
-        <i class="rowIcon greyText ${fromGame.Store.Icon}"></i> 
+        <i class="rowIcon greyText fa-solid fa-shopping-basket"></i> 
         <div class="rowText">${locales.Basket}</div>
       </div>
 
@@ -172,7 +679,7 @@ storeFront = function(){
           <div class="rowText currentTotal">${fromGame.Currency} 100</div>      
         </div>
         <div class="row" id="checkOutButton">
-          <div class="rowText">${locales.Purchase}</div>
+          <div class="rowText">${fromGame.Store.Type == "Buy"?locales.Purchase:locales.Sell}</div>
           <div><i class="fas fa-money-bill-wave"></i></div>
         </div>
       </basketFooter>
@@ -182,10 +689,14 @@ storeFront = function(){
   `).appendTo('body');
   
   let itemCont = openStore.find('storeContent');
+  console.log(JSON.stringify(fromGame.Store.Items, null, 2))
+  // convert to array 
+  fromGame.Store.Items = Object.values(fromGame.Store.Items);
   for (let i = 0; i < fromGame.Store.Items.length; i++) {
+    console.log("LOPING?")
     let item = fromGame.Store.Items[i];
     let itemEl = $(`
-      <storeItem>
+      <storeItem id="${i}${item.Label}">
         <div id="prodName">Gang Token</div>
         <div id="prodImg"></div>
 
@@ -208,6 +719,14 @@ storeFront = function(){
       </storeItem>
     `).appendTo(itemCont);
   
+    
+    tippy(itemEl[0], {
+      arrow:false,
+      content: item.Desc,
+      animation:'fade',
+      theme:'dirk',
+    });
+
     itemEl.find('#prodName').text(item.Label);
     itemEl.find('#prodImg').css('background-image', `url('nui://${item.Img}')`);
     itemEl.find('#prodPrice').text(`${fromGame.Currency} ${item.Price}`);
@@ -220,10 +739,8 @@ storeFront = function(){
 
     itemEl.find('#amountMinus').click(function(){
       let amount = parseInt(itemEl.find('#amountText').text());
-      if (amount > 1){
-        itemEl.find('#amountText').text(amount - 1);
-        itemEl.find('#prodPrice').text(`${fromGame.Currency} ${item.Price * (amount - 1)}`);
-      }
+      itemEl.find('#amountText').text(amount - 1);
+      itemEl.find('#prodPrice').text(`${fromGame.Currency} ${item.Price * (amount - 1)}`);
 
     });
 
@@ -240,8 +757,8 @@ storeFront = function(){
   }
 
   $('#checkOutButton').click(function(){
-    Post("checkOut", myBasket, function(hasMoney){
-      if (hasMoney){
+    Post("checkOut", myBasket, function(success){
+      if (success){
         myBasket = {
           "Name": fromGame.Store.Name,
           "ID": fromGame.Store.ID,
@@ -253,7 +770,13 @@ storeFront = function(){
           Post("closeStore", {ID: fromGame.Store.ID})
         });
       } else {
-        alert("You dont have enough money")
+        DisplayNotification({
+          ID: 1,
+          Title: locales.ItemLimit,
+          Message: fromGame.Store.Type == "Sell" && locales.NotEnoughItems || locales.NotEnoughMoney,
+          Time: 5,  
+          Icon: "fas fa-exclamation-triangle"
+        })
       }
     });
   });
@@ -278,6 +801,7 @@ document.addEventListener('keyup', function(e) {
     }
   }
 });
+
 
 window.addEventListener('message', function(event) {
   let data = event.data;

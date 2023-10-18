@@ -76,7 +76,7 @@ CreateThread(function()
 
     for k,v in pairs(Core.Blips) do 
       if typeOf(v) ~= "function" then 
-        if v.canSee() then 
+        if v.canSee and v.canSee() then 
           if not v.Blip then 
             v.render()
           end
@@ -92,18 +92,18 @@ CreateThread(function()
   end
 end)
 
-AddEventHandler("onResourceStop", function(resource)
+AddEventHandler("onResourceStop", function(resourceName)
   local count = 0  
   local typeOf = type
   for k,v in pairs(Core.Blips) do 
     if typeOf(v) ~= "function" then 
       count += 1
-      if v.Resource == resource then 
-        v.remove()
+      if v.Resource == resourceName then 
+        v.delete()
       end
     end
   end
   if count > 0 then 
-    print("^2Dirk-Core^7 | Cleaned up ^5"..count.."^7 Blips for Resource: ^3"..resource.."^7")
+    print("^2Dirk-Core^7 | Cleaned up ^5"..count.."^7 Blips for Resource: ^3"..resourceName.."^7")
   end
 end)

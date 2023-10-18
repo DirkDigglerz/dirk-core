@@ -3,6 +3,10 @@ Core.Stores = {
   Open = function(store, cb)
     Core.Callback("Dirk-Core:Stores:Open", function(res)
       assert(res,string.format("%s is trying to open a store that's not been registered", GetInvokingResource()))
+      if res == "noItemsToSell" then 
+        if cb then cb(); end  
+        return Core.UI.Notify(Labels[Config.Language].NoItemsToSell); 
+      end
       SetNuiFocus(true,true)
       SendNuiMessage(json.encode({
         type = "openStore",
@@ -15,6 +19,7 @@ Core.Stores = {
             ID    = store,
             Icon  = res.Icon,
             Items = res.Items,
+            Type  = res.Type,
           },
         },
       }))
@@ -30,6 +35,8 @@ RegisterNUICallback("checkOut", function(data,cb)
     if resp == "Purchased" then
       cb(true)
     elseif resp == "CannotAfford" then
+      cb(false)
+    elseif resp == "notEnoughItems" then 
       cb(false)
     elseif resp == "EXPLOIT" then
       print('YOU BEING A NUISANCE?')

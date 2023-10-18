@@ -7,7 +7,6 @@ Core.Player = {
       
       while not ESX do Wait(5000); end
       while not ESX.IsPlayerLoaded() do 
-        print('Hung at PLAYER LOADED') 
         local now = GetGameTimer()
         if now - start_time >= Config.WaitForPlayerReady * 1000 then print('SKIPPED WAITING FOR PLAYER LOADED AS TOOK TOO LONG') return true; end
         Wait(500) 

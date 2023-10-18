@@ -368,10 +368,20 @@ Core.Zones = {
   end,
 }
 
+
+
 RegisterCommand("Dirk-Core:DrawPolygon", function(source,arg)
   local polygon = Core.Zones.CreatePolygon()
+  local txtOutput = "Vector3 Variation Below\n"
+  for k,v in pairs(polygon) do 
+    txtOutput = txtOutput..string.format("vector3(%s,%s,%s),\n", v.x, v.y, v.z)
+  end
+  txtOutput = txtOutput.."\n\nVector2 Variation Below\n"
+  for k,v in pairs(polygon) do 
+    txtOutput = txtOutput..string.format("vector2(%s,%s),\n", v.x, v.y)
+  end
   Core.UI.Notify("Copied Polygon to Clipboard")
-  print(Core.UI.CopyToClipboard(json.encode(polygon)))
+  Core.UI.CopyToClipboard(txtOutput)
 end)
 
 local garbageCollection = GetGameTimer()

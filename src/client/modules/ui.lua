@@ -19,7 +19,7 @@ Core.UI = {
     if Config.Framework == "es_extended" then
       ESX.ShowNotification(msg)
     elseif Config.Framework == "qb-core" then
-      QBCore.Functions.Notify(msg, type, time or 5000)
+      QBCore.Functions.Notify(msg)
     elseif Config.Framework == "vrp" then 
       TriggerEvent('Notify',"success",msg,5000)
     end

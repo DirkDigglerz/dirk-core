@@ -104,7 +104,10 @@ Citizen.CreateThread(function()
     elseif Config.Framework == "qb-core" then 
       QBCore = exports['qb-core']:GetCoreObject()
       Core.Shared = QBCore.Shared
-      RegisterNetEvent('QBCore:Client:UpdateObject', function() QBCore = exports['qb-core']:GetCoreObject() Core.Shared = QBCore.Shared; end)
+      AddEventHandler('QBCore:Client:UpdateObject', function() 
+        print('OBJECT FOR QBCORE HAS BEEN UPDATED SO UPDATING IN DIRK-CORE')
+        QBCore = exports['qb-core']:GetCoreObject();
+      end)
     elseif Config.Framework == "vrp" then 
       local serverSide = IsDuplicityVersion()
       Proxy  = module("vrp", "lib/Proxy")
@@ -122,3 +125,4 @@ end)
 getCore = function()
   return Core, Config
 end
+
