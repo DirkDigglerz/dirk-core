@@ -21,7 +21,7 @@ Config = {
   Currency            = "$",      --## Currency symbol
 
   WaitForPlayerReady  = 360, --## How long before the script will give up waiting for the player to be ready (seconds) 
-
+  NotifyPos           = "topCenter", --## Where the notification will appear on the screen, topCenter, topLeft, topRight, bottomCenter, bottomLeft, bottomRight, center
   --[[
     DO NOT RENAME OR CHANGE ANYTHING BELOW UNLESS YOU HAVE RENAMED A RESOURCE THAT IS LISTED BELOW, REFER TO THE DOCS FOR MORE INFO 
   ]]

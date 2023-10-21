@@ -176,6 +176,7 @@ Core.UI = {
         Icon    = data.Icon or "fas fa-info-circle",
         Time    = data.Time or 5,
         NoTimer = data.NoTimer or false,
+        Position = Config.NotifyPos or "topCenter"
       },
     })
   end,

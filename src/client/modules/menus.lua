@@ -82,7 +82,6 @@ Core.Menus = {
 RegisterNuiCallback("click", function(data, cb)
   local uniqueID = data.uniqueID
   local action   = Core.Menus.DisplayedOptions[uniqueID]
-
   if action then 
     action({
       removeFocus = function()

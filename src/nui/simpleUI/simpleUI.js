@@ -145,7 +145,48 @@ let hasContainer = false;
 DisplayNotification = function(data){
   if(!hasContainer){
     hasContainer = $(`<notifications></notifications>`).appendTo('body');
-  }
+    // Position based on the following that will be passed as data.Position, topCenter, topLeft, topRight, bottomCenter, bottomLeft, bottomRight, center
+    if (data.Position == "topCenter"){
+      hasContainer.css({
+        "top": "5%",
+        "left": "50%",
+      })
+    }else if(data.Position == "topLeft"){
+      hasContainer.css({
+        "top": "5%",
+        "left": "5%",
+      })
+    } else if(data.Position == "topRight"){
+      hasContainer.css({
+        "top": "5%",
+        "right": "5%",
+      })
+    } else if(data.Position == "bottomCenter"){
+      hasContainer.css({
+        "bottom": "5%",
+        "left": "50%",
+      })
+    } else if(data.Position == "bottomLeft"){
+      hasContainer.css({
+        "bottom": "5%",
+        "left": "5%",
+      })
+    } else if(data.Position == "bottomRight"){
+      hasContainer.css({
+        "bottom": "5%",
+        "right": "5%",
+      })
+    } else if(data.Position == "center"){
+      hasContainer.css({
+        "top": "50%",
+        "left": "50%",
+      })
+    } 
+
+
+
+
+  } 
   console.log("HERE")
   let initFormat = formatTime(data.Time);
   let newNotification = $(`

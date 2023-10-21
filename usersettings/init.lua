@@ -104,7 +104,7 @@ Citizen.CreateThread(function()
     elseif Config.Framework == "qb-core" then 
       QBCore = exports['qb-core']:GetCoreObject()
       Core.Shared = QBCore.Shared
-      AddEventHandler('QBCore:Client:UpdateObject', function() 
+      RegisterNetEvent('QBCore:Client:UpdateObject', function() 
         print('OBJECT FOR QBCORE HAS BEEN UPDATED SO UPDATING IN DIRK-CORE')
         QBCore = exports['qb-core']:GetCoreObject();
       end)
