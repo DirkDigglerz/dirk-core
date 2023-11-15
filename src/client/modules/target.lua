@@ -87,6 +87,7 @@ Core.Target = {
       end
       if not data.Local then
         local id = NetworkGetNetworkIdFromEntity(entity)
+        print('Adding network entity for ', id)
         return exports['ox_target']:addEntity(entity, data.Options)
       else
         return exports['ox_target']:addLocalEntity(entity, data.Options)

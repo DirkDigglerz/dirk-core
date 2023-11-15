@@ -15,6 +15,29 @@ Core.UI = {
     end
   end,
 
+  DrawText3D = function(x,y,z,scl_factor,text)
+    local onScreen, _x, _y = World3dToScreen2d(x, y, z)
+    local p = GetGameplayCamCoords()
+    local distance = GetDistanceBetweenCoords(p.x, p.y, p.z, x, y, z, 1)
+    local scale = (1 / distance) * 2
+    local fov = (1 / GetGameplayCamFov()) * 100
+    local scale = scale * fov * scl_factor
+    if onScreen then
+        SetTextScale(0.0, scale)
+        SetTextFont(0)
+        SetTextProportional(1)
+        SetTextColour(255, 255, 255, 215)
+        SetTextDropshadow(0, 0, 0, 0, 255)
+        SetTextEdge(2, 0, 0, 0, 150)
+        SetTextDropShadow()
+        SetTextOutline()
+        SetTextEntry("STRING")
+        SetTextCentre(1)
+        AddTextComponentString(text)
+        DrawText(_x, _y)
+    end
+  end,
+
   Notify = function(msg, type, time)
     if Config.Framework == "es_extended" then
       ESX.ShowNotification(msg)
@@ -216,8 +239,6 @@ Core.UI = {
     local model = GetHashKey(entity)
     -- if not IsModelInCdimage(model) then Core.UI.Notify("Tried to use an invalid model in entity placer") return false; end
     local startTime = GetGameTimer()
-    
-    print('Requesting Model ', model)
     while not HasModelLoaded(model) do
       RequestModel(model)
       local now = GetGameTimer()
@@ -243,7 +264,7 @@ Core.UI = {
         endCoords = testCoords 
         SetEntityVisible(thisObject, true)
         DrawSphere(endCoords.x,endCoords.y,endCoords.z, 0.1, 0,255,0, 0.7)
-        SetEntityCoords(thisObject, endCoords.x,endCoords.y,endCoords.z)
+        SetEntityCoords(thisObject, endCoords.x,endCoords.y,endCoords.z + 0.05)
       else
         SetEntityVisible(thisObject, false)
       end
@@ -281,7 +302,7 @@ Core.UI = {
         local objectCoords = GetEntityCoords(thisObject)
         local objectRotation = GetEntityRotation(thisObject)
         local heading        = GetEntityHeading(thisObject)
-
+        
         DeleteEntity(thisObject)
         return {
           coords = objectCoords,
