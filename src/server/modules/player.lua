@@ -26,7 +26,9 @@ Core.Player = {
     local ply = Core.Player.Get(p)
     if not ply then return; end
     if Config.Framework == "es_extended" then
-      return ply.getName()
+      local raw = ply.getName()
+      local firstName, lastName = raw:match("(%a+)%s+(.*)")
+      return firstName, lastName
     elseif Config.Framework == "qb-core" then
       return ply.PlayerData.charinfo.firstname, ply.PlayerData.charinfo.lastname
     elseif Config.Framework == "vrp" then 
@@ -53,7 +55,9 @@ Core.Player = {
     local ply = Core.Player.Get(p)
     if not ply then return; end
     if Config.Framework == "es_extended" then
-      return ply.getPhoneNumber()
+      local result = MySQL.Sync.fetchAll("SELECT phone_number FROM users WHERE identifier = @identifier", {['@identifier'] = ply.identifier})
+      print(json.encode(result, {indent = true}))
+      return result[1] or "No Number"
     elseif Config.Framework == "qb-core" then
       return ply.PlayerData.charinfo.phone
     elseif Config.Framework == "vrp" then
@@ -270,7 +274,13 @@ Core.Player = {
   UpdateInfo = function(p,_type,info)
     local ply = Core.Player.Get(tonumber(p))
     if Config.Framework == "es_extended" then
-
+      if _type == "firstname" then 
+        local currentFirst, currentLast = Core.Player.Name(p)
+        ply.setName(info.." "..currentLast)
+      elseif _type == "lastname" then
+        local currentFirst, currentLast = Core.Player.Name(p)
+        ply.setName(currentFirst.." "..info)
+      end
     elseif Config.Framework == "qb-core" then
       if _type == "firstname" or _type == "lastname" or _type == "gender" or _type == "birthdate" or _type == "phone" then
         local charInfo = ply.PlayerData.charinfo
@@ -312,7 +322,12 @@ Core.Player = {
     local ply = Core.Player.Get(tonumber(p))
     if not ply then return false; end 
     if Config.Framework == "es_extended" then
-      return ply.getAccounts()
+      local ret = {}  
+      local rawAccounts = ply.getAccounts()
+      for k,v in pairs(rawAccounts) do 
+        ret[v.name] = v.money
+      end 
+      return ret
     elseif Config.Framework == "qb-core" then
       return ply.PlayerData.money
     elseif Config.Framework == "vrp" then
