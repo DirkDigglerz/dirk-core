@@ -2,6 +2,7 @@ Core.Blips = {
   Register = function(id,data)
     local self = {}
     self.ID = id
+    self.Area = data.Area or false
     self.Resource = data.Resource or GetInvokingResource()
     self.Pos = data.Pos or vector3(0,0,0)
     self.Display = data.Display or 4
@@ -15,7 +16,12 @@ Core.Blips = {
     self.canSee = data.canSee
 
     self.render = function()
-      local blip = AddBlipForCoord(self.Pos.x,self.Pos.y,self.Pos.z)
+      local blip
+      if not self.Area then 
+        blip = AddBlipForCoord(self.Pos.x,self.Pos.y,self.Pos.z)
+      elseif self.Area then
+        blip = AddBlipForArea(self.Pos.x, self.Pos.y, self.Pos.z, self.Area.Width, self.Area.Height)
+      end
       SetBlipSprite (blip, self.Sprite)
       SetBlipDisplay(blip, self.Display)
       SetBlipScale  (blip, self.Scale)
