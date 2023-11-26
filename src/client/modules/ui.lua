@@ -393,17 +393,17 @@ RegisterNUICallback("closeSelectMenu", function(data,cb)
   SetNuiFocus(false,false)
 end)
 
-RegisterCommand("selectMenu", function(source,args)
-  print('test menu ')
-  local result = Core.UI.SelectMenu({
-    title = "Test Menu",
-    icon = "fas fa-info-circle",
-    multi = true, 
-    canCancel = true,
-    items = {
-      {label =  "Super Rare", icon =  "fas fa-exclamation-triangle", value =  "test", selected = true}
-    }
-  })
-  print('Result')
-  print(json.encode(result))
-end)
+-- RegisterCommand("selectMenu", function(source,args)
+--   print('test menu ')
+--   local result = Core.UI.SelectMenu({
+--     title = "Test Menu",
+--     icon = "fas fa-info-circle",
+--     multi = true, 
+--     canCancel = true,
+--     items = {
+--       {label =  "Super Rare", icon =  "fas fa-exclamation-triangle", value =  "test", selected = true}
+--     }
+--   })
+--   print('Result')
+--   print(json.encode(result))
+-- end)

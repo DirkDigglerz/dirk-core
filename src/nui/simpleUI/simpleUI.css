@@ -291,7 +291,7 @@ notification > div:nth-child(3) > div{
 .selectMenuItem:hover{
   cursor:pointer;
   background-color: var(--solidBlack);
-  transform:scale(1.02);
+  transform:scale(1.01);
 }
 
 .checkBox{
@@ -305,7 +305,7 @@ notification > div:nth-child(3) > div{
 .selectedItem{
   background-color: var(--solidBlack);
   color: var(--dirkGreen);
-  border: solid var(--dirkGreen) 1px;
+  outline: solid var(--dirkGreen) 1px;
 }
 
 .selectMenuFooter{

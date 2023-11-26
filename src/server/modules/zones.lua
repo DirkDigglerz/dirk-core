@@ -1,5 +1,7 @@
 local glm = require 'glm'
-
+local randomInRange = function(min, max)
+  return min + math.random() * (max - min)
+end
 Core.Zones = {
   GetRandomPoint = function(points)
     local minX, maxX, minY, maxY, minZ, maxZ = Core.Zones.getMinMax(points)
@@ -14,14 +16,14 @@ Core.Zones = {
 
     -- Generate a random point until it falls within the polygon
     while true do
-      local randomPoint = Vector3(
-        math.random(minX, maxX),
-        math.random(minY, maxY),
-        math.random(minZ, maxZ)
+      local randomPoint = vector3(
+        randomInRange(minX, maxX),
+        randomInRange(minY, maxY),
+        randomInRange(minZ, maxZ)
       )
 
       -- Check if the random point is within the polygon
-      if IsPointInPolygon(randomPoint, points) then
+      if Core.Zones.IsPointInPolygon(randomPoint, points) then
         return randomPoint
       end
     end

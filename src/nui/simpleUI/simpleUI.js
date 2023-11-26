@@ -151,12 +151,11 @@ let openSelectMenu = function (items, multi, title, icon, cancel) {
 
   for (let k in items) {
     let item = items[k];
-    console.log(`${!multi && item.selected?'selectedItem':''}`)
-    let newItem = $(`<div class="selectMenuItem ${!multi && item.selected?'selectedItem':''}">
+    let newItem = $(`<div class="selectMenuItem ${item.selected?'selectedItem':''}">
       <i class="${item.icon}"></i>
       <div>${item.label}</div>
   
-      ${multi ? `<i class="fas fa-check checkBox"></i>` : ""}
+      ${multi && item.selected ? `<i class="fas fa-check checkBox"></i>` : ""}
     </div>`).appendTo('.selectMenuItems');
 
     $(newItem).click(function () {
@@ -208,5 +207,38 @@ $(document).on('keydown', function (event) {
 window.addEventListener('message', function (event) {
   if (event.data.type == "openSelectMenu"){
     openSelectMenu(event.data.items, event.data.multi, event.data.title, event.data.icon, event.data.canCancel);
+  }
+})
+
+
+// ADVANCED HELP NOTIF
+var Current = {}
+var HelpOpen = false;
+
+window.addEventListener('message', function (event) {
+  if (event.data.type == "show") {
+    if (Object.keys(Current).length === 0){
+      $(`<div class="HelpOuter"></div>`).appendTo('body')
+    }
+    Current[event.data.name] = $(`<div id="HelpContainer"></div>`).appendTo(".HelpOuter");
+    $.each(event.data.message, function (index, value) {
+      var raw = value.key
+      var uppercase = raw.toUpperCase();
+      $(`<div style="display:hidden;" id='row'>
+          <div id='button'><kbd>${uppercase}</kbd></div>
+          <div id='useinfo'>${value.label}</div>
+        </div>
+      `).appendTo(Current[event.data.name]).hide().fadeIn(200);
+    });
+  } else if (event.data.type == 'hide') {
+    $(Current[event.data.name]).fadeOut(600, function () {
+      $(Current[event.data.name]).remove();
+    });
+  
+    delete Current[event.data.name]
+    if (Object.keys(Current).length === 0) {
+      $('.HelpOuter').remove();
+    }
+
   }
 })
