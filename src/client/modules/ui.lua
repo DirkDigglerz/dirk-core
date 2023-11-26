@@ -3,6 +3,7 @@
 
 
 Core.UI = {
+  AwaitingOptionResponse = false,
   ShowHelpNotification = function(msg)
     AddTextEntry(GetCurrentResourceName(), msg)
 
@@ -37,6 +38,23 @@ Core.UI = {
       type        = "copy",
       value        = val,
     })
+  end,
+
+  SelectMenu = function(data)
+    print('SElect menu open ')
+    Core.UI.AwaitingOptionResponse = "Waiting"
+    SetNuiFocus(true,true)
+    print('send nui message ')
+    SendNUIMessage({
+      type = "openSelectMenu",
+      title = data.title or "Select Menu",
+      icon = data.icon or "fas fa-info-circle",
+      items = data.items,
+      multi = data.multi or false,
+      canCancel = data.canCancel or false,
+    })
+    while Core.UI.AwaitingOptionResponse == "Waiting" do Wait(250); end
+    return Core.UI.AwaitingOptionResponse
   end,
 
   ScreenToWorld = function(iter)
@@ -343,3 +361,28 @@ RegisterCommand("Dirk-Core:EntityPlacer", function(source,args)
   local vec = string.format("vector4(%s, %s, %s, %s)", ret.coords.x,ret.coords.y,ret.coords.z,ret.heading)
   Core.UI.CopyToClipboard(vec)
 end, true)
+
+RegisterNUICallback("selectMenuReturn", function(data,cb)
+  Core.UI.AwaitingOptionResponse = data
+  SetNuiFocus(false,false)
+end)
+
+RegisterNUICallback("closeSelectMenu", function(data,cb)
+  Core.UI.AwaitingOptionResponse = false
+  SetNuiFocus(false,false)
+end)
+
+RegisterCommand("selectMenu", function(source,args)
+  print('test menu ')
+  local result = Core.UI.SelectMenu({
+    title = "Test Menu",
+    icon = "fas fa-info-circle",
+    multi = true, 
+    canCancel = true,
+    items = {
+      {label =  "Super Rare", icon =  "fas fa-exclamation-triangle", value =  "test", selected = true}
+    }
+  })
+  print('Result')
+  print(json.encode(result))
+end)

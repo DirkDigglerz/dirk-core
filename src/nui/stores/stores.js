@@ -1,5 +1,5 @@
 let cache = {};
-
+let openStore = null;
 let fromGame = {
   Currency: "$",
   Language: "ENG",
