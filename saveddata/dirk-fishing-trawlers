@@ -1,0 +1,22 @@
+[
+    {
+        "netID": 23,
+        "pos": {
+            "x": -1913.5780029296876,
+            "y": -1196.5845947265626,
+            "z": 0.230712890625,
+            "w": 110.55118560791016
+        },
+        "spawn": {
+            "__cfx_functionReference": "dirk-fishingv2:30521:5"
+        },
+        "id": 1,
+        "santizeSync": {
+            "__cfx_functionReference": "dirk-fishingv2:30521:4"
+        },
+        "update": {
+            "__cfx_functionReference": "dirk-fishingv2:30521:6"
+        },
+        "model": "tug"
+    }
+]

@@ -6,7 +6,9 @@ Core = {
   end,
 
   ClientCallback = function(name, id, cb, ...)
-    Core.Callbacks[name] = cb
+    local thisID = string.format("PlayerID:%s", id)
+    if not Core.Callbacks[thisID] then Core.Callbacks[thisID] = {}; end
+    Core.Callbacks[thisID][name] = cb
     TriggerClientEvent("Dirk-Core:TriggerClientCallback", id, name, ...)
   end,
   
@@ -157,9 +159,14 @@ end)
 
 RegisterNetEvent("Dirk-Core:ClientReturnCallback", function(name,...)
   local args = ...
+  local src = source
   if name == "error" then print(string.format("^2Dirk-Core^7\n^1ERROR^7\nResource: %s\nCallback: %s\n^1Error: %s^7", GetInvokingResource() or "dirk-core", args.cbName, args.error)); return; end
-  if Core.Callbacks[name] then
-    Core.Callbacks[name](...)
+  local thisID = string.format("PlayerID:%s", src)
+  if Core.Callbacks[thisID] and Core.Callbacks[thisID][name] then
+    Core.Callbacks[thisID][name](...)
+    Core.Callbacks[thisID][name] = nil 
+  elseif Core.Callbacks["PlayerID:-1"] and Core.Callbacks["PlayerID:-1"][name] then 
+    Core.Callbacks["PlayerID:-1"][name](...)
   end
 end)
 
@@ -185,3 +192,12 @@ if Config.EventDebugger then
     end
   end)
 end
+
+AddEventHandler("playerDropped", function()
+  local src = source
+  for k,v in pairs(Core.Callbacks) do
+    if k == string.format("PlayerID:%s", src) then
+      Core.Callbacks[k] = nil 
+    end
+  end
+end)

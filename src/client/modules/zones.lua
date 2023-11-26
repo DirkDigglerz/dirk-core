@@ -63,7 +63,7 @@ Core.Zones = {
 
     return minX, maxX, minY, maxY, minZ, maxZ
   end,
-
+  
   DrawWall = function(pos1,pos2,height, col)
     col = col or {}
     local r,g,b,a = col.R or 0, col.G or 255, col.B or 0 , col.A or 80
@@ -399,7 +399,6 @@ CreateThread(function()
       collectgarbage("collect")
       garbageCollection = now
     end
-  
     for k,v in pairs(Core.Zones) do 
       if valType(v) ~= "function" then 
         if v.Type == "poly" then 

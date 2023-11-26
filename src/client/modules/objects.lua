@@ -18,7 +18,7 @@ Core.Objects = {
     self.Hash            = data.Hash or nil
     self.Entity          = nil 
     self.Network         = data.Network or false
-    self.IntertactDist   = data.IntertactDist or false
+    self.InteractDist    = data.InteractDist or false
     self.CanSpawn        = data.CanSpawn or nil
 
 
@@ -29,13 +29,13 @@ Core.Objects = {
       local Hash = self.Hash or GetHashKey(self.Model)
       while not HasModelLoaded(Hash) do RequestModel(Hash) Wait(0); end
       if self.Type == "object" then   
-        
         self.Entity = CreateObject(Hash, self.Pos.x,self.Pos.y,self.Pos.z, self.Network, true, false)
       elseif self.Type == "ped" then 
         self.Entity = CreatePed(1, Hash, self.Pos.x,self.Pos.y,self.Pos.z,self.Pos.w,self.Network,false)
       elseif self.Type == "vehicle" then 
         self.Entity = CreateVehicle(Hash, self.Pos.x,self.Pos.y,self.Pos.z,self.Pos.w,self.Network,true)
       end
+      SetEntityHeading(self.Entity, (self.Pos['w'] or 0.0))
       SetModelAsNoLongerNeeded(Hash)
       if cb then 
         cb("spawn", {entity = self.Entity})
@@ -46,8 +46,8 @@ Core.Objects = {
       DeleteEntity(self.Entity)
       local oldEnt = self.Entity
       self.Entity = nil 
-      if self.IntertactDist then 
-        Core.Zones.Remove(string.format("Interact:%s", self.ID))
+      if self.InteractDist then 
+        Core.Zones.RemoveZone(string.format("Interact:%s", self.ID))
       end
       if cb then 
         cb("despawn", {entity = oldEnt})
@@ -59,58 +59,84 @@ Core.Objects = {
       if cb then 
         cb("withinDist", {entity = self.Entity, distance = distance})
       end
-      
+    end
+
+    self.leaveDist = function(distance)
+      if cb then 
+        cb("leaveDist", {entity = self.Entity, distance = distance})
+      end
+    end
+
+    self.enterDist = function(distance)
+      if cb then 
+        cb("enterDist", {entity = self.Entity, distance = distance})
+      end
     end
 
     self.remove = function()
       self.despawn()
       Core.Objects[id] = nil
     end
-    local zoneOpts = {
-      Type   = "circle", 
-      Zone   = vector3(self.Pos.x, self.Pos.y,self.Pos.z),
-      Radius = self.RenderDist, 
 
-      onEnter = function()
-        self.spawn()
-      end,
+    if self.RenderDist then 
+      local zoneOpts = {
+        Type   = "circle", 
+        Zone   = vector3(self.Pos.x, self.Pos.y,self.Pos.z),
+        Radius = self.RenderDist, 
 
-      onLeave = function()
-        self.despawn()
-      end,
-    }
+        onEnter = function()
+          self.spawn()
+        end,
 
-    if self.CanSpawn then 
-      zoneOpts.onStay = function()
-        local canSpawn = self.CanSpawn()
-        if not self.Entity then 
-          if canSpawn then 
-            self.spawn()
-          end
-        else
-          if not canSpawn then 
-            self.despawn()
+        onLeave = function()
+          self.despawn()
+        end,
+      }
+
+      if self.CanSpawn then 
+        zoneOpts.onStay = function()
+          local canSpawn = self.CanSpawn()
+          if not self.Entity then 
+            if canSpawn then 
+              self.spawn()
+            end
+          else
+            if not canSpawn then 
+              self.despawn()
+            end
           end
         end
       end
+      Core.Zones.Register(string.format("RenderSpawn:%s", self.ID), zoneOpts)
     end
 
-    Core.Zones.Register(string.format("RenderSpawn:%s", self.ID), zoneOpts)
 
-    if self.IntertactDist then 
+    if self.InteractDist then 
       Core.Zones.Register(string.format("Interact:%s", self.ID), {
         Type   = "circle", 
         Zone   = vector3(self.Pos.x, self.Pos.y,self.Pos.z),
-        Radius = self.IntertactDist, 
+        Radius = self.InteractDist, 
 
         onStay = function()
           local ply = PlayerPedId()
-          self.withinDist(self.IntertactDist, #(GetEntityCoords(ply) - self.Pos.xyz))
+          self.withinDist(#(GetEntityCoords(ply) - self.Pos.xyz))
+        end,
+
+        onEnter = function()
+          local ply = PlayerPedId()
+          self.enterDist(#(GetEntityCoords(ply) - self.Pos.xyz))
+        end,
+
+        onLeave = function()
+          local ply = PlayerPedId()
+          self.leaveDist(#(GetEntityCoords(ply) - self.Pos.xyz))
         end,
       })
     end
+
+
+
     Core.Objects[id] = self
-    
     return true 
   end,
 

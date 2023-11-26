@@ -177,6 +177,82 @@ Core.Game = {
       end 
     end
     return closestVehicle, closestDistance
-  end
-}
+  end,
+  currentCamera = false,
+  oldPos = false,
+  EnterCamera = function(data, dontHidePlayer)
+    local ply = PlayerPedId()
+    DoScreenFadeOut(1000)
+    Wait(1000)
+  
 
+    if not dontHidePlayer then 
+      Core.Game.oldPos = GetEntityCoords(ply)
+      SetEntityLocallyInvisible(ply)
+      NetworkSetEntityInvisibleToNetwork(ply, true)
+      SetEntityInvincible(ply, true)
+      FreezeEntityPosition(ply, true)
+      SetEntityCoords(ply, Core.Game.oldPos.x, Core.Game.oldPos.y, Core.Game.oldPos.z - 25.0)
+    end
+    Wait(500)
+  
+    Core.Game.currentCamera = CreateCam("DEFAULT_SCRIPTED_CAMERA", true)
+    local camCoords = data.Pos
+    local camRot = data.Rot
+    SetCamCoord(Core.Game.currentCamera, camCoords.x, camCoords.y, camCoords.z)
+    SetCamRot(Core.Game.currentCamera, camRot.x, camRot.y, camRot.z, 2)
+    SetCamActive(Core.Game.currentCamera, true)
+    RenderScriptCams(true, false, 1, true, true)
+    DoScreenFadeIn(1000)
+    Wait(1000)
+    return true
+  end,
+  
+  ExitCamera = function()
+    if not Core.Game.currentCamera then return; end
+    DoScreenFadeOut(1000)
+    Wait(1000)
+    local ply = PlayerPedId()
+    if Core.Game.oldPos then 
+      SetEntityCoords(ply, Core.Game.oldPos.x, Core.Game.oldPos.y, Core.Game.oldPos.z - 1.0)
+      NetworkSetEntityInvisibleToNetwork(ply, false)
+      SetEntityLocallyVisible(ply)
+      SetEntityInvincible(ply, false)
+      FreezeEntityPosition(ply, false)
+    end
+
+    DestroyCam(Core.Game.currentCamera)
+    RenderScriptCams(false, false, 1, true, true)
+    Core.Game.currentCamera = false
+  
+  
+    DoScreenFadeIn(1000)
+    Wait(1000)
+  end
+  
+}
+local inVehicle = false
+CreateThread(function()
+  while true do 
+    local wait_time = 1000
+    local playerPed = PlayerPedId()
+    local playerVeh = GetVehiclePedIsIn(playerPed, false)
+    if veh and veh ~= 0 and inVehicle == false then 
+      inVehicle = true
+      TriggerEvent("Dirk-Core:EnterVehicle", veh)
+    end 
+    if veh == 0 and inVehicle == true then 
+      inVehicle = false; 
+      TriggerEvent("Dirk-Core:LeaveVehicle", veh)
+    end
+    Wait(wait_time)
+  end
+end)
+
+RegisterCommand("Dirk-Core:CameraPos", function()
+  local cam = GetRenderingCam()
+  local pos = GetCamCoord(cam)
+  local rot = GetCamRot(cam, 2)
+  local stringToCopy = string.format("CamPos = vector3(%s,%s,%s),\nCamRot = vector3(%s,%s,%s)", pos.x, pos.y,pos.z, rot.x,rot.y,rot.z)
+  Core.UI.CopyToClipboard(stringToCopy)
+end)

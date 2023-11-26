@@ -46,6 +46,24 @@ Core.Inventory = {
    
   end,
 
+  TempStash = function(items)
+    if Config.Inventory == "ox_inventory" then 
+      local mystash = exports.ox_inventory:CreateTemporaryStash({
+        label = 'mystash',
+        slots = 5,
+        maxWeight = 5000,
+        items = {
+            { 'WEAPON_MINISMG', 1 },
+            { 'ammo-9', 69 },
+            { 'water', 2, { label = 'Mineral water' } }
+        }
+    })
+     
+    elseif Config.Inventory == "ps-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or (Config.Inventory == "qs-inventory" and not Config.NewQSInventory) then 
+
+    end 
+  end,
+
   Create = function(id)
     local self = {}
     self.id = id

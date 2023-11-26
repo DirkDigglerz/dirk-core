@@ -95,4 +95,3 @@ RegisterNetEvent("Dirk-Core:ReturnServerCallback", function(name,...)
     Core.Callbacks[name](...)
   end
 end)
-
