@@ -19,6 +19,37 @@ background: #555;
 }
 
 html,body {
+  --lightBackground: rgba(25, 25, 25, 0.70);
+  --darkBackground: rgba(10, 10, 10, 0.77);
+  
+  --solidBlack: rgba(10, 10, 10, 1);
+
+  --serverIcon: url("imgs/serverIcon.png");
+
+  --lightGreen:rgba(129, 252, 129, 0.77);
+  --brightGreen:rgb(0, 255, 0);
+  --dirkGreen:rgb(0 94 9 / 77%);
+  --dirkGreenOpaque:rgb(0 94 9 / 55%);
+  --darkGreen: rgb(9, 32, 28, 0.8);
+
+  --lightBlue:rgba(0, 166, 255, 0.77);
+  --brightBlue:rgb(0, 47, 255);
+  --darkBlue:rgb(0 0 94 / 77%);
+
+  --lightRed:rgba(223, 80, 80, 0.77);
+  --brightRed:rgb(255, 0, 30);
+  --darkRed:rgb(94 0 0 / 77%);
+
+  --lightWhite:rgb(255 255 255 / 77%);
+  --brightWhite:rgb(255, 255, 255);
+
+  --lightGrey:rgba(255, 255, 255, 0.77);
+  --brightGrey:rgb(255, 255, 255);
+  --darkGrey:rgb(94 94 94 / 77%);
+
+  --boxShadow: rgba(0, 0, 0, 0.55);
+  
+
       /*background-image: url("https://cdn.wccftech.com/wp-content/uploads/2014/11/gtav-comp-2-1.png");*/
   margin: 0;
   padding: 0;

@@ -233,3 +233,117 @@ notification > div:nth-child(3) > div{
   text-align: right;
   padding-right:6px;
 }
+
+/* SELECT MENU  */
+
+.selectMenu{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  background-color: var(--darkBackground);
+  width:25%;
+  min-width:fit-content;
+}
+.selectMenuHeader{
+  font-size:125%;
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  gap:5px;
+  align-items: center;
+  background-color: var(--solidBlack);
+}
+
+.selectMenuHeader > i{
+  color:var(--dirkGreen);
+}
+
+.selectMenuHeader > div{
+  color:var(--lightWhite);
+  font-weight: bolder;
+  font-size: 125%;
+}
+
+.selectMenuItems{
+  display:flex;
+  flex-direction: column;
+  padding:5px;
+  gap:5px;
+}
+
+.selectMenuItem{
+  transition: all ease-in-out 0.2s;
+  background-color: var(--darkBackground);
+  padding:5px;
+  color: var(--lightWhite);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  gap:5px;
+}
+
+.selectMenuItem > div {
+  color:var(--lightWhite);
+}
+
+.selectMenuItem:hover{
+  cursor:pointer;
+  background-color: var(--solidBlack);
+  transform:scale(1.02);
+}
+
+.checkBox{
+  font-size: 75%;
+  background-color: white;
+  padding:2px;
+  margin-left:auto;
+  box-shadow: inset 0px 0px 1px black;
+}
+
+.selectedItem{
+  background-color: var(--solidBlack);
+  color: var(--dirkGreen);
+  border: solid var(--dirkGreen) 1px;
+}
+
+.selectMenuFooter{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap:5px;
+  padding:5px;
+}
+
+.confirmSelectMenu{
+  transition: all ease-in-out 0.2s;
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap:5px;
+  background-color: var(--darkBackground);
+  color: var(--lightWhite);
+  padding:5px;
+  transition: all ease-in-out 0.2s;
+}
+
+.confirmSelectMenu:hover{
+  background-color: var(--solidBlack);
+  cursor:pointer;
+  transform:scale(1.04);
+  color:var(--dirkGreen);
+  font-weight: bold;
+}
+
+.confirmSelectMenu > div{
+  color:var(--lightWhite);
+}
+
+.confirmSelectMenu > i{
+  color:var(--dirkGreen);
+}
+
