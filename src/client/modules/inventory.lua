@@ -21,3 +21,4 @@ Core.Inventory = {
 RegisterNetEvent("Dirk:Inventory:Open", function(id, data)
   Core.Inventory.Open(id, data)
 end)
+

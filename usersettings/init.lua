@@ -120,8 +120,8 @@ Citizen.CreateThread(function()
   end
   Core.DataLoaded = true
 
-  getCore = function()
-    while not Core.DataLoaded do Wait(500) end
-    return Core, Config
-  end
 end)
+
+getCore = function()
+  return Core, Config
+end
