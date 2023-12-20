@@ -107,16 +107,9 @@ Core.Player = {
       })
       TriggerClientEvent("police:client:SendToJail", OtherPlayer.PlayerData.source, time)
     elseif Config.JailSystem == "rcore_prison" then 
-      TriggerEvent('rcore_prison:startSentence', {
-        issuedBy = {
-          serverId = source
-        },
-        target = {
-          serverId = id,
-          time = time * 60,
-          state = "jailed",
-        }
-      })
+      exports['rcore_prison']:Jail(id, time, "Bounty Hunter")
+    elseif Config.JailSystem == "pickle_prisons" then 
+      exports["pickle_prisons"]:JailPlayer(id, time, "default")
     end
   end,
 

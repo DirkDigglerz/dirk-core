@@ -752,8 +752,6 @@ storeFront = function(){
       });
 
     }
-
-
   }
 
   $('#checkOutButton').click(function(){

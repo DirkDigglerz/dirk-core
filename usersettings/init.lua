@@ -14,7 +14,7 @@ local SupportedResources = {
   },
   TargetSystem   = {'qtarget', 'qb-target', 'ox_target'},
   TimeSystem     = {'vSync', 'cd_easytime', 'qb-weathersync'},
-  JailSystem     = {'esx_jail', 'qb-prison'},
+  JailSystem     = {'esx_jail', 'qb-prison', 'rcore_prison', 'pickle_prisons'},
   ProgressBar    = {'progressbar', 'ox_lib', 'rprogress'},
   Framework      = {'vrp','es_extended', 'qb-core'},
   KeySystem      = {'qb-vehiclekeys', 'cd_garage', 'okokGarage'},
@@ -120,9 +120,8 @@ Citizen.CreateThread(function()
   end
   Core.DataLoaded = true
 
+  getCore = function()
+    while not Core.DataLoaded do Wait(500) end
+    return Core, Config
+  end
 end)
-
-getCore = function()
-  return Core, Config
-end
-
