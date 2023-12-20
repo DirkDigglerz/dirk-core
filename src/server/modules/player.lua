@@ -144,6 +144,7 @@ Core.Player = {
           label = v.label,
           count = (v.amount or v.count),
           info  = (v.info or v.metadata or false),
+          slot  = (v.slot or nil),
         })
       end
     end
@@ -181,18 +182,19 @@ Core.Player = {
     end
   end,
 
-  RemoveItem = function(p,i,a)
+  RemoveItem = function(p,i,a, md, slot)
     local ply = Core.Player.Get(p)
     if Config.NewQSInventory then 
-      exports['qs-inventory']:RemoveItem(p, i, a)
-      return true
+      return exports['qs-inventory']:RemoveItem(p, i, a)
+    elseif Config.Inventory == 'ox_inventory' then 
+      return exports['ox_inventory']:RemoveItem(p, i, a, md, slot)
     else
       --## Framework Fallback
       if Config.Framework == "es_extended" then
         ply.removeInventoryItem(i,a)
         return true
       elseif Config.Framework == "qb-core" then
-        if ply.Functions.RemoveItem(i,a) then 
+        if ply.Functions.RemoveItem(i,a,slot) then 
           TriggerClientEvent('inventory:client:ItemBox', p, QBCore.Shared.Items[i], "remove")
           return true
         end

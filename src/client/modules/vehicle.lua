@@ -90,7 +90,7 @@ Core.Vehicle = {
   },
 
   GetVehicleClass = function(e)
-    local nClass = GetVehicleClass(e)
+    local nClass = GetVehicleClass(e) 
     return nClass, Core.Vehicle.VehClasses[nClass]
   end
 }

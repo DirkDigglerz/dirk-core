@@ -1,6 +1,19 @@
 
 Core = {
   Callbacks = {},
+  
+  Await = function(func, msg, time)
+    time = time or 5000
+    local start_time = GetGameTimer()
+    while not func() do 
+      if GetGameTimer() - start_time > time then
+        print(string.format("^2Dirk-Core^7 | %s timed out after ^3%s^7", msg, time))
+        return false
+      end
+      Wait(0)
+    end
+    return val
+  end,
 
   Callback = function(name,cb,...)
     Core.Callbacks[name] = cb
@@ -72,7 +85,35 @@ Core = {
       c = c + 1
     end
     return c
+  end,
+
+  findKeyInTables = function(tbls, key)
+
+    local findInTable = function(tbl, key)
+      for _key, data in pairs(tbl) do
+        if type(data) == 'table' then
+          local found = findInTable(data, key)
+          if found then return found; end
+        else
+          if _key == key then return data; end
+        end
+      end
+      return false
+    end
+  
+    for _, table in pairs(tbls) do
+      for _key, data in pairs(table) do 
+        if type(data) == 'table' then
+          local found = findInTable(data, key)
+          if found then return found; end
+        else
+          if _key == key then return data; end
+        end      
+      end
+    end
+    return false
   end
+
 }
 
 RegisterNetEvent("Dirk-Core:TriggerClientCallback", function(name, ...)

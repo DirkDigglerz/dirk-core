@@ -29,6 +29,14 @@ Core.Zones = {
     end
   end,
 
+  getPolygonCenter = function(polygon)
+    local center = vector3(0,0,0)
+    for _,v in pairs(polygon) do 
+      center = center + v
+    end
+    center = center / #polygon
+    return center
+  end,
  
   IsPointInPolygon = function(point, polygon)
     for k,v in pairs(polygon) do 

@@ -689,69 +689,69 @@ storeFront = function(){
   `).appendTo('body');
   
   let itemCont = openStore.find('storeContent');
-  console.log(JSON.stringify(fromGame.Store.Items, null, 2))
   // convert to array 
   fromGame.Store.Items = Object.values(fromGame.Store.Items);
   for (let i = 0; i < fromGame.Store.Items.length; i++) {
-    console.log("LOPING?")
     let item = fromGame.Store.Items[i];
-    let itemEl = $(`
-      <storeItem id="${i}${item.Label}">
-        <div id="prodName">Gang Token</div>
-        <div id="prodImg"></div>
+    if (item) {
+      let itemEl = $(`
+        <storeItem id="${i}${item.Label}">
+          <div id="prodName">Gang Token</div>
+          <div id="prodImg"></div>
 
-        <div id="amountGroup" class ="row">
-          <i id ="amountMinus" class="fas fa-minus"></i>
-          <div id="amountText">1</div>
-          <i id="amountPlus" class="fas fa-plus"></i>
-        </div>
-
-        <div id="addToBasketGroup" class ="row">
-          <div id="prodPrice">${fromGame.Currency} 100</div>
-
-          <div id="addToBasket" class="row">
-            <i>Add</i>
-            <i  class="fas fa-shopping-basket"></i>
+          <div id="amountGroup" class ="row">
+            <i id ="amountMinus" class="fas fa-minus"></i>
+            <div id="amountText">1</div>
+            <i id="amountPlus" class="fas fa-plus"></i>
           </div>
-          
-        </div>
 
-      </storeItem>
-    `).appendTo(itemCont);
-  
+          <div id="addToBasketGroup" class ="row">
+            <div id="prodPrice">${fromGame.Currency} 100</div>
+
+            <div id="addToBasket" class="row">
+              <i>Add</i>
+              <i  class="fas fa-shopping-basket"></i>
+            </div>
+            
+          </div>
+
+        </storeItem>
+      `).appendTo(itemCont);
     
-    tippy(itemEl[0], {
-      arrow:false,
-      content: item.Desc,
-      animation:'fade',
-      theme:'dirk',
-    });
+      
+      tippy(itemEl[0], {
+        arrow:false,
+        content: item.Desc,
+        animation:'fade',
+        theme:'dirk',
+      });
 
-    itemEl.find('#prodName').text(item.Label);
-    itemEl.find('#prodImg').css('background-image', `url('nui://${item.Img}')`);
-    itemEl.find('#prodPrice').text(`${fromGame.Currency} ${item.Price}`);
-  
-    itemEl.find('#addToBasket').click(function(){
-      let amountToAdd = parseInt(itemEl.find('#amountText').text());
+      itemEl.find('#prodName').text(item.Label);
+      itemEl.find('#prodImg').css('background-image', `url('nui://${item.Img}')`);
+      itemEl.find('#prodPrice').text(`${fromGame.Currency} ${item.Price}`);
+    
+      itemEl.find('#addToBasket').click(function(){
+        let amountToAdd = parseInt(itemEl.find('#amountText').text());
 
-      AddToBasket(item, amountToAdd);
-    });
+        AddToBasket(item, amountToAdd);
+      });
 
-    itemEl.find('#amountMinus').click(function(){
-      let amount = parseInt(itemEl.find('#amountText').text());
-      itemEl.find('#amountText').text(amount - 1);
-      itemEl.find('#prodPrice').text(`${fromGame.Currency} ${item.Price * (amount - 1)}`);
+      itemEl.find('#amountMinus').click(function(){
+        let amount = parseInt(itemEl.find('#amountText').text());
+        itemEl.find('#amountText').text(amount - 1);
+        itemEl.find('#prodPrice').text(`${fromGame.Currency} ${item.Price * (amount - 1)}`);
 
-    });
+      });
 
-    itemEl.find('#amountPlus').click(function(){
-      let amount = parseInt(itemEl.find('#amountText').text());
-      itemEl.find('#amountText').text(amount + 1);
-      itemEl.find('#prodPrice').text(`${fromGame.Currency} ${item.Price * (amount + 1)}`);
-      // UPDATE BOTTOM BAR
+      itemEl.find('#amountPlus').click(function(){
+        let amount = parseInt(itemEl.find('#amountText').text());
+        itemEl.find('#amountText').text(amount + 1);
+        itemEl.find('#prodPrice').text(`${fromGame.Currency} ${item.Price * (amount + 1)}`);
+        // UPDATE BOTTOM BAR
 
-    });
+      });
 
+    }
 
 
   }

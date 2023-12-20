@@ -108,8 +108,8 @@ Core.Stores = {
       local items = {}
       if store.Type == "Sell" then 
         items = store.ParseSaleItems(src)
-        print(json.encode(items, {indent = true}))
-        if #items == 0 then return cb("noItemsToSell"); end
+        local itemCount = Core.TC(items)
+        if itemCount == 0 then return cb("noItemsToSell"); end
       else
         items = store.Items
       end

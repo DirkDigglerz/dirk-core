@@ -67,6 +67,9 @@ Core.Player = {
       local fwData = QBCore.Functions.GetPlayerData() 
       retFormat.characterID = fwData.citizenid
       retFormat.license     = fwData.license
+      --## Hunger & Thirst
+      retFormat.hunger      = fwData.metadata["hunger"]
+      retFormat.thirst      = fwData.metadata["thirst"]
       --## Job
       retFormat.job.name        = fwData.job.name
       retFormat.job.label       = fwData.job.label

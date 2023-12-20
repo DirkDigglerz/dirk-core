@@ -101,11 +101,11 @@ end)
 AddEventHandler("onResourceStop", function(resourceName)
   local count = 0  
   local typeOf = type
-  for k,v in pairs(Core.Blips) do 
-    if typeOf(v) ~= "function" then 
+  for blipId,blipData in pairs(Core.Blips) do 
+    if typeOf(blipData) ~= "function" then 
       count += 1
-      if v.Resource == resourceName then 
-        v.delete()
+      if blipData.Resource == resourceName then 
+        blipData.delete()
       end
     end
   end

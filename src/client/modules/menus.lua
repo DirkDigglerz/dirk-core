@@ -201,7 +201,7 @@ AddEventHandler("onResourceStop", function(resource)
       count = count + 1
     end
   end
-  print("^2Dirk-Core^7 | Cleaned up ^5"..count.."^7 Menus for resource: ^3"..resource.."^7")
+  if count > 0 then print("^2Dirk-Core^7 | Cleaned up ^5"..count.."^7 Menus for resource: ^3"..resource.."^7"); end
 end)
 
 
