@@ -48,6 +48,7 @@ Core.Blips = {
     end
 
     Core.Blips[id] = self
+    return self
   end,
 
   Get      = function(id)
@@ -68,8 +69,8 @@ Core.Blips = {
       blip.canSee = data.canSee or blip.canSee
     end
     
-    v.remove()
-    v.render()
+    blip.remove()
+    blip.render()
   end,
 }
 

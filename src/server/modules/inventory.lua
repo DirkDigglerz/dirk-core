@@ -46,24 +46,6 @@ Core.Inventory = {
    
   end,
 
-  TempStash = function(items)
-    if Config.Inventory == "ox_inventory" then 
-      local mystash = exports.ox_inventory:CreateTemporaryStash({
-        label = 'mystash',
-        slots = 5,
-        maxWeight = 5000,
-        items = {
-            { 'WEAPON_MINISMG', 1 },
-            { 'ammo-9', 69 },
-            { 'water', 2, { label = 'Mineral water' } }
-        }
-    })
-     
-    elseif Config.Inventory == "ps-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or (Config.Inventory == "qs-inventory" and not Config.NewQSInventory) then 
-
-    end 
-  end,
-
   Create = function(id)
     local self = {}
     self.id = id
@@ -159,7 +141,7 @@ Core.Inventory = {
     self.hasItem = function(item,amount,info)
       if Config.Inventory == "ox_inventory" then
         local count = exports.ox_inventory:GetItemCount(self.id, item, info, true)
-        if count <= amount then return false; end
+        if count < amount then return false; end
         return true 
       elseif Config.Inventory == "ps-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or (Config.Inventory == "qs-inventory" and not Config.NewQSInventory) then 
         local itemsCurrent = self.getItems()
@@ -181,6 +163,7 @@ Core.Inventory = {
             name  = v.name,
             label = v.label,
             count = (v.amount or v.count),
+            image = ("nui://%s%s.png"):format(Config.ItemsIconsDir, v.name),
             info  = (v.info or v.metadata or false),
           }
         end
@@ -188,7 +171,7 @@ Core.Inventory = {
       elseif Config.Inventory == "ps-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or (Config.Inventory == "qs-inventory" and not Config.NewQSInventory) then 
         local ret = {}
         local result = MySQL.scalar.await('SELECT items FROM stashitems WHERE stash = ?', {"Stash_"..self.id})
-        if not result then print('CANNOT FIND OR NEW?') return ret end
+        if not result then return ret end
       
         local stashItems = json.decode(result)
         if not stashItems then return ret end
@@ -198,6 +181,7 @@ Core.Inventory = {
             ret[#ret+1] = {
               name  = itemInfo["name"],
               label = itemInfo["label"],
+              image = ("nui://%s%s.png"):format(Config.ItemsIconsDir, itemInfo["name"]),
               count = tonumber(item.amount),
               info  = item.info or "",
               slot  = item.slot, 
@@ -213,6 +197,19 @@ Core.Inventory = {
     
     self.canHold = function(item,amount,info)
     
+    end
+
+    self.update = function(data)
+      if Config.Inventory == "ox_inventory" then 
+        exports.ox_inventory:SetMaxWeight(self.id, data.Weight)
+        exports.ox_inventory:SetSlotCount(self.id, data.Slots)
+      end
+    end
+
+    self.register = function(data)
+      if Config.Inventory == "ox_inventory" then 
+        exports.ox_inventory:RegisterStash(id, data.Label, data.Slots, data.Weight)
+      end
     end
     
     self.clearInventory = function()

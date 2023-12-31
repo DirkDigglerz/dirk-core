@@ -1,8 +1,16 @@
 Core.Game = {
-  LoadModel = function(m)
+  LoadModel = function(m, time)
     local hash = GetHashKey(m)
-    while not HasModelLoaded(hash) do RequestModel(hash) Wait(0); end
-    return hash
+    local start_time = GetGameTimer()
+    while not HasModelLoaded(hash) do
+      if GetGameTimer() - start_time > (time or 15000) then
+        print('Failed to load model: '..m)
+        return false
+      end 
+      RequestModel(hash) 
+      Wait(0); 
+    end
+    return true
   end,
 
   SyncTime = function(s)

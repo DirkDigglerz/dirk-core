@@ -242,3 +242,133 @@ window.addEventListener('message', function (event) {
 
   }
 })
+
+
+
+
+
+
+// SELECT ITEMS GRID BOX
+
+
+let itemSelectionOpen = false;
+let currentSelection = [];
+
+
+let deepEqual = function(obj1, obj2) {
+  if (obj1 === obj2) {
+    return true;
+  }
+
+  if (typeof obj1 !== 'object' || obj1 === null || typeof obj2 !== 'object' || obj2 === null) {
+    return false;
+  }
+
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+
+  for (let key of keys1) {
+    if (!keys2.includes(key) || !deepEqual(obj1[key], obj2[key])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+let findInSelection = function(item){
+  for (let k in currentSelection){
+    let curItem = currentSelection[k];
+    if (curItem.name == item.name){
+      if (!curItem.metadata && !item.metadata) return k;
+      if (!curItem.metadata && item.metadata) return false;
+      if (curItem.metadata && !item.metadata) return false;
+      if (deepEqual(curItem.metadata, item.metadata)) {
+        return k;
+      }
+    }
+  }
+  return false;
+}
+
+let addToSelection = function(item){
+  let found = findInSelection(item);
+  if (found !== false){
+    currentSelection[found].count = currentSelection[found].count + 1;
+  } else {
+    currentSelection.push(item);
+  }
+}
+
+let removeFromSelection = function(item){
+  let found = findInSelection(item);
+  if (found !== false){
+    currentSelection[found].count = currentSelection[found].count - 1;
+    if (currentSelection[found].count <= 0){
+      currentSelection.splice(found, 1);
+    }
+  }
+}
+
+
+
+
+
+
+
+
+itemSelection = function(items, settings){
+  itemSelectionOpen = $(`
+    <itemSelection>
+      <itemSelectionHeader>
+        <i class="${settings.icon}"></i>
+        <div>${settings.header}</div>
+      </itemSelectionHeader>
+      <itemSelectionItems></itemSelectionItems>
+    </itemSelection>
+  `).appendTo('body');
+  
+  let itemSelectionItems = itemSelectionOpen.find('itemSelectionItems');
+  for (let k in items){
+    let item = items[k];
+    let newItem = $(`
+      <itemSquare>
+        <itemLabel></itemLabel>
+      </itemSquare>
+    `).appendTo(itemSelectionItems);
+    
+    newItem.mousedown(function(event) {
+      switch (event.which) {
+        case 1:
+          alert('Left Mouse button pressed.');
+          // ADD TO CURRENT SELECTION AND ENSURE THIS ITEM IS HIGHLIGHTED ASWELL AS ADDING TO THE COUNTER IN THE TOP RIGHT
+          
+          break;
+        case 3:
+          alert('Right Mouse button pressed.');
+          // REMOVE FROM CURRENT SELECTION AND ENSURE THIS ITEM IS NO LONGER HIGHLIGHTED ASWELL AS REMOVING FROM THE COUNTER IN THE TOP RIGHT IF THE SELECTED COUNT IS BELOW 1 
+          break;
+        default:
+          alert('You have a strange Mouse!');
+      }
+    });
+  } 
+}
+
+// itemSelection([
+//   {
+//     name:'bread',
+//     label:'Bread',
+//     image:'https://i.imgur.com/6Jh2vYd.png',
+//     count:5, 
+//     metadata:{},
+//   }
+// ],{
+//   multiple:false,
+//   header:'Select Item',
+//   icon:'fas fa-dollar-sign',
+// })

@@ -347,3 +347,17 @@ notification > div:nth-child(3) > div{
   color:var(--dirkGreen);
 }
 
+
+
+
+
+itemSelection{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  background-color: var(--darkBackground);
+  width:25%;
+  height:25%;
+  min-width:fit-content;
+}
