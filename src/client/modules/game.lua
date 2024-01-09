@@ -1,5 +1,6 @@
 Core.Game = {
   LoadModel = function(m, time)
+    print('trying to load model ', m )
     local hash = GetHashKey(m)
     local start_time = GetGameTimer()
     while not HasModelLoaded(hash) do
@@ -174,18 +175,30 @@ Core.Game = {
   end,
 
   GetClosestVehicle = function(cs)
-    local pool, coords, closestVehicle, closestDistance = Core.Game.GetEntityPool({'CVehicle'}), GetEntityCoords(PlayerPedId()), 99999999, 99999999
+    local pool, coords, closestVehicle, closestDistance = Core.Game.GetEntityPool({'CVehicle'}), cs or GetEntityCoords(PlayerPedId()), 99999999, 99999999
     for k,v in pairs(pool) do
       local vehCoords = GetEntityCoords(v)
-      local distance  = #(vehCoords - coords)
+      local distance  = #(vehCoords - coords.xyz)
       if distance <= closestDistance then 
-        
         closestVehicle = v
         closestDistance = distance
       end 
     end
     return closestVehicle, closestDistance
   end,
+
+  IsSpaceClear = function(cs, radius)
+    local pool, coords, closestVehicle, closestDistance = Core.Game.GetEntityPool(), cs or GetEntityCoords(PlayerPedId()), 99999999, 99999999
+    for k,v in pairs(pool) do
+      local vehCoords = GetEntityCoords(v)
+      local distance  = #(vehCoords - coords.xyz)
+      if distance <= radius then 
+        return false
+      end 
+    end
+    return true
+  end,
+
   currentCamera = false,
   oldPos = false,
   EnterCamera = function(data, dontHidePlayer)

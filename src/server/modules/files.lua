@@ -12,6 +12,29 @@ Core.Files = {
     return data
   end,
 
+
+
+
+  convertToVectors = function (table)
+    local formattedTable = {}
+    for key, value in pairs(table) do
+      if type(value) == "table" and not value.x then
+        formattedTable[key] = Core.Files.convertToVectors(value) -- Recursively call the function for nested tables
+      else
+        if type(value) == "table" and value.x and value.y and value.z and value.w then
+          formattedTable[key] = vector4(value.x, value.y, value.z, value.w)
+        elseif type(value) == "table" and value.x and value.y and value.z then
+          formattedTable[key] = vector3(value.x, value.y, value.z)
+        elseif type(value) == "table" and value.x and value.y then
+          formattedTable[key] = vector2(value.x, value.y)
+        else
+          formattedTable[key] = value
+        end
+      end
+    end
+    return formattedTable
+  end,
+
   TableToSQL = function(t)
     local output = "INSERT INTO `"..Config.ItemsDatabaseName.."` (`name`, `label`) VALUES"
     for k,v in pairs(t) do

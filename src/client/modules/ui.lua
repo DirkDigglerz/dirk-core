@@ -341,8 +341,8 @@ Core.UI = {
     end
   end,
 
-}
 
+}
 
 Citizen.CreateThread(function()
   while true do
@@ -381,7 +381,7 @@ RegisterCommand("Dirk-Core:EntityPlacer", function(source,args)
   print(ret.coords, ret.rotation)
   local vec = string.format("vector4(%s, %s, %s, %s)", ret.coords.x,ret.coords.y,ret.coords.z,ret.heading)
   Core.UI.CopyToClipboard(vec)
-end, true)
+end, false)
 
 RegisterNUICallback("selectMenuReturn", function(data,cb)
   Core.UI.AwaitingOptionResponse = data

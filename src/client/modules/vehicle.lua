@@ -5,6 +5,22 @@ Core.Vehicle = {
     cb(veh)
   end,
 
+  SetFuel = function(veh)
+
+  end, 
+
+  AddFuel = function(veh)
+    local curFuel = Core.Vehicle.GetFuel(veh)
+    local newFuel = curFuel + 10
+    if newFuel > 100 then newFuel = 100 end
+    Core.Vehicle.SetFuel(veh, newFuel)
+    return true 
+  end,
+
+  GetFuel  = function(veh)
+    return GetVehicleFuelLevel(veh)
+  end,
+
   AddKeys = function(veh,plate) --#' This is the function called to add keys for a vehicle you own. '
     if Config.KeySystem == "qb-vehiclekeys" then
       TriggerServerEvent('qb-vehiclekeys:server:AcquireVehicleKeys', plate)
@@ -22,6 +38,14 @@ Core.Vehicle = {
     elseif Config.Framework == "qb-core" then
       local props = QBCore.Functions.GetVehicleProperties(veh)
       return props
+    end
+  end,
+
+  SetProperties = function(veh, props)
+    if Config.Framework == "es_extended" then
+      ESX.Game.SetVehicleProperties(veh, props)
+    elseif Config.Framework == "qb-core" then
+      QBCore.Functions.SetVehicleProperties(veh, props)
     end
   end,
 

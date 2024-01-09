@@ -6,6 +6,9 @@ TextInput = function(pl){
   return `<input class="input is-small is-focused" type="text" placeholder="${pl}">`
 }
 
+
+
+
 window.addEventListener("message", function (event) {
   if (event.data.type === "openLink") {
     window.invokeNative("openUrl", event.data.link);
@@ -77,3 +80,6 @@ function formatTime(seconds) {
 
   return `${formattedMinutes}:${formattedSeconds}`;
 }
+
+
+
