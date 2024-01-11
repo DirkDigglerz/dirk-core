@@ -31,6 +31,9 @@ Core.Inventory = {
   end,
   
   CheckMatch = function(a,b)
+    if not a and not b then return true; end -- both are nil
+    if not a or not b then return false; end -- one is nil
+    if type(a) ~= "table" or type(b) ~= "table" then return false; end
     for k,v in pairs(a) do
       if k ~= "quality" and (b[k] == nil or (b[k] ~= v)) then return false; end
     end
@@ -142,11 +145,11 @@ Core.Inventory = {
       if Config.Inventory == "ox_inventory" then
         local count = exports.ox_inventory:GetItemCount(self.id, item, info, true)
         if count < amount then return false; end
-        return true 
+        return count
       elseif Config.Inventory == "ps-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or (Config.Inventory == "qs-inventory" and not Config.NewQSInventory) then 
         local itemsCurrent = self.getItems()
         for slot,thisItem in pairs(itemsCurrent) do 
-          if thisItem.name == item and thisItem.count >= amount and (not info or Core.Inventory.CheckMatch(thisItem.info, info)) then return true; end 
+          if thisItem.name == item and thisItem.count >= amount and (not info or Core.Inventory.CheckMatch(thisItem.info, info)) then return thisItem.count; end 
         end
         return false
       end
