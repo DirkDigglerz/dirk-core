@@ -103,6 +103,39 @@ Core.Player = {
     return {}
   end,
 
+  Inventory = function()
+    if Config.Framework == "qb-core" then 
+      local raw = QBCore.Functions.GetPlayerData().items
+      local items = {}
+      for k,v in pairs(raw) do 
+        table.insert(items, {
+          slot  = v.slot,
+          name  = v.name,
+          label = v.label,
+          count = v.count or v.amount,
+          info  = v.metadata or v.info,
+        })
+      end
+      return items
+    elseif Config.Framework == "es_extended" then
+      local raw = ESX.GetPlayerData().inventory
+      local items = {}
+      for k,v in pairs(raw) do 
+        table.insert(items, {
+          slot  = v.slot,
+          name  = v.name,
+          label = v.label,
+          count = v.count or v.amount,
+          info  = v.metadata or v.info,
+        })
+      end
+      return items
+    end
+  end,
+
+
+  
+
   HasItem = function(item,amount, md) 
     local ret = nil 
     Core.Callback("Dirk-Core:HasItem", function(hasItem)

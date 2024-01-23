@@ -57,20 +57,6 @@ Core.Target = {
       })
       Core.Target.Holding[name] = zone
       return name
-    -- elseif Config.TargetSystem == "ox_target" then
-      -- for k,v in pairs(data.Options) do
-      --   data.Options[k].onSelect = v.action
-      --   data.Options[k].distance = (data.Distance or 1.5)
-      -- end
-      -- local newTarget = exports['ox_target']:addBoxZone({
-      --   coords = vector3(data.Position.x, data.Position.y, data.Position.z),
-      --   size = vector3((data.Length or 1.0), (data.Width or 1.0), (data.Height or 1.0)),
-      --   rotation = data.Position.w,
-      --   debug = Config.DrawDebug,
-      --   options = data.Options,
-      -- })
-      -- Core.Target.Holding[name] = newTarget
-      -- return newTarget
     end
   end,
 
@@ -83,11 +69,9 @@ Core.Target = {
     elseif Config.TargetSystem == "ox_target" then
       for k,v in pairs(data.Options) do
         data.Options[k].onSelect = v.action
-      --  data.Options[k].distance = (data.Distance or 1.5)
+        data.Options[k].distance = (v.distance or data.Distance or 1.5)
       end
       if not data.Local then
-        if not NetworkDoesEntityExistWithNetworkId(entity) then entity = NetworkGetEntityFromNetworkId(entity); end
-        print('Adding network entity for ', entity)
         return exports['ox_target']:addEntity(entity, data.Options)
       else
         return exports['ox_target']:addLocalEntity(entity, data.Options)
@@ -121,7 +105,7 @@ Core.Target = {
     elseif Config.TargetSystem == "ox_target" then
       for k,v in pairs(data.Options) do
         data.Options[k].onSelect = v.action
-       -- data.Options[k].distance = (data.Distance or 1.5)
+        data.Options[k].distance = (v.distance or data.Distance or 1.5)
       end
       return exports.ox_target:addGlobalVehicle(data.Options)
     end
@@ -141,7 +125,7 @@ Core.Target = {
     elseif Config.TargetSystem == "ox_target" then
       for k,v in pairs(data.Options) do
         data.Options[k].onSelect = v.action
-       -- data.Options[k].distance = (data.Distance or 1.5)
+        data.Options[k].distance = (v.distance or data.Distance or 1.5)
       end
       return exports.ox_target:addGlobalPed(data.Options)
     end
@@ -161,7 +145,7 @@ Core.Target = {
     elseif Config.TargetSystem == "ox_target" then
       for k,v in pairs(data.Options) do
         data.Options[k].onSelect = v.action
-       -- data.Options[k].distance = (data.Distance or 1.5)
+        data.Options[k].distance = (v.distance or data.Distance or 1.5)
       end
       return exports.ox_target:addModel(data.Models, data.Options)
     end
@@ -175,3 +159,6 @@ Core.Target = {
     end
   end,
 }
+
+
+

@@ -402,7 +402,7 @@ CreateThread(function()
   while true do 
     local ply = PlayerPedId()
     local myCoords = GetEntityCoords(ply)
-    local wait_time = 1000
+    local wait_time = 1100
     local now = GetGameTimer()
     if now - garbageCollection >= 60000 then 
       collectgarbage("collect")
@@ -504,7 +504,7 @@ CreateThread(function()
             local dist = #(myCoords - v.Zone.xyz)
             print(' Likely Vector3')
           elseif valType(v.Zone) == "number" then 
-            print(' Likely ENtity') 
+            
           elseif valType(v.Zone) == "table" then 
             print(' Table of entities')
           end

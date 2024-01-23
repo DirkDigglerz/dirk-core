@@ -59,6 +59,20 @@ Citizen.CreateThread(function()
           end
         end 
       end
+    elseif type == "ProgressBar" then
+      local ox_lib = GetResourceState('ox_lib')
+      if ox_lib ~= "missing" and ox_lib ~= "unknown" then
+        Config[type] = 'ox_lib'
+        FoundResources[type] = 'ox_lib'
+      else 
+        for index,resource in pairs(resources) do 
+          local resState = GetResourceState(resource)
+          if resState ~= "missing" and resState ~= "unknown" then
+            Config[type] = resource
+            FoundResources[type] = resource
+          end
+        end 
+      end
     elseif type == "Inventory" then
       local ox_inventory = GetResourceState('ox_inventory')
       if ox_inventory ~= "missing" and ox_inventory ~= "unknown" then

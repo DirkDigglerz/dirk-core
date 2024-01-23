@@ -191,7 +191,7 @@ Core.UI = {
       end)
       while not finished do Wait(0); end 
     elseif Config.ProgressBar == "rprogress" then 
-      local finished = false
+      local finished = false 
       exports['rprogress']:Custom({
         Async           = true,
         Duration        = s.time,
