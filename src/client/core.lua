@@ -46,12 +46,33 @@ Core = {
     return cloned
   end,
 
+
+  -- TableToText = function(tbl)
+  --   local output = ""
+  --   for k,v in pairs(tbl) do 
+  --     output = type(k) ~= "number" and output.."[\""..k.."\"] = {" or output.."{"
+  --     if type(v) == "table" then 
+  --       output = output..Core.TableToText(v)
+  --     elseif type(v) == "vector" then 
+  --       local vectorType = (v.x and v.y and v.z and v.w) and "vector4" or (v.x and v.y and v.z) and "vector3" or v.x and v.y and "vector2" 
+  --       output = output..string.format("%s(%s,%s,%s%s)", vectorType, v.x, v.y, v.z, v.w and ","..v.w or "").."\n"
+  --     elseif type(v) == "boolean" then 
+  --       output = output..tostring(v).."\n"
+  --     elseif type(v) == "number" then
+  --       output = output..v.."\n"
+  --     else
+  --       output = output..'"'..v..'"'.."\n"
+  --     end
+  --   end
+  --   return output
+  -- end,
+
   TableToText = function(table)
     local output = ""
     for k,v in pairs(table) do
       output = output.."['"..k.."']".." = {\n"
       for n,d in pairs(v) do
-        if type(d) == "table" then
+        if type(d) == "table" or type(d) == "vector" then
           output = output.."  ".."['"..n.."']".." = {\n"
             for i,m in pairs(d) do
               if type(m) == "boolean" then
