@@ -1,6 +1,5 @@
 Core.Game = {
   LoadModel = function(m, time)
-    print('trying to load model ', m )
     local hash = GetHashKey(m)
     local start_time = GetGameTimer()
     while not HasModelLoaded(hash) do

@@ -12,7 +12,7 @@ prompt{
   position: absolute;
   right:0;
   top:50%;
-  width:25vw;
+  width:fit-content;
   height:25vh;
 
   display:flex;

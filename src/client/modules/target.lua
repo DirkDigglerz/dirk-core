@@ -1,6 +1,12 @@
+local createdZones = {}
+
 Core.Target = {
   Holding = {},
   AddBoxZone = function(name,data)
+    local resource = GetInvokingResource() or 'dirk-core'
+    if not createdZones[resource] then createdZones[resource] = {}; end
+    createdZones[resource][name] = true
+
     for k,v in pairs(data.Options) do 
       if not v.distance then v.distance = (data.Distance or 1.5); end
     end  
@@ -34,6 +40,9 @@ Core.Target = {
   end,
 
   AddPolyzone = function(name,data)
+    local resource = GetInvokingResource() or 'dirk-core'
+    if not createdZones[resource] then createdZones[resource] = {}; end
+    createdZones[resource][name] = true
     if Config.TargetSystem == "qb-target" or Config.TargetSystem == "qtarget" or Config.TargetSystem == "ox_target" then
       if Config.TargetSystem == "ox_target" then tempTargetSystem = "qb-target" else tempTargetSystem = Config.TargetSystem;  end
       local minZ = 999999999
@@ -133,12 +142,12 @@ Core.Target = {
 
   AddModels    = function(data)
     if Config.TargetSystem == "qb-target" then
-      exports[Config.TargetSystem]:AddGlobalPed({
+      exports[Config.TargetSystem]:AddTargetModel(data.Models, {
         distance = (data.Distance or 1.5),
         options  = data.Options,
       })
     elseif Config.TargetSystem == "qtarget" then 
-      exports[Config.TargetSystem]:Ped({
+      exports[Config.TargetSystem]:AddTargetModel(data.Models, {
         distance = (data.Distance or 1.5),
         options  = data.Options,
       })
@@ -152,6 +161,10 @@ Core.Target = {
   end,
 
   DeleteZone = function(zn)
+    local resource = GetInvokingResource() or 'dirk-core'
+    if not createdZones[resource] then return; end
+    if not createdZones[resource][zn] then return; end
+    createdZones[resource][zn] = nil
     if Config.TargetSystem == "qb-target" or Config.TargetSystem == "q-target" then
       exports[Config.TargetSystem]:RemoveZone(zn)
     elseif Config.TargetSystem == "ox_target" then
@@ -162,3 +175,14 @@ Core.Target = {
 
 
 
+AddEventHandler('onResourceStop', function(resource)
+  local count = 0 
+  if createdZones[resource] then 
+    for k,v in pairs(createdZones[resource]) do 
+      Core.Target.DeleteZone(k)
+      count = count + 1
+    end
+  end
+  if count <= 0 then return; end
+  print('^2Dirk-Core^7 | ^1Removed '..count..' target zone(s) from ^5'..resource..'^7')
+end)  

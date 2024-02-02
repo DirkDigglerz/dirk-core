@@ -119,7 +119,6 @@ Citizen.CreateThread(function()
       QBCore = exports['qb-core']:GetCoreObject()
       Core.Shared = QBCore.Shared
       RegisterNetEvent('QBCore:Client:UpdateObject', function() 
-        print('OBJECT FOR QBCORE HAS BEEN UPDATED SO UPDATING IN DIRK-CORE')
         QBCore = exports['qb-core']:GetCoreObject();
       end)
     elseif Config.Framework == "vrp" then 

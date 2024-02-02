@@ -42,6 +42,15 @@ Core.Objects = {
       end
     end
 
+    self.modelSwap = function(newModel)
+      self.Model = newModel
+      self.Hash = GetHashKey(newModel)
+      if self.Entity then 
+        self.despawn()
+        self.spawn()
+      end
+    end
+
     self.despawn = function()
       DeleteEntity(self.Entity)
       local oldEnt = self.Entity
@@ -110,7 +119,6 @@ Core.Objects = {
       Core.Zones.Register(string.format("RenderSpawn:%s", self.ID), zoneOpts)
     end
 
-
     if self.InteractDist then 
       Core.Zones.Register(string.format("Interact:%s", self.ID), {
         Type   = "circle", 
@@ -133,8 +141,6 @@ Core.Objects = {
         end,
       })
     end
-
-
 
     Core.Objects[id] = self
     return true 

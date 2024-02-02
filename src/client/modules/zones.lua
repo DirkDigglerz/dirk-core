@@ -1,5 +1,6 @@
 local glm = require 'glm'
 local polygons = {}
+local zoneCallbacks = {}
 Core.Zones = {
   Register = function(id, data)
     local self = {}
@@ -375,6 +376,12 @@ Core.Zones = {
 
     return plot
   end,
+
+  GTAZoneChange = function(func)
+    table.insert(zoneCallbacks, func)
+    local current_zone = GetNameOfZone(GetEntityCoords(PlayerPedId()))
+    func(current_zone)
+  end,
 }
 
 
@@ -394,6 +401,7 @@ RegisterCommand("Dirk-Core:DrawPolygon", function(source,arg)
 end)
 
 local garbageCollection = GetGameTimer()
+local lastZone = false
 
 CreateThread(function()
   local valType = type
@@ -403,6 +411,15 @@ CreateThread(function()
     local ply = PlayerPedId()
     local myCoords = GetEntityCoords(ply)
     local wait_time = 1100
+    local zoneName = GetNameOfZone(myCoords)
+    if not lastZone or (lastZone ~= zoneName) then 
+      for k,v in pairs(zoneCallbacks) do 
+        v(zoneName)
+      end
+      lastZone = zoneName
+    end
+
+    
     local now = GetGameTimer()
     if now - garbageCollection >= 60000 then 
       collectgarbage("collect")
@@ -502,11 +519,10 @@ CreateThread(function()
         elseif v.Type == "look" then 
           if valType(v.Zone) == "vector3" then 
             local dist = #(myCoords - v.Zone.xyz)
-            print(' Likely Vector3')
           elseif valType(v.Zone) == "number" then 
             
           elseif valType(v.Zone) == "table" then 
-            print(' Table of entities')
+
           end
 
         end

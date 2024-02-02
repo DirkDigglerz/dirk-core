@@ -39,7 +39,6 @@ RegisterNUICallback("checkOut", function(data,cb)
     elseif resp == "notEnoughItems" then 
       cb(false)
     elseif resp == "EXPLOIT" then
-      print('YOU BEING A NUISANCE?')
       cb(false)
     end
   end, data.ID, data.Items)

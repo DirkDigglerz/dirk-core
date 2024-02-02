@@ -32,7 +32,7 @@ Core.Menus = {
 
   Open = function(name) --## Forces Open Menu
     if not Core.Menus.Menus[name] then return; end
-    for optID, optInfo in pairs(Core.Menus.Menus[name].Options) do 
+    for optID, optInfo in ipairs(Core.Menus.Menus[name].Options) do 
       local uniqueID = string.format("%s:%s", name, optID)
       if (optInfo.canInteract and optInfo.canInteract()) or not optInfo.canInteract then
         Core.Menus.AddOption(uniqueID, optInfo)
@@ -203,24 +203,3 @@ AddEventHandler("onResourceStop", function(resource)
   end
   if count > 0 then print("^2Dirk-Core^7 | Cleaned up ^5"..count.."^7 Menus for resource: ^3"..resource.."^7"); end
 end)
-
-
-
-
--- RegisterCommand('+dirkMouse', function()
---   print('SETTING FOCUS')
---   if hasFocus then return; end
-
---   SetCursorLocation(0.8, 0.5)
---   hasFocus = true
---   SetNuiFocus(true,true)
--- end, false)
--- RegisterCommand('-dirkMouse', function()
---   print('RELEASING')
---   if not hasFocus then return; end
---   hasFocus = false
---   SetNuiFocus(false,false)
--- end, false)
--- RegisterKeyMapping("+dirkMouse", "Enable Menu Mouse", "keyboard", Config.MenuMouseKey)
--- TriggerEvent('chat:removeSuggestion', '/+dirkMouse')
--- TriggerEvent('chat:removeSuggestion', '/-dirkMouse')

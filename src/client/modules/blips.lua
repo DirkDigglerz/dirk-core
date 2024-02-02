@@ -1,5 +1,7 @@
 Core.Blips = {
   Register = function(id,data)
+    print("^2Dirk-Core^7 | Registering Blip: ^5"..id.."^7")
+    print(json.encode(data, {indent = true}))
     local self = {}
     self.ID = id
     self.Area = data.Area or false

@@ -64,10 +64,8 @@ Core.UI = {
   end,
 
   SelectMenu = function(data)
-    print('SElect menu open ')
     Core.UI.AwaitingOptionResponse = "Waiting"
     SetNuiFocus(true,true)
-    print('send nui message ')
     SendNUIMessage({
       type = "openSelectMenu",
       title = data.title or "Select Menu",
@@ -253,7 +251,7 @@ Core.UI = {
     SetNuiFocusKeepInput(false)
   end,
 
-  PositionEntity = function(entity)
+  PositionEntity = function(_type, entity)
     local model = GetHashKey(entity)
     -- if not IsModelInCdimage(model) then Core.UI.Notify("Tried to use an invalid model in entity placer") return false; end
     local startTime = GetGameTimer()
@@ -266,7 +264,17 @@ Core.UI = {
       end 
       Wait(0) 
     end
-    local thisObject = CreateObject(model, 0,0,0,true,true,false)
+
+    if _type == 'object' then 
+      thisObject = CreateObject(model, 0,0,0,true,true,false)
+    elseif _type == 'vehicle' then
+      thisObject = CreateVehicle(model, 0,0,0,0,true,true,false)
+    elseif _type == 'ped' then
+      thisObject = CreatePed(4, model, 0,0,0,0,true,true,false)
+      SetEntityInvincible(thisObject, true)
+      SetBlockingOfNonTemporaryEvents(thisObject, true)
+    end
+
     SetEntityAlpha(thisObject, 150, false)
     SetEntityCollision(thisObject, false, false)
 
@@ -276,8 +284,6 @@ Core.UI = {
       local plyCoords = GetEntityCoords(ply)
       local hit, testCoords, entityHit = Core.UI.ScreenToWorld(true)
       local rotation = GetEntityRotation(thisObject).z
-      -- print('Hit ', hit)
-      -- print('testCoords ', testCoords)
       if (testCoords ~= vector3(0,0,0) and entityHit ~= ply and (#(plyCoords - testCoords) <= 10.0)) then
         endCoords = testCoords 
         SetEntityVisible(thisObject, true)
@@ -318,6 +324,7 @@ Core.UI = {
 
       if IsDisabledControlJustPressed(0, 47) then 
         local objectCoords = GetEntityCoords(thisObject)
+        
         local objectRotation = GetEntityRotation(thisObject)
         local heading        = GetEntityHeading(thisObject)
         
@@ -376,12 +383,18 @@ RegisterNUICallback("keyCodeResponse", function(data,cb)
 end)
 
 RegisterCommand("Dirk-Core:EntityPlacer", function(source,args)
-  local ret = Core.UI.PositionEntity(args[1])
-  print('Position')
-  print(ret.coords, ret.rotation)
+  if not args[1] then Core.UI.Notify("No entity type specified") return false; end
+  if args[1] ~= "object" and args[1] ~= "vehicle" and args[1] ~= "ped" then Core.UI.Notify("Invalid entity type specified") return false; end
+  if not args[2] then Core.UI.Notify("No entity specified") return false; end
+  local ret = Core.UI.PositionEntity(args[1], args[2])
   local vec = string.format("vector4(%s, %s, %s, %s)", ret.coords.x,ret.coords.y,ret.coords.z,ret.heading)
   Core.UI.CopyToClipboard(vec)
 end, false)
+
+TriggerEvent('chat:addSuggestion', '/Dirk-Core:EntityPlacer', 'Place an entity in the world and get the position back', {
+  { name="type", help="The type of entity to place (object, vehicle, ped)" },
+  { name="entity", help="The model to place" },
+})
 
 RegisterNUICallback("selectMenuReturn", function(data,cb)
   Core.UI.AwaitingOptionResponse = data
@@ -394,7 +407,6 @@ RegisterNUICallback("closeSelectMenu", function(data,cb)
 end)
 
 -- RegisterCommand("selectMenu", function(source,args)
---   print('test menu ')
 --   local result = Core.UI.SelectMenu({
 --     title = "Test Menu",
 --     icon = "fas fa-info-circle",
@@ -404,6 +416,4 @@ end)
 --       {label =  "Super Rare", icon =  "fas fa-exclamation-triangle", value =  "test", selected = true}
 --     }
 --   })
---   print('Result')
---   print(json.encode(result))
 -- end)

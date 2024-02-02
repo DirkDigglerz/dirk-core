@@ -56,7 +56,6 @@ Core.Player = {
     if not ply then return; end
     if Config.Framework == "es_extended" then
       local result = MySQL.Sync.fetchAll("SELECT phone_number FROM users WHERE identifier = @identifier", {['@identifier'] = ply.identifier})
-      print(json.encode(result, {indent = true}))
       return result[1] or "No Number"
     elseif Config.Framework == "qb-core" then
       return ply.PlayerData.charinfo.phone
@@ -307,9 +306,26 @@ Core.Player = {
         charInfo[_type] = info
         ply.Functions.SetPlayerData("charinfo", charInfo)
       elseif _type == "accounts" then
-        print('Trying to set money')
         Core.Player.SetMoney(p, _type,info, "ADMIN MENU")
-
+      end
+    end
+  end,  UpdateInfo = function(p,_type,info)
+    local ply = Core.Player.Get(tonumber(p))
+    if Config.Framework == "es_extended" then
+      if _type == "firstname" then
+        local currentFirst, currentLast = Core.Player.Name(p)
+        ply.setName(info.." "..currentLast)
+      elseif _type == "lastname" then
+        local currentFirst, currentLast = Core.Player.Name(p)
+        ply.setName(currentFirst.." "..info)
+      end
+    elseif Config.Framework == "qb-core" then
+      if _type == "firstname" or _type == "lastname" or _type == "gender" or _type == "birthdate" or _type == "phone" then
+        local charInfo = ply.PlayerData.charinfo
+        charInfo[_type] = info
+        ply.Functions.SetPlayerData("charinfo", charInfo)
+      elseif _type == "accounts" then
+        Core.Player.SetMoney(p, _type,info, "ADMIN MENU")
       end
     end
   end,
@@ -338,7 +354,6 @@ Core.Player = {
   --## MONEY FUNCTIONS
 
   GetAccounts = function(p)
-    print('Tryting to get account for '..p)
     local ply = Core.Player.Get(tonumber(p))
     if not ply then return false; end
     if Config.Framework == "es_extended" then
@@ -380,9 +395,9 @@ Core.Player = {
   RemoveMoney = function(p,acc,a)
     local ply = Core.Player.Get(tonumber(p))
     if Config.Framework == "es_extended" then
-      ply.removeAccountMoney(acc,a)
+      return ply.removeAccountMoney(acc,a)
     elseif Config.Framework == "qb-core" then
-      ply.Functions.RemoveMoney(acc,a)
+      return ply.Functions.RemoveMoney(acc,a)
     elseif Config.Framework == "vrp" then
       if acc == "cash" then
         vRP.tryPayment(ply,a)
