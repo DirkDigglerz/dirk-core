@@ -162,8 +162,11 @@ Core.Player = {
       if Config.Framework == "es_extended" then
         ply.addInventoryItem(i,a, md or nil)
       elseif Config.Framework == "qb-core" then
-        if ply.Functions.RemoveItem(i,a,slot) then 
-          ply.Functions.AddItem(i,a, slot, new)
+        local item = ply.Functions.GetItemBySlot(slot)
+        if item then 
+          if ply.Functions.RemoveItem(item.name,item.amount,slot) then 
+            ply.Functions.AddItem(item.name,item.amount, slot, new)
+          end
         end
       end
     end
