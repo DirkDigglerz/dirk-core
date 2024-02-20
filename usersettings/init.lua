@@ -20,13 +20,13 @@ local SupportedResources = {
   KeySystem      = {'qb-vehiclekeys', 'cd_garage', 'okokGarage'},
   DispatchSystem = {'ps-dispatch', 'cd_dispatch', 'qs-dispatch'},
   PhoneSystem    = {'qs-smartphone', 'gksphone', 'lb-phone', 'npwd', 'qb-phone'},
+  FuelSystem     = {'ox_fuel', 'ps-fuel', 'cdn_fuel', 'legacyfuel'},
 }
 
 local datatype = type
 
 local FoundResources = {}
 Citizen.CreateThread(function()
-
   for type,resources in pairs(SupportedResources) do 
     for index,resource in pairs(resources) do 
       local altName = Config.AlternativeResourceNames[type][(type == "Inventory" and index or resource)]

@@ -73,6 +73,12 @@ Config = {
       ['nwpd']          = false,
       ['qb-phone']      = false,
     },
+    FuelSystem      = {
+      ['ox_fuel']    = false,
+      ['ps-fuel']    = false,
+      ['cdn_fuel']   = false,
+      ['legacyfuel'] = false,
+    }
   },
 
   VehicleClassCapacities = {
