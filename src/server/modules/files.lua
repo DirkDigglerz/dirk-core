@@ -36,9 +36,12 @@ Core.Files = {
   end,
 
   TableToSQL = function(t)
+    local tableCount = Core.TC(t)
     local output = "INSERT INTO `"..Config.ItemsDatabaseName.."` (`name`, `label`) VALUES"
+    local currentNumber = 0
     for k,v in pairs(t) do
-      output = output..string.format("\n ('%s', '%s'),", k, v.label)
+      currentNumber = currentNumber + 1
+      output = output..string.format("\n ('%s', '%s')%s", k, v.label, currentNumber == tableCount and "" or ",")
     end
     output = output..";"
     return output
