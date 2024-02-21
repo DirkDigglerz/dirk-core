@@ -52,6 +52,7 @@ Core.Objects = {
     end
 
     self.despawn = function()
+      if not self.Entity then return; end
       DeleteEntity(self.Entity)
       local oldEnt = self.Entity
       self.Entity = nil 
