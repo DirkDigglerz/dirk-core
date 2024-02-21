@@ -88,6 +88,10 @@ Core.Files = {
           else
             ret[item]["stack"] = v
           end
+        elseif k == 'image' then 
+          ret[item].client = {
+            image = v
+          }
         end
       end
     end

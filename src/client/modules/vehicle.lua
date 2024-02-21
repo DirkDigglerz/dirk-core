@@ -5,14 +5,14 @@ Core.Vehicle = {
       return exports['cdn_fuel']:SetFuel(veh, val)
     elseif Config.FuelSystem == 'LegacyFuel' then
       return exports['LegacyFuel']:SetFuel(veh, val)
-    elseif Connfig.FuelSystem == 'ps-fuel' then
+    elseif Config.FuelSystem == 'ps-fuel' then
       return exports['ps-fuel']:SetFuel(veh, val)
     elseif Config.FuelSystem == 'Renewed-Fuel' then
       return exports['Renewed-Fuel']:SetFuel(veh, val)
     elseif Config.FuelSystem == 'ox_fuel' then
       return exports['ox_fuel']:SetFuel(veh, val)
     else
-      if exports[Config.FuelSystem] and exports[Config.FuelSystem].SetFuel then
+      if (type(Config.FuelSystem) == 'string') and exports[Config.FuelSystem] and exports[Config.FuelSystem].SetFuel then
         return exports[Config.FuelSystem]:SetFuel(veh, val)
       else
         return SetVehicleFuelLevel(veh, val)
@@ -30,7 +30,7 @@ Core.Vehicle = {
       return exports['cdn_fuel']:SetFuel(veh, val)
     elseif Config.FuelSystem == 'LegacyFuel' then
       return exports['LegacyFuel']:SetFuel(veh, val)
-    elseif Connfig.FuelSystem == 'ps-fuel' then
+    elseif Config.FuelSystem == 'ps-fuel' then
       return exports['ps-fuel']:SetFuel(veh, val)
     elseif Config.FuelSystem == 'Renewed-Fuel' then
       return exports['Renewed-Fuel']:SetFuel(veh, val)
@@ -51,7 +51,7 @@ Core.Vehicle = {
       return exports['cdn_fuel']:GetFuel(veh)
     elseif Config.FuelSystem == 'LegacyFuel' then
       return exports['LegacyFuel']:GetFuel(veh)
-    elseif Connfig.FuelSystem == 'ps-fuel' then
+    elseif Config.FuelSystem == 'ps-fuel' then
       return exports['ps-fuel']:GetFuel(veh)
     elseif Config.FuelSystem == 'Renewed-Fuel' then
       return exports['Renewed-Fuel']:GetFuel(veh)
