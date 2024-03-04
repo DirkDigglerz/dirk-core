@@ -16,7 +16,7 @@ Config = {
   EventDebugger       = false,    --## Used to debug events, will save a file so you can see most commonly spammed mass events in your server (mass being events sent to every client at once)
   ------------------------------------------------------------------------------------------------------------------------------------------------------------
   UsingClassicCommand = false,    --## If you want to use the old command /target
-  NewQSInventory      = true,    --## Had to add this because the name of the inventoryt is the same from v1-v2
+  NewQSInventory      = false,    --## Had to add this because the name of the inventoryt is the same from v1-v2
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
   Currency            = "$",      --## Currency symbol
 
@@ -74,10 +74,11 @@ Config = {
       ['qb-phone']      = false,
     },
     FuelSystem      = {
-      ['ox_fuel']    = false,
-      ['ps-fuel']    = false,
-      ['cdn_fuel']   = false,
-      ['legacyfuel'] = false,
+      ['ox_fuel']      = false,
+      ['ps-fuel']      = false,
+      ['cdn_fuel']     = false,
+      ['Renewed-Fuel'] = false,
+      ['legacyfuel']   = false,
     }
   },
 
