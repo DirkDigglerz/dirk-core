@@ -204,7 +204,7 @@ Core.Player = {
 
   RemoveItem = function(p,i,a, md, slot)
     local ply = Core.Player.Get(p)
-    if Config.NewQSInventory then
+    if Config.Inventory == 'qs-inventory' and Config.NewQSInventory then
       return exports['qs-inventory']:RemoveItem(p, i, a, slot, md)
     elseif Config.Inventory == 'ox_inventory' then
       return exports['ox_inventory']:RemoveItem(p, i, a, md, slot)
