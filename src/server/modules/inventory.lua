@@ -215,6 +215,7 @@ Core.Inventory = {
       end
     end
 
+    self.ClearInventory = self.clearInventory
     
     Core.Inventories[id] = self
     return self
