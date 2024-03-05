@@ -1,4 +1,11 @@
 Core.Vehicle = {
+  Create = function(model,pos, cb, net)
+    while not Core.Game.LoadModel(model) do Wait(0); end
+    local veh = CreateVehicle(GetHashKey(model), pos.x,pos.y,pos.z -1.0,pos.w,true,net)
+    cb(veh)
+  end,
+
+
   SetFuel = function(veh, val)
     if val > 100 then val = 100 end
     if Config.FuelSystem == 'cdn_fuel' then

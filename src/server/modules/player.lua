@@ -207,7 +207,7 @@ Core.Player = {
     if Config.Inventory == 'qs-inventory' and Config.NewQSInventory then
       return exports['qs-inventory']:RemoveItem(p, i, a, slot, md)
     elseif Config.Inventory == 'ox_inventory' then
-      return exports['ox_inventory']:RemoveItem(p, i, a, md, slot)
+      return exports['ox_inventory']:RemoveItem(p, i, a or 1, md, slot)
     else
       --## Framework Fallback
       if Config.Framework == "es_extended" then
