@@ -1,3 +1,6 @@
+
+
+print('HELLO WORLD NEW ')
 Core.Player = {
   Get = function(s)
     if Config.Framework == "es_extended" then
@@ -240,6 +243,8 @@ Core.Player = {
     return false
   end,
 
+
+
   GetJob = function(p)
     local ply = Core.Player.Get(tonumber(p))
     if not ply then return {}; end
@@ -290,6 +295,15 @@ Core.Player = {
       ply.Functions.SetJob(j,r)
     elseif Config.Framework == "vrp" then
       vRP.addUserGroup(ply, j)
+    end
+  end,
+
+  SetDuty = function(p,d)
+    local ply = Core.Player.Get(tonumber(p))
+    if Config.Framework == "es_extended" then
+      ply.setJobDuty(d)
+    elseif Config.Framework == "qb-core" then
+      ply.Functions.SetJobDuty(d)
     end
   end,
 
