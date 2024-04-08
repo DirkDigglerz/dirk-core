@@ -20,7 +20,7 @@ Framework      = {'vrp','es_extended', 'qb-core'},
 KeySystem      = {'qb-vehiclekeys', 'cd_garage', 'okokGarage'},
 DispatchSystem = {'ps-dispatch', 'cd_dispatch', 'qs-dispatch'},
 PhoneSystem    = {'qs-smartphone', 'gksphone', 'lb-phone', 'npwd', 'qb-phone'},
-FuelSystem     = {'ox_fuel', 'ps-fuel', 'cdn_fuel', 'legacyfuel'},
+FuelSystem     = {'ox_fuel', 'ps-fuel', 'cdn-fuel', 'legacyfuel'},
 }
 
 local datatype = type

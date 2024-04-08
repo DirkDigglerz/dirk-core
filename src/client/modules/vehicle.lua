@@ -8,8 +8,9 @@ Core.Vehicle = {
 
   SetFuel = function(veh, val)
     if val > 100 then val = 100 end
-    if Config.FuelSystem == 'cdn_fuel' then
-      return exports['cdn_fuel']:SetFuel(veh, val)
+    if Config.FuelSystem == 'cdn-fuel' then
+      print('setting fuel for cdn')
+      return exports['cdn-fuel']:SetFuel(veh, val)
     elseif Config.FuelSystem == 'LegacyFuel' then
       return exports['LegacyFuel']:SetFuel(veh, val)
     elseif Config.FuelSystem == 'ps-fuel' then
