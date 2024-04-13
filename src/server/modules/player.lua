@@ -1,6 +1,3 @@
-
-
-print('HELLO WORLD NEW ')
 Core.Player = {
   Get = function(s)
     if Config.Framework == "es_extended" then
