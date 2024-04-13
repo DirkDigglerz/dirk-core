@@ -78,7 +78,7 @@ Config = {
       ['ps-fuel']      = false,
       ['cdn_fuel']     = false,
       ['Renewed-Fuel'] = false,
-      ['legacyfuel']   = false,
+      ['LegacyFuel']   = false,
     }
   },
 
