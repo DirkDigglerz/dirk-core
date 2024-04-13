@@ -8,7 +8,7 @@ Core.Vehicle = {
     if Config.KeySystem == "qb-vehiclekeys" then
       exports['qb-vehiclekeys']:GiveKeys(p, plate)
     elseif Config.KeySystem == 'qs-vehiclekeys' then 
-      local model = GetEntityModel(veh)
+      local model = GetDisplayNameFromVehicleModel(GetEntityModel(veh))
       exports['qs-vehiclekeys']:GiveKeys(plate, model, true)
     elseif Config.KeySystem == "cd_garage" then
       TriggerClientEvent('cd_garage:AddKeys', tonumber(p), plate)
