@@ -60,6 +60,8 @@ Config = {
     },
     KeySystem      = {
       ['qb-vehiclekeys'] = false,
+      ['qs-vehiclekeys'] = false,
+      ['okokGarage'] = false,
       ['cd_garage']      = false,
     },
     DispatchSystem = {

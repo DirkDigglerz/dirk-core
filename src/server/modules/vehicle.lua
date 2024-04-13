@@ -7,6 +7,9 @@ Core.Vehicle = {
   AddKeys = function(p,veh,plate) --#' This is the function called to add keys for a vehicle you own. '
     if Config.KeySystem == "qb-vehiclekeys" then
       exports['qb-vehiclekeys']:GiveKeys(p, plate)
+    elseif Config.KeySystem == 'qs-vehiclekeys' then 
+      local model = GetEntityModel(veh)
+      exports['qs-vehiclekeys']:GiveKeys(plate, model, true)
     elseif Config.KeySystem == "cd_garage" then
       TriggerClientEvent('cd_garage:AddKeys', tonumber(p), plate)
     elseif Config.KeySystem == "okokGarage" then
