@@ -81,7 +81,7 @@ Core.Vehicle = {
       TriggerEvent('cd_garage:AddKeys', plate)
     elseif Config.KeySystem == "okokGarage" then
       TriggerServerEvent('okokGarage:GiveKeys', plate)
-    elseif Config.keySystem == 'qs-vehiclekeys' then
+    elseif Config.KeySystem == 'qs-vehiclekeys' then
       local model = GetDisplayNameFromVehicleModel(GetEntityModel(veh))
       local plate = GetVehicleNumberPlateText(veh)
       exports['qs-vehiclekeys']:GiveKeys(plate, model, true)
