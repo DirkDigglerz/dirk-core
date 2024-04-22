@@ -96,6 +96,7 @@ Core.Objects = {
 
     self.remove = function()
       self.despawn()
+      Core.Zones.RemoveZone(string.format("RenderSpawn:%s", self.ID))
       Core.Objects[id] = nil
     end
 
