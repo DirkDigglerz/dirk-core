@@ -1,19 +1,21 @@
 Core.Blips = {
   Register = function(id,data)
-    print("^2Dirk-Core^7 | Registering Blip: ^5"..id.."^7")
-    print(json.encode(data, {indent = true}))
+    if Config.Debug then 
+      print("^2Dirk-Core^7 | Registering Blip: ^5"..id.."^7")
+      print(json.encode(data, {indent = true}))
+    end
     local self = {}
-    self.ID = id
-    self.Area = data.Area or false
-    self.Resource = data.Resource or GetInvokingResource()
-    self.Pos = data.Pos or vector3(0,0,0)
-    self.Display = data.Display or 4
-    self.Scale = data.Scale or 1.0
-    self.Color = data.Color or 0 
+    self.ID         = id
+    self.Area       = data.Area or false
+    self.Resource   = data.Resource or GetInvokingResource()
+    self.Pos        = data.Pos or vector3(0,0,0)
+    self.Display    = data.Display or 4
+    self.Scale      = data.Scale or 1.0
+    self.Color      = data.Color or 0 
     self.ShortRange = data.ShortRange or true
-    self.Text = data.Text or "Blip"
-    self.Route = data.Route or false
-    self.Sprite = data.Sprite or 1
+    self.Text       = data.Text or "Blip"
+    self.Route      = data.Route or false
+    self.Sprite     = data.Sprite or 1
     
     self.canSee = data.canSee
 

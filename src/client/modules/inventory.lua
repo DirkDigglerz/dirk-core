@@ -4,7 +4,7 @@ Core.Inventory = {
       local exists = exports.ox_inventory:openInventory('stash', id)
       if not exists then 
         TriggerServerEvent("Dirk:Inventory:RegisterStash", id, data)
-        Wait(2000)
+        Wait(5000)
         exports.ox_inventory:openInventory('stash', id)
       end      
     elseif Config.Inventory == "ps-inventory" or Config.Inventory == "qb-inventory" or Config.Inventory == "lj-inventory" or Config.Inventory == "qs-inventory" then 

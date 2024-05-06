@@ -41,6 +41,7 @@ Core.Target = {
 
   AddPolyzone = function(name,data)
     local resource = GetInvokingResource() or 'dirk-core'
+    print('adding polyzone', name, resource)
     if not createdZones[resource] then createdZones[resource] = {}; end
     createdZones[resource][name] = true
     if Config.TargetSystem == "qb-target" or Config.TargetSystem == "qtarget" or Config.TargetSystem == "ox_target" then
@@ -64,6 +65,7 @@ Core.Target = {
         options = data.Options,
         distance = data.Distance, -- This is the distance for you to be at for the target to turn blue, this is in GTA units and has to be a float value
       })
+
       Core.Target.Holding[name] = zone
       return name
     end
@@ -168,6 +170,7 @@ Core.Target = {
     if Config.TargetSystem == "qb-target" or Config.TargetSystem == "q-target" then
       exports[Config.TargetSystem]:RemoveZone(zn)
     elseif Config.TargetSystem == "ox_target" then
+      print('deleting zone ', zn, Core.Target.Holding[zn])
       exports['ox_target']:removeZone(tonumber(Core.Target.Holding[zn]))
     end
   end,
@@ -176,6 +179,7 @@ Core.Target = {
 
 
 AddEventHandler('onResourceStop', function(resource)
+  print(json.encode(createdZones, {indent = true}))
   local count = 0 
   if createdZones[resource] then 
     for k,v in pairs(createdZones[resource]) do 

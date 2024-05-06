@@ -251,7 +251,7 @@ Core.UI = {
     SetNuiFocusKeepInput(false)
   end,
 
-  PositionEntity = function(_type, entity)
+  PositionEntity = function(_type, entity, distance)
     local model = GetHashKey(entity)
     -- if not IsModelInCdimage(model) then Core.UI.Notify("Tried to use an invalid model in entity placer") return false; end
     local startTime = GetGameTimer()
@@ -284,7 +284,7 @@ Core.UI = {
       local plyCoords = GetEntityCoords(ply)
       local hit, testCoords, entityHit = Core.UI.ScreenToWorld(true)
       local rotation = GetEntityRotation(thisObject).z
-      if (testCoords ~= vector3(0,0,0) and entityHit ~= ply and (#(plyCoords - testCoords) <= 10.0)) then
+      if (testCoords ~= vector3(0,0,0) and entityHit ~= ply and (#(plyCoords - testCoords) <= (distance or 10.0))) then
         endCoords = testCoords 
         SetEntityVisible(thisObject, true)
         DrawSphere(endCoords.x,endCoords.y,endCoords.z, 0.1, 0,255,0, 0.7)

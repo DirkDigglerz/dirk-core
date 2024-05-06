@@ -5,10 +5,11 @@ Core.Zones = {
   Register = function(id, data)
     local self = {}
     self.InvokingResource = GetInvokingResource()
-    self.ID      = id
-    self.Type    = data.Type or "circle"
-    self.Radius  = data.Radius or 5.0
-    self.Zone    = data.Zone
+    self.ID        = id
+    self.Type      = data.Type or "circle"
+    self.Radius    = data.Radius or 5.0
+    self.Zone      = data.Zone
+    self.Thickness = data.Thickness or 5.0
     if self.Type == "poly" then
       polygons[self.ID] = glm.polygon.new(self.Zone)
     end
@@ -289,16 +290,36 @@ Core.Zones = {
   end,
 
   getPolygonCenter = function(polygon)
-    local center = vector3(0,0,0)
-    for _,v in pairs(polygon) do 
-      center = center + v
-    end
-    center = center / #polygon
-    return center
+      -- Initialize sums for x, y, and z coordinates
+      local sumX, sumY, sumZ = 0, 0, 0
+      local numPoints = #polygon  -- Number of vertices in the polygon
+  
+      -- Sum up all x, y, and z coordinates
+      for _, vertex in ipairs(polygon) do
+          sumX = sumX + vertex.x
+          sumY = sumY + vertex.y
+          sumZ = sumZ + vertex.z
+      end
+  
+      -- Calculate the average for each coordinate
+      local centerX = sumX / numPoints
+      local centerY = sumY / numPoints
+      local centerZ = sumZ / numPoints
+  
+      -- Return the centroid as a new Vector3
+      return vector3(centerX, centerY, centerZ)
   end,
 
-  PlotPoints = function()
+  PlotPoints = function(amount)
     local points = {}
+
+    local reached_max = function()
+      if not amount then return false; end 
+      if #points >= amount then return true; end  
+      print('a')
+      return false
+    end
+
     while true do
       local wait_time = 0
       local ply = PlayerPedId()
@@ -308,9 +329,12 @@ Core.Zones = {
         DrawSphere(endCoords.x,endCoords.y,endCoords.z, 0.2, 255,0,0, 0.7)
       end
 
-      
+      for k,v in pairs(points) do 
+        Core.UI.DrawText3D(v.x,v.y,v.z, 1.0, string.format("Point %s", k))
+        DrawMarker(1, v.x, v.y, v.z, 0, 0, 0, 0, 0, 0, 0.25, 0.25, 0.25, 255, 0, 0, 100, 0, 0, 0, 0)
+      end
         
-      Core.UI.AdvancedHelpNotif("pointPlotter", {
+      local options = {
         {
           label = "Add Point",
           key   = "g"
@@ -323,9 +347,18 @@ Core.Zones = {
           label = "Finish",
           key   = "f"
         },
-      })
+      }
+
+
+      Core.UI.AdvancedHelpNotif("pointPlotter", options)
+
+
       if IsControlJustPressed(0,183) then
-        table.insert(points, endCoords)
+        if reached_max() then 
+          Core.UI.Notify("You have reached the maximum amount of points")
+        else
+          table.insert(points, endCoords)
+        end
       elseif IsControlJustPressed(0,74) then
         points[#points] = nil
       elseif IsControlJustPressed(0,185) then
@@ -447,7 +480,7 @@ CreateThread(function()
                 end
               end
             end
-            if polygons[v.ID]:contains(myCoords, 2.0) then 
+            if polygons[v.ID]:contains(myCoords, v.Thickness) then 
               if not v.Inside then 
                 Core.Zones[k].Inside = true
                 if v.onEnter then 
@@ -588,3 +621,11 @@ function calculateCorners3D(centerX, centerY, centerZ, width, length, heading)
 
   return bottomCorners
 end
+
+RegisterCommand('Dirk-Core:PlotPoints', function(src, args)
+  local amount = tonumber(args[1]) or 100 
+  local points = Core.Zones.PlotPoints(amount)
+  local table_to_text = Core.TableToText(points)
+  Core.UI.Notify("Copied Points to Clipboard")
+  Core.UI.CopyToClipboard(table_to_text)
+end)

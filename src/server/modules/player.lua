@@ -186,7 +186,9 @@ Core.Player = {
     elseif Config.Inventory == "mf-inventory" then
       exports["mf-inventory"]:addInventoryItem(Core.Player.Id(p), i, a, p, 100, md)
     elseif Config.Inventory == "core_inventory" then
-      exports['core_inventory']:addItem('primary-'..Core.Player.Id(p), i, a, md)
+      local citizen_id = Core.Player.Id(p)
+      local my_inventory = string.format('content-%s', citizen_id)
+      exports['core_inventory']:addItem(my_inventory, i, a, md or nil, 'content')
     else
       --## FALL BACK FOR MOST INVENTORIES
       -- OLD QS

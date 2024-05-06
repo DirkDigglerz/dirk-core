@@ -85,7 +85,7 @@ Core.Files = {
     for item,data in pairs(input) do
       ret[item] = {} 
       for k,v in pairs(data) do 
-        if k == "label" or k == "weight" or k == "stackable" then 
+        if k == "label" or k == "weight" or k == "stackable" or k == 'description' then 
           if k ~= "stackable" then 
             ret[item][k] = v
           else
