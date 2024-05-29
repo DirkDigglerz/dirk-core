@@ -18,7 +18,8 @@ Core.Vehicle = {
     elseif Config.FuelSystem == 'Renewed-Fuel' then
       return exports['Renewed-Fuel']:SetFuel(veh, val)
     elseif Config.FuelSystem == 'ox_fuel' then
-      return exports['ox_fuel']:SetFuel(veh, val)
+      Entity(veh).state.fuel = val
+      return true
     else
       if (type(Config.FuelSystem) == 'string') and exports[Config.FuelSystem] and exports[Config.FuelSystem].SetFuel then
         return exports[Config.FuelSystem]:SetFuel(veh, val)
@@ -43,7 +44,8 @@ Core.Vehicle = {
     elseif Config.FuelSystem == 'Renewed-Fuel' then
       return exports['Renewed-Fuel']:SetFuel(veh, val)
     elseif Config.FuelSystem == 'ox_fuel' then
-      return exports['ox_fuel']:SetFuel(veh, val)
+      Entity(veh).state.fuel += amount
+      return true
     else
       if exports[Config.FuelSystem] and exports[Config.FuelSystem].SetFuel then
         return exports[Config.FuelSystem]:SetFuel(veh, val)
@@ -64,7 +66,7 @@ Core.Vehicle = {
     elseif Config.FuelSystem == 'Renewed-Fuel' then
       return exports['Renewed-Fuel']:GetFuel(veh)
     elseif Config.FuelSystem == 'ox_fuel' then
-      return exports['ox_fuel']:GetFuel(veh)
+      return Entity(veh).state.fuel
     else
       if exports[Config.FuelSystem] and exports[Config.FuelSystem].GetFuel then
         return exports[Config.FuelSystem]:GetFuel(veh)
@@ -178,5 +180,6 @@ Core.Vehicle = {
 
 
 RegisterNetEvent("Core:Vehicle:Fix", function()
+  --- :eyes: :eyes: 
   Core.Vehicle.Fix()
 end)

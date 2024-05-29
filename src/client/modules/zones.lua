@@ -310,7 +310,7 @@ Core.Zones = {
       return vector3(centerX, centerY, centerZ)
   end,
 
-  PlotPoints = function(amount)
+  PlotPoints = function(amount, names)
     local points = {}
 
     local reached_max = function()
@@ -330,7 +330,7 @@ Core.Zones = {
       end
 
       for k,v in pairs(points) do 
-        Core.UI.DrawText3D(v.x,v.y,v.z, 1.0, string.format("Point %s", k))
+        Core.UI.DrawText3D(v.x,v.y,v.z, 1.0, names and names[k] or string.format("Point %s", k))
         DrawMarker(1, v.x, v.y, v.z, 0, 0, 0, 0, 0, 0, 0.25, 0.25, 0.25, 255, 0, 0, 100, 0, 0, 0, 0)
       end
         
