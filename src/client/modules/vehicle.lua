@@ -20,6 +20,8 @@ Core.Vehicle = {
     elseif Config.FuelSystem == 'ox_fuel' then
       Entity(veh).state.fuel = val
       return true
+    elseif Config.FuelSystem == 'x-fuel' then 
+      return exports['x-fuel']:SetFuel(veh, val)
     else
       if (type(Config.FuelSystem) == 'string') and exports[Config.FuelSystem] and exports[Config.FuelSystem].SetFuel then
         return exports[Config.FuelSystem]:SetFuel(veh, val)
@@ -46,6 +48,8 @@ Core.Vehicle = {
     elseif Config.FuelSystem == 'ox_fuel' then
       Entity(veh).state.fuel += amount
       return true
+    elseif Config.FuelSystem == 'x-fuel' then 
+      return exports['x-fuel']:SetFuel(veh, val)
     else
       if exports[Config.FuelSystem] and exports[Config.FuelSystem].SetFuel then
         return exports[Config.FuelSystem]:SetFuel(veh, val)
@@ -67,6 +71,8 @@ Core.Vehicle = {
       return exports['Renewed-Fuel']:GetFuel(veh)
     elseif Config.FuelSystem == 'ox_fuel' then
       return Entity(veh).state.fuel
+    elseif Config.FuelSystem == 'x-fuel' then 
+      return exports['x-fuel']:GetFuel(veh)
     else
       if exports[Config.FuelSystem] and exports[Config.FuelSystem].GetFuel then
         return exports[Config.FuelSystem]:GetFuel(veh)
