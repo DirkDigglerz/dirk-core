@@ -77,6 +77,7 @@ Config = {
     },
     FuelSystem      = {
       ['ox_fuel']      = false,
+      ['x-fuel']       = false,
       ['ps-fuel']      = false,
       ['cdn_fuel']     = false,
       ['Renewed-Fuel'] = false,
