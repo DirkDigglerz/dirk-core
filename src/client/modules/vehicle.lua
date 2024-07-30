@@ -6,7 +6,7 @@ Core.Vehicle = {
   end,
 
 
-  SetFuel = function(veh, val)
+  SetFuel = function(veh, val, _type)
     if val > 100 then val = 100 end
     if Config.FuelSystem == 'cdn-fuel' then
       print('setting fuel for cdn')
@@ -17,6 +17,8 @@ Core.Vehicle = {
       return exports['ps-fuel']:SetFuel(veh, val)
     elseif Config.FuelSystem == 'Renewed-Fuel' then
       return exports['Renewed-Fuel']:SetFuel(veh, val)
+    elseif Config.FuelSystem == 'ti_fuel' then 
+      return exports["ti_fuel"]:setFuel(veh, val, _type or "RON91")
     elseif Config.FuelSystem == 'ox_fuel' then
       Entity(veh).state.fuel = val
       return true
@@ -32,7 +34,7 @@ Core.Vehicle = {
     return true
   end,
 
-  AddFuel = function(veh, amount)
+  AddFuel = function(veh, amount, _type)
     local val = Core.Vehicle.GetFuel(veh)
     if val < 0 then val = 0 end
     val = val + amount
@@ -48,6 +50,8 @@ Core.Vehicle = {
     elseif Config.FuelSystem == 'ox_fuel' then
       Entity(veh).state.fuel += amount
       return true
+    elseif Config.FuelSystem == 'ti_fuel' then 
+      return exports["ti_fuel"]:setFuel(veh, amount, _type or "RON91")
     elseif Config.FuelSystem == 'x-fuel' then 
       return exports['x-fuel']:SetFuel(veh, val)
     else
@@ -73,6 +77,9 @@ Core.Vehicle = {
       return Entity(veh).state.fuel
     elseif Config.FuelSystem == 'x-fuel' then 
       return exports['x-fuel']:GetFuel(veh)
+    elseif Config.FuelSystem == 'ti_fuel' then
+      local level,type = exports["ti_fuel"]:getFuel(veh)
+      return level, type
     else
       if exports[Config.FuelSystem] and exports[Config.FuelSystem].GetFuel then
         return exports[Config.FuelSystem]:GetFuel(veh)
