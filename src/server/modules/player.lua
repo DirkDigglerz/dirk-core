@@ -106,6 +106,8 @@ Core.Player = {
       })
       TriggerClientEvent("police:client:SendToJail", OtherPlayer.PlayerData.source, time)
     elseif Config.JailSystem == "rcore_prison" then
+      print('id', id)
+      print('time', time)
       exports['rcore_prison']:Jail(id, time, "Bounty Hunter")
     elseif Config.JailSystem == "pickle_prisons" then
       exports["pickle_prisons"]:JailPlayer(id, time, "default")
