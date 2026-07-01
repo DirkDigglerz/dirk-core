@@ -139,3 +139,8 @@ end)
 getCore = function()
 return Core, Config
 end
+
+-- Back-compat alias: legacy dirk-shn scripts fetch the core via getObject(). dirk-core
+-- renamed it to getCore; alias so those older scripts (e.g. dirk-banktrucks) work
+-- unchanged instead of erroring "No such export getObject".
+getObject = getCore

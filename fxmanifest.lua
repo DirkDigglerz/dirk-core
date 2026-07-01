@@ -40,10 +40,12 @@ dependencies{
 
 exports{
   'getCore',
+  'getObject', -- legacy dirk-shn alias of getCore (back-compat)
 }
 
 server_exports{
   'getCore',
+  'getObject', -- legacy dirk-shn alias of getCore (back-compat)
 }
 
 ui_page 'src/nui/index.html'
